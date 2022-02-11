@@ -3,7 +3,11 @@ import json
 import glob
 from tkinter import *
 from tkinter import ttk
+
 root = Tk()
+root.title("Counter for messenger")
+root.iconbitmap(r'D:\Projekty\CounterForMessenger\assets\CFM.ico')
+root.geometry("900x600")
 frm = ttk.Frame(root, padding=10)
 frm.grid()
 ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
@@ -12,10 +16,11 @@ root.mainloop()
 
 ile = 0
 
+
 def countPerPerson(data, path):
     totalNum = 0
     parcipants = []
-    result = glob.glob(path+data+'/*.json')
+    result = glob.glob(path + data + '/*.json')
     for j in result:
         with open(j, 'r') as f:
             data = json.load(f)
@@ -29,7 +34,12 @@ def countPerPerson(data, path):
     return title, thread_type, totalNum
 
 
-for i in os.listdir('data/messages/inbox/'):
-    print(countPerPerson(i, 'data/messages/inbox/'))
-    ile += 1
-print(ile)
+def countAll(ile, path):
+    for i in os.listdir(path):
+        conf = countPerPerson(i, path)
+        print(conf)
+        ile += 1
+    print(ile)
+
+
+# countAll(ile, 'data/messages/inbox/')
