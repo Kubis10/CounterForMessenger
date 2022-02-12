@@ -4,24 +4,6 @@ import glob
 from tkinter import *
 from tkinter import ttk
 
-root = Tk()
-root.title("Counter for messenger")
-root.iconbitmap(r'D:\Projekty\CounterForMessenger\assets\CFM.ico')
-root.geometry("1024x700")
-root.configure(background='#232323')
-frm = ttk.Frame(root, padding=10)
-frm.grid()
-s = ttk.Style()
-s.configure('TFrame', background='#131313')
-s.configure('TButton', background='#03cafc')
-nav = ttk.Frame(root, padding=10, style='s.TFrame')
-ttk.Button(nav, text="Wskaż ścieżkę do folderu").grid(row=0, column=0, sticky="ew", padx=5)
-ttk.Button(nav, text="Ustawienia").grid(row=1, column=0, sticky="ew", padx=5)
-ttk.Button(nav, text="Wyjście", command=root.destroy).grid(row=2, column=0, sticky="ew", padx=5)
-nav.grid(row=0, column=0, sticky="ns")
-root.mainloop()
-
-ile = 0
 numMess = 0
 
 
@@ -33,9 +15,9 @@ def countPerPerson(data, path):
     for j in result:
         with open(j, 'r') as f:
             data = json.load(f)
-            for l in data['messages']:
+            for msg in data['messages']:
                 totalNum += 1
-                if l['sender_name'] == "Kuba Przybysz":
+                if msg['sender_name'] == "Kuba Przybysz":
                     numMess += 1
             for k in data['participants']:
                 if k['name'] not in participants:
@@ -45,7 +27,8 @@ def countPerPerson(data, path):
     return title, thread_type, totalNum
 
 
-def countAll(ile, path):
+def countAll(path):
+    ile = 0
     for i in os.listdir(path):
         conf = countPerPerson(i, path)
         print(conf)
@@ -54,4 +37,23 @@ def countAll(ile, path):
     print(numMess)
 
 
-# countAll(ile, 'data/messages/inbox/')
+root = Tk()
+root.title("Counter for messenger")
+root.iconbitmap(r'D:\Projekty\CounterForMessenger\assets\CFM.ico')
+root.geometry("1024x700")
+root.configure(background='#232323')
+s = ttk.Style()
+s.configure('Nav.TFrame', background='#131313')
+s.configure('Main.TFrame', background='#232323')
+nav = ttk.Frame(root, padding=20, style='Nav.TFrame')
+main = ttk.Frame(root, padding=20, style='Main.TFrame')
+home_icon = PhotoImage(file='./assets/home.png')
+settings_icon = PhotoImage(file='./assets/settings.png')
+exit_icon = PhotoImage(file='./assets/exit.png')
+ttk.Button(nav, image=home_icon, text="Strona głowna",  compound=LEFT, padding=5).pack(side=TOP, pady=10)
+ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
+ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5).pack(side=BOTTOM, pady=15)
+ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(side=TOP, pady=10)
+nav.pack(side=LEFT, fill=Y)
+main.pack(side=RIGHT, fill=BOTH, expand=True)
+root.mainloop()
