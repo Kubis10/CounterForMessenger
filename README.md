@@ -27,7 +27,6 @@ Unzip the file and run the **CFM.exe** file.
 1. Click Download and enter your password.
 
 # Licence
-![Licence](https://img.shields.io/github/license/kmchris/messenger-counter?style=flat-square)
 
-**Counter For Messenger** is licenced under [MIT Licence](https://opensource.org/licenses/MIT).
+**Counter For Messenger** is licenced under [Beerwere](https://github.com/Kubis10/CounterForMessenger/blob/master/LICENSE).
 Please see my [Portfolio](https://jakubprzybysz.netlify.app/) for more information.
