@@ -27,16 +27,6 @@ def countPerPerson(data, path):
     return title, thread_type, totalNum
 
 
-def countAll(path):
-    ile = 0
-    for i in os.listdir(path):
-        conf = countPerPerson(i, path)
-        print(conf)
-        ile += 1
-    print(ile)
-    print(numMess)
-
-
 root = Tk()
 root.title("Counter for messenger")
 root.iconbitmap(r'D:\Projekty\CounterForMessenger\assets\CFM.ico')
@@ -46,14 +36,35 @@ s = ttk.Style()
 s.configure('Nav.TFrame', background='#131313')
 s.configure('Main.TFrame', background='#232323')
 nav = ttk.Frame(root, padding=20, style='Nav.TFrame')
-main = ttk.Frame(root, padding=20, style='Main.TFrame')
+main = ttk.Frame(root, style='Main.TFrame')
 home_icon = PhotoImage(file='./assets/home.png')
 settings_icon = PhotoImage(file='./assets/settings.png')
 exit_icon = PhotoImage(file='./assets/exit.png')
-ttk.Button(nav, image=home_icon, text="Strona głowna",  compound=LEFT, padding=5).pack(side=TOP, pady=10)
+vis_icon = PhotoImage(file='./assets/visible.png')
+v = Scrollbar(main)
+t = Text(main, width=15, wrap=NONE, yscrollcommand=v.set, background='#232323', foreground='#ffffff')
+
+
+def countAll(path):
+    ile = 0
+    for i in os.listdir(path):
+        conf = countPerPerson(i, path)
+        t.insert('end', str(conf[0]) + " " + str(conf[2]) + '\n')
+        ile += 1
+    print(ile)
+    print(numMess)
+
+
+ttk.Button(nav, image=home_icon, text="Strona głowna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
+ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
+           command=lambda: countAll("data/messages/inbox/")).pack(side=TOP, pady=10)
 ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
 ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5).pack(side=BOTTOM, pady=15)
-ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(side=TOP, pady=10)
+ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
+    side=TOP, pady=10)
+v.pack(side=RIGHT, fill=Y)
+t.pack(side=TOP, fill=BOTH, expand=True)
+v.config(command=t.yview)
 nav.pack(side=LEFT, fill=Y)
 main.pack(side=RIGHT, fill=BOTH, expand=True)
 root.mainloop()
