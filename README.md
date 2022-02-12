@@ -4,7 +4,8 @@
 
 If you are interested in contributing to this repository, pull requests are much appreciated.
 
-Note: To use this software you need to download your data directly from Facebook (in JSON format).
+## How to use
+To use this app you need to download your data directly from Facebook (in JSON format) and unzip all files to one folder. Then in messages folder you need to copy all folders from archived, filtered and requests to inbox folder.
 [How to download my data?](https://github.com/Kubis10/CounterForMessenger#how-to-download-messages)
 
 ## Installation 
