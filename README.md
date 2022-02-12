@@ -1,6 +1,6 @@
-# Counter For Messenger app
+# ![Logo](assets/icon.png)  Counter For Messenger app
 
-#### Counter For Messenger app is a simple counter app for messenger app.
+#### Counter For Messenger app is a free counter app for messenger which count how meny messages you have and a lot more statistics.
 
 If you are interested in contributing to this repository, pull requests are much appreciated.
 
@@ -10,7 +10,7 @@ To use this app you need to download your data directly from Facebook (in JSON f
 
 ## Installation 
 
-Download the latest version of **Counter For Messenger** from [GitHub](https://github.com/Kubis10/CounterForMessenger).
+Download the latest version of **Counter For Messenger** from [GitHub](https://github.com/Kubis10/CounterForMessenger/releases).
 Unzip the file and run the **CFM.exe** file.
 
 ## How to download messages
