@@ -9,7 +9,7 @@ numMess = 0
 pathDir = os.getcwd()
 
 
-def countPerPerson(data, path):
+def countPerPerson(data, path, uname):
     global numMess
     totalNum = 0
     participants = []
@@ -19,7 +19,8 @@ def countPerPerson(data, path):
             data = json.load(f)
             for msg in data['messages']:
                 totalNum += 1
-                if msg['sender_name'] == "Kuba Przybysz":
+                # changed to universal username - please consider this in making out new package
+                if msg['sender_name'] == uname:
                     numMess += 1
             for k in data['participants']:
                 if k['name'] not in participants:
