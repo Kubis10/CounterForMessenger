@@ -40,11 +40,26 @@ def treeview_sort_column(tv, col, reverse):
                command=lambda: treeview_sort_column(tv, col, not reverse))
 
 
+def search():
+    query = search_entry.get()
+    selections = []
+    for child in t.get_children():
+        for i in t.item(child)['values']:
+            if str(i).find(query) != -1:
+                selections.append(child)
+    print('znaleziono: ', len(selections))
+    t.selection_set(selections)
+
+
 def countAll(path):
     ile = 0
     for i in os.listdir(path):
-        conf = countPerPerson(i, path, "Kuba Przybysz")
-        t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
+        try:
+            conf = countPerPerson(i, path, "Kuba Przybysz")
+            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
+        except Exception as e:
+            print(e)
+            continue
         ile += 1
     t.heading('msg', command=lambda _col='msg': treeview_sort_column(t, _col, False))
     print(ile)
@@ -53,7 +68,7 @@ def countAll(path):
 
 def SelectDir():
     global pathDir
-    pathDir = filedialog.askdirectory()+"/"
+    pathDir = filedialog.askdirectory() + "/"
     print(pathDir)
 
 
@@ -73,18 +88,22 @@ settings_icon = PhotoImage(file='./assets/settings.png')
 exit_icon = PhotoImage(file='./assets/exit.png')
 vis_icon = PhotoImage(file='./assets/visible.png')
 inv_icon = PhotoImage(file='./assets/invisible.png')
+search_icon = PhotoImage(file='./assets/search.png')
 v = Scrollbar(main)
 t = ttk.Treeview(main, height=20, yscrollcommand=v.set, style='Custom.Treeview')
-t.column("#0", width=0,  stretch=NO)
+t.column("#0", width=0, stretch=NO)
 t['columns'] = ('name', 'pep', 'type', 'msg')
 t.heading("name", text="Nazwa", anchor=CENTER)
 t.heading("pep", text="Uczestnicy", anchor=CENTER)
 t.heading("type", text="Typ", anchor=CENTER)
 t.heading("type", text="Typ", anchor=CENTER)
 t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
-ttk.Button(nav, image=home_icon, text="Strona głowna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
+ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
 ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
            command=lambda: countAll(pathDir)).pack(side=TOP, pady=10)
+search_entry = ttk.Entry(nav, width=15)
+search_entry.pack(side=TOP, pady=10)
+ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=search).pack(side=TOP, pady=10)
 ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
 ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=SelectDir).pack(side=BOTTOM, pady=15)
 ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
@@ -94,4 +113,6 @@ t.pack(side=LEFT, fill=BOTH, expand=1)
 v.config(command=t.yview)
 nav.pack(side=LEFT, fill=Y)
 main.pack(side=RIGHT, fill=BOTH, expand=True)
-root.mainloop()
+if __name__ == '__main__':
+
+    root.mainloop()
