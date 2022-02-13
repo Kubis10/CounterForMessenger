@@ -26,6 +26,14 @@ def countPerPerson(data, path, uname):
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
             title = data['title'].encode('iso-8859-1').decode('utf-8')
             thread_type = data['thread_type']
+    # i don't know if I got this right, but this would format output and make it more understandable
+    if thread_type == "Regular":
+        thread_type == "Czat Prywatny"
+    elif thread_type == "RegularGroup":
+        thread_type == "Rozmowa Grupowa"
+    
+    #todo make the same thing as above for participants
+    
     return title, participants, thread_type, totalNum
 
 
@@ -51,11 +59,12 @@ def search():
     t.selection_set(selections)
 
 
-def countAll(path):
+    #same as previous, more unviersal, than personall app
+def countAll(path, uname):
     ile = 0
     for i in os.listdir(path):
         try:
-            conf = countPerPerson(i, path, "Kuba Przybysz")
+            conf = countPerPerson(i, path, uname)
             t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
         except Exception as e:
             print(e)
