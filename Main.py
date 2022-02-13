@@ -6,7 +6,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 numMess = 0
-pathDir = os.getcwd()
+pathDir = 'data/messages/inbox/'
 
 
 def countPerPerson(data, path, uname):
@@ -19,7 +19,6 @@ def countPerPerson(data, path, uname):
             data = json.load(f)
             for msg in data['messages']:
                 totalNum += 1
-                # changed to universal username - please consider this in making out new package
                 if msg['sender_name'] == uname:
                     numMess += 1
             for k in data['participants']:
@@ -44,7 +43,7 @@ def treeview_sort_column(tv, col, reverse):
 def countAll(path):
     ile = 0
     for i in os.listdir(path):
-        conf = countPerPerson(i, path)
+        conf = countPerPerson(i, path, "Kuba Przybysz")
         t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
         ile += 1
     t.heading('msg', command=lambda _col='msg': treeview_sort_column(t, _col, False))
@@ -60,7 +59,7 @@ def SelectDir():
 
 root = Tk()
 root.title("Counter for messenger")
-root.iconbitmap(r'D:\Projekty\CounterForMessenger\assets\CFM.ico')
+root.iconbitmap(r'assets\CFM.ico')
 root.geometry("1024x700")
 root.configure(background='#232323')
 s = ttk.Style()
