@@ -14,7 +14,7 @@ def openLoading(lenNum):
     Window = Toplevel(root)
     Window.title("Ładowanie...")
     Window.geometry("300x100")
-    Window.resizable(0, 0)
+    Window.resizable(False, False)
     Window.focus_set()
     Window.grab_set()
     progress = ttk.Progressbar(Window, orient="horizontal", maximum=int(lenNum), length=200, mode="determinate")
@@ -41,10 +41,14 @@ def countPerPerson(data, path, uname):
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
             title = data['title'].encode('iso-8859-1').decode('utf-8')
             thread_type = data['thread_type']
+            if thread_type == "Regular":
+                thread_type = "Czat Prywatny"
+            elif thread_type == "RegularGroup":
+                thread_type = "Grupa"
     return title, participants, thread_type, totalNum
 
 
-def treeview_sort_column(tv, col, reverse):
+def treeview_sort_msg(tv, col, reverse):
     l = [(tv.set(k, col), k) for k in tv.get_children('')]
     l.sort(key=lambda t: int(t[0]), reverse=reverse)
 
@@ -52,7 +56,19 @@ def treeview_sort_column(tv, col, reverse):
         tv.move(k, '', index)
 
     tv.heading(col,
-               command=lambda: treeview_sort_column(tv, col, not reverse))
+               command=lambda: treeview_sort_msg(tv, col, not reverse))
+
+
+def treeview_sort_column(tv, col, reverse):
+    l = [(tv.set(k, col), k) for k in tv.get_children('')]
+    l.sort(reverse=reverse)
+
+    # rearrange items in sorted positions
+    for index, (val, k) in enumerate(l):
+        tv.move(k, '', index)
+
+    # reverse sort next time
+    tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
 
 
 def search():
@@ -81,7 +97,9 @@ def countAll(path, uname):
         label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
         label.update()
     window.destroy()
-    t.heading('msg', command=lambda _col='msg': treeview_sort_column(t, _col, False))
+    t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
+    t.heading('name', command=lambda _col='name': treeview_sort_column(t, _col, False))
+    t.heading('type', command=lambda _col='type': treeview_sort_column(t, _col, False))
     print(len(os.listdir(path)))
     print(numMess)
 
