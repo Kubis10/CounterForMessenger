@@ -7,6 +7,21 @@ from tkinter import filedialog
 
 numMess = 0
 pathDir = 'data/messages/inbox/'
+uname = "Kuba Przybysz"
+
+
+def openLoading(lenNum):
+    Window = Toplevel(root)
+    Window.title("Ładowanie...")
+    Window.geometry("300x100")
+    Window.resizable(0, 0)
+    Window.focus_set()
+    Window.grab_set()
+    progress = ttk.Progressbar(Window, orient="horizontal", maximum=int(lenNum), length=200, mode="determinate")
+    label = ttk.Label(Window, text="Ładowanie konwersacji 0/"+str(lenNum))
+    progress.pack(side=TOP)
+    label.pack(side=TOP)
+    return progress, label, Window
 
 
 def countPerPerson(data, path, uname):
@@ -51,18 +66,23 @@ def search():
     t.selection_set(selections)
 
 
-def countAll(path):
-    ile = 0
+def countAll(path, uname):
+    t.delete(*t.get_children())
+    x, label, window = openLoading(len(os.listdir(path)))
     for i in os.listdir(path):
         try:
-            conf = countPerPerson(i, path, "Kuba Przybysz")
+            conf = countPerPerson(i, path, uname)
             t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
         except Exception as e:
             print(e)
             continue
-        ile += 1
+        x['value'] += 1
+        x.update()
+        label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
+        label.update()
+    window.destroy()
     t.heading('msg', command=lambda _col='msg': treeview_sort_column(t, _col, False))
-    print(ile)
+    print(len(os.listdir(path)))
     print(numMess)
 
 
@@ -100,7 +120,7 @@ t.heading("type", text="Typ", anchor=CENTER)
 t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
 ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
 ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
-           command=lambda: countAll(pathDir)).pack(side=TOP, pady=10)
+           command=lambda: countAll(pathDir, uname)).pack(side=TOP, pady=10)
 search_entry = ttk.Entry(nav, width=15)
 search_entry.pack(side=TOP, pady=10)
 ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=search).pack(side=TOP, pady=10)
