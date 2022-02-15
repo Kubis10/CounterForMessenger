@@ -18,7 +18,7 @@ def openLoading(lenNum):
     Window.focus_set()
     Window.grab_set()
     progress = ttk.Progressbar(Window, orient="horizontal", maximum=int(lenNum), length=200, mode="determinate")
-    label = ttk.Label(Window, text="Ładowanie konwersacji 0/"+str(lenNum))
+    label = ttk.Label(Window, text="Ładowanie konwersacji 0/" + str(lenNum))
     progress.pack(side=TOP)
     label.pack(side=TOP)
     return progress, label, Window
@@ -44,13 +44,10 @@ def countPerPerson(data, path, uname):
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
             title = data['title'].encode('iso-8859-1').decode('utf-8')
             thread_type = data['thread_type']
-    # i don't know if I got this right, but this would format output and make it more understandable
     if thread_type == "Regular":
-        thread_type == "Czat Prywatny"
+        thread_type = "Czat Prywatny"
     elif thread_type == "RegularGroup":
-        thread_type == "Rozmowa Grupowa"
-    
-    #todo make the same thing as above for participants
+        thread_type = "Grupa"
 
     return title, participants, thread_type, totalNum, callTime
 
@@ -82,10 +79,10 @@ def search():
     print('znaleziono: ', len(selections))
     t.selection_set(selections)
 
-def set_username():
-	global username
-	username = username_entry.get()
 
+def set_username():
+    global username
+    username = username_entry.get()
 
 
 def countAll(path, uname):
@@ -155,7 +152,8 @@ username_entry = ttk.Entry(nav, width=15)
 username_entry.pack(side=TOP, pady=10)
 ttk.Button(nav, image=person_icon, text="Ustaw", compound=LEFT, command=set_username).pack(side=TOP, pady=10)
 ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
-ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=SelectDir).pack(side=BOTTOM, pady=15)
+ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=SelectDir).pack(side=BOTTOM,
+                                                                                                          pady=15)
 ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
     side=TOP, pady=10)
 v.pack(side=RIGHT, fill=Y)
@@ -165,5 +163,4 @@ nav.pack(side=LEFT, fill=Y)
 main.pack(side=RIGHT, fill=BOTH, expand=True)
 
 if __name__ == '__main__':
-
     root.mainloop()
