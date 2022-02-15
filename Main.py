@@ -7,7 +7,7 @@ from tkinter import filedialog
 
 numMess = 0
 pathDir = 'data/messages/inbox/'
-uname = "Kuba Przybysz"
+username = "Kuba Przybysz"
 
 
 def openLoading(lenNum):
@@ -27,6 +27,7 @@ def openLoading(lenNum):
 def countPerPerson(data, path, uname):
     global numMess
     totalNum = 0
+    callTime = 0
     participants = []
     result = glob.glob(path + data + '/*.json')
     for j in result:
@@ -36,6 +37,8 @@ def countPerPerson(data, path, uname):
                 totalNum += 1
                 if msg['sender_name'] == uname:
                     numMess += 1
+                if msg['type'] == 'Call':
+                    callTime += msg['call_duration']
             for k in data['participants']:
                 if k['name'] not in participants:
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
@@ -45,16 +48,15 @@ def countPerPerson(data, path, uname):
                 thread_type = "Czat Prywatny"
             elif thread_type == "RegularGroup":
                 thread_type = "Grupa"
-    return title, participants, thread_type, totalNum
+
+    return title, participants, thread_type, totalNum, callTime
 
 
 def treeview_sort_msg(tv, col, reverse):
     l = [(tv.set(k, col), k) for k in tv.get_children('')]
     l.sort(key=lambda t: int(t[0]), reverse=reverse)
-
     for index, (val, k) in enumerate(l):
         tv.move(k, '', index)
-
     tv.heading(col,
                command=lambda: treeview_sort_msg(tv, col, not reverse))
 
@@ -62,12 +64,8 @@ def treeview_sort_msg(tv, col, reverse):
 def treeview_sort_column(tv, col, reverse):
     l = [(tv.set(k, col), k) for k in tv.get_children('')]
     l.sort(reverse=reverse)
-
-    # rearrange items in sorted positions
     for index, (val, k) in enumerate(l):
         tv.move(k, '', index)
-
-    # reverse sort next time
     tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
 
 
@@ -88,7 +86,7 @@ def countAll(path, uname):
     for i in os.listdir(path):
         try:
             conf = countPerPerson(i, path, uname)
-            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3]))
+            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4]))
         except Exception as e:
             print(e)
             continue
@@ -100,6 +98,7 @@ def countAll(path, uname):
     t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
     t.heading('name', command=lambda _col='name': treeview_sort_column(t, _col, False))
     t.heading('type', command=lambda _col='type': treeview_sort_column(t, _col, False))
+    t.heading('call', command=lambda _col='call': treeview_sort_msg(t, _col, False))
     print(len(os.listdir(path)))
     print(numMess)
 
@@ -130,15 +129,16 @@ search_icon = PhotoImage(file='./assets/search.png')
 v = Scrollbar(main)
 t = ttk.Treeview(main, height=20, yscrollcommand=v.set, style='Custom.Treeview')
 t.column("#0", width=0, stretch=NO)
-t['columns'] = ('name', 'pep', 'type', 'msg')
+t['columns'] = ('name', 'pep', 'type', 'msg', 'call')
 t.heading("name", text="Nazwa", anchor=CENTER)
 t.heading("pep", text="Uczestnicy", anchor=CENTER)
 t.heading("type", text="Typ", anchor=CENTER)
 t.heading("type", text="Typ", anchor=CENTER)
 t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
+t.heading("call", text="Łączna długość rozmów", anchor=CENTER)
 ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
 ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
-           command=lambda: countAll(pathDir, uname)).pack(side=TOP, pady=10)
+           command=lambda: countAll(pathDir, username)).pack(side=TOP, pady=10)
 search_entry = ttk.Entry(nav, width=15)
 search_entry.pack(side=TOP, pady=10)
 ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=search).pack(side=TOP, pady=10)
@@ -151,6 +151,7 @@ t.pack(side=LEFT, fill=BOTH, expand=1)
 v.config(command=t.yview)
 nav.pack(side=LEFT, fill=Y)
 main.pack(side=RIGHT, fill=BOTH, expand=True)
+
 if __name__ == '__main__':
 
     root.mainloop()
