@@ -7,7 +7,7 @@ from tkinter import filedialog
 
 numMess = 0
 pathDir = 'data/messages/inbox/'
-username = "Kuba Przybysz"
+username = ""
 
 
 def openLoading(lenNum):
@@ -79,6 +79,10 @@ def search():
     print('znaleziono: ', len(selections))
     t.selection_set(selections)
 
+def set_username():
+	global username
+	username = username_entry.get()
+
 
 def countAll(path, uname):
     t.delete(*t.get_children())
@@ -126,6 +130,7 @@ exit_icon = PhotoImage(file='./assets/exit.png')
 vis_icon = PhotoImage(file='./assets/visible.png')
 inv_icon = PhotoImage(file='./assets/invisible.png')
 search_icon = PhotoImage(file='./assets/search.png')
+person_icon = PhotoImage(file='./assets/person.png')
 v = Scrollbar(main)
 t = ttk.Treeview(main, height=20, yscrollcommand=v.set, style='Custom.Treeview')
 t.column("#0", width=0, stretch=NO)
@@ -142,6 +147,9 @@ ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, paddin
 search_entry = ttk.Entry(nav, width=15)
 search_entry.pack(side=TOP, pady=10)
 ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=search).pack(side=TOP, pady=10)
+username_entry = ttk.Entry(nav, width=15)
+username_entry.pack(side=TOP, pady=10)
+ttk.Button(nav, image=person_icon, text="Ustaw", compound=LEFT, command=set_username).pack(side=TOP, pady=10)
 ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
 ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=SelectDir).pack(side=BOTTOM, pady=15)
 ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
