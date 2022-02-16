@@ -184,6 +184,7 @@ def Main():
     exit_icon = PhotoImage(file='./assets/exit.png')
     vis_icon = PhotoImage(file='./assets/visible.png')
     search_icon = PhotoImage(file='./assets/search.png')
+    person_icon = PhotoImage(file='./assets/person.png')
     v = Scrollbar(main)
     t = ttk.Treeview(main, height=20, yscrollcommand=v.set, style='Custom.Treeview')
     t.column("#0", width=0, stretch=NO)
@@ -202,6 +203,7 @@ def Main():
     ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=lambda: search(search_entry, t)).pack(side=TOP, pady=10)
     ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
     ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5).pack(side=BOTTOM, pady=15)
+    ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5).pack(side=BOTTOM)
     ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
         side=TOP, pady=10)
     v.pack(side=RIGHT, fill=Y)
