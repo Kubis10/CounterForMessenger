@@ -8,11 +8,11 @@ If you are interested in contributing to this repository, pull requests are much
 
 ## How to use
 To use this app you need to download your data directly from Facebook (in JSON format) and unzip all files to one folder.
+<a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
 </p>
 In messages folder you need to copy all folders from archived_threads, filtered_threads and message_requests to inbox folder.
-<a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 
 ## Installation 
 
