@@ -7,8 +7,12 @@
 If you are interested in contributing to this repository, pull requests are much appreciated.
 
 ## How to use
-To use this app you need to download your data directly from Facebook (in JSON format) and unzip all files to one folder. Then in messages folder you need to copy all folders from archived, filtered and requests to inbox folder.
-[How to download my data?](https://github.com/Kubis10/CounterForMessenger#how-to-download-messages)
+To use this app you need to download your data directly from Facebook (in JSON format) and unzip all files to one folder.
+<p align="center">
+<img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
+</p>
+In messages folder you need to copy all folders from archived_threads, filtered_threads and message_requests to inbox folder.
+<a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 
 ## Installation 
 
@@ -22,8 +26,9 @@ Unzip the file and run the **CFM.exe** file.
 1. Click on Download Your Information.
 ![fb1](https://user-images.githubusercontent.com/17026216/99185953-4e075300-274d-11eb-99f1-eb475a465652.png)
 1. Deselect all and select "Messages" category by clicking the box on the right side.
+1. I recomend you to select low quality and data range to all time for full result.
 1. It is necessary to choose JSON format of your download request.
-![fb2](https://user-images.githubusercontent.com/17026216/99186010-b2c2ad80-274d-11eb-8684-4077192373f0.png)
+![fb2](https://user-images.githubusercontent.com/50967586/154365289-96fdd4e0-93a1-4ef7-8f40-20c32711fcd4.png)
 1. Click Create File to confirm the download request.
 1. Facebook will notify you when your copy will be ready to download.
 1. Go to the Available Files section.
