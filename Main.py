@@ -5,6 +5,7 @@ from os.path import exists
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 from tkhtmlview import HTMLLabel
 
 numMess = 0
@@ -140,6 +141,18 @@ def saveInfo(userName, where):
         Main()
 
 
+# Save information about user
+def updateInfo(userName, window):
+    global username
+    global pathDir
+    username = userName.get()
+    with open("config.txt", "w") as f:
+        f.write(f"{username}\n{pathDir}")
+        f.close()
+        window.destroy()
+        messagebox.showinfo("Zapisano", "Zapisano ustawienia, aby zastosowac zmiany zrestartuj aplikacje")
+
+
 # Center window on screen
 def center_window(width=300, height=200, win=None):
     screen_width = win.winfo_screenwidth()
@@ -153,6 +166,7 @@ def center_window(width=300, height=200, win=None):
 def firstTime():
     window = Tk()
     window.title("Konfiguracja początkowa")
+    window.iconbitmap(r'assets\CFM.ico')
     center_window(600, 400, window)
     window.focus_set()
     window.grab_set()
@@ -164,6 +178,23 @@ def firstTime():
     username_entry.pack(side=TOP, pady=5)
     ttk.Button(window, text="Zapisz", padding=7, command=lambda: saveInfo(username_entry, window)).pack(side=TOP, pady=40)
     window.mainloop()
+
+
+# Show settings window
+def settings(root):
+    Window = Toplevel(root)
+    Window.iconbitmap(r'assets\CFM.ico')
+    root.title("Ustawienia")
+    Window.focus_set()
+    Window.grab_set()
+    center_window(800, 600, Window)
+    Label(Window, text="Wskaż folder inbox z danymi:").pack(side=TOP, pady=15)
+    ttk.Button(Window, text="Otwórz ekspolator plików", padding=5, command=selectDir).pack(side=TOP, pady=5)
+    Label(Window, text="Zmień imię i nazwisko z facebooka:").pack(side=TOP, pady=15)
+    username_entry = ttk.Entry(Window, width=25)
+    username_entry.pack(side=TOP, pady=5)
+    username_entry.insert(0, username)
+    ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP, pady=40)
 
 
 # Show main window
@@ -202,7 +233,7 @@ def Main():
     search_entry.pack(side=TOP, pady=10)
     ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=lambda: search(search_entry, t)).pack(side=TOP, pady=10)
     ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
-    ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5).pack(side=BOTTOM, pady=15)
+    ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
     ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5).pack(side=BOTTOM)
     ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
         side=TOP, pady=10)
