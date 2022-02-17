@@ -223,7 +223,10 @@ def settings(root):
 def getMessages(t):
     global pathDir
     messages = [0, 0, [], 0, 0]
-    path = pathDir+str(t.item(t.selection())['values'][5])
+    try:
+        path = pathDir+str(t.item(t.selection())['values'][5])
+    except:
+        path = pathDir+str(t.item("I001")['values'][5])
     result = glob.glob(path + '/*.json')
     for j in result:
         with open(j, 'r') as f:
@@ -246,6 +249,8 @@ def getMessages(t):
 
 # Show window with messages stats
 def showStats(root, t):
+    if t.item(t.selection())['values'] == '':
+        return
     Window = Toplevel(root)
     Window.iconbitmap(r'assets\CFM.ico')
     Window.title("Statystyki")
