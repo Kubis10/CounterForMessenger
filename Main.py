@@ -225,7 +225,7 @@ def getMessages(t):
     try:
         path = pathDir+str(t.item(t.selection())['values'][5])
     except:
-        path = pathDir+str(t.item("I001")['values'][5])
+        return
     result = glob.glob(path + '/*.json')
     for j in result:
         with open(j, 'r') as f:
