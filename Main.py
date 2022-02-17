@@ -3,10 +3,8 @@ import json
 import glob
 from os.path import exists
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
-from tkinter import messagebox
-from datetime import timedelta
+from tkinter import ttk, filedialog, messagebox
+from datetime import timedelta, datetime
 # from tkhtmlview import HTMLLabel
 
 userMess = 0
@@ -19,7 +17,7 @@ username = ""
 def openLoading(lenNum, root):
     Window = Toplevel(root)
     Window.title("Ładowanie...")
-    Window.geometry("300x100")
+    center_window(300, 100, Window)
     Window.resizable(False, False)
     Window.focus_set()
     Window.grab_set()
@@ -55,7 +53,7 @@ def countPerPerson(data, path, uname):
                 if msg['type'] == 'Call':
                     callTime += msg['call_duration']
             for k in data['participants']:
-                if k['name'] not in participants:
+                if k['name'].encode('iso-8859-1').decode('utf-8') not in participants:
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
             title = data['title'].encode('iso-8859-1').decode('utf-8')
             thread_type = data['thread_type']
@@ -223,7 +221,7 @@ def settings(root):
 # Get messages from specified conversation
 def getMessages(t):
     global pathDir
-    messages = [0, 0, [], 0, 0]
+    messages = [0, 0, {}, 0, 0, 0]
     try:
         path = pathDir+str(t.item(t.selection())['values'][5])
     except:
@@ -232,13 +230,18 @@ def getMessages(t):
     for j in result:
         with open(j, 'r') as f:
             data = json.load(f)
+            for k in data['participants']:
+                if k['name'].encode('iso-8859-1').decode('utf-8') not in messages[2].keys():
+                    messages[2][k['name'].encode('iso-8859-1').decode('utf-8')] = 0
             for msg in data['messages']:
                 messages[3] += 1
                 if msg['type'] == 'Call':
                     messages[4] += msg['call_duration']
-            for k in data['participants']:
-                if k['name'] not in messages[2]:
-                    messages[2].append(k['name'].encode('iso-8859-1').decode('utf-8'))
+                if msg['sender_name'].encode('iso-8859-1').decode('utf-8') in messages[2].keys():
+                    messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] += 1
+                else:
+                    messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] = 1
+                messages[5] = msg['timestamp_ms']
             messages[0] = data['title'].encode('iso-8859-1').decode('utf-8')
             thread_type = data['thread_type']
     if thread_type == "Regular":
@@ -263,15 +266,20 @@ def showStats(root, t):
     Label(Window, text="Nazwa: " + str(messages[0])).pack(side=TOP, pady=5)
     Label(Window, text="Typ konwersacji: " + str(messages[1])).pack(side=TOP, pady=5)
     if messages[1] == "Grupa":
-        Label(Window, text="Uczestnicy: "+str(len(messages[2]))).pack(side=TOP, pady=5)
+        Label(Window, text="Wszyscy uczestnicy i wiadomości: "+str(len(messages[2]))).pack(side=TOP, pady=5)
         listbox = Listbox(Window, width=30, height=15)
         listbox.pack(side=TOP, pady=5)
         scrollbar = Scrollbar(Window)
         scrollbar.pack(side=RIGHT, fill=BOTH)
-        for i in messages[2]:
-            listbox.insert(END, i)
-    Label(Window, text="Liczba wiadomości: " + str(messages[3])).pack(side=TOP, pady=5)
+    else:
+        Label(Window, text="Osoby i wiadomości:").pack(side=TOP, pady=5)
+        listbox = Listbox(Window, width=30, height=2)
+        listbox.pack(side=TOP, pady=5)
+    for i in messages[2]:
+        listbox.insert(END, i+" - "+str(messages[2][i]))
+    Label(Window, text="Łączna liczba wiadomości: " + str(messages[3])).pack(side=TOP, pady=5)
     Label(Window, text="Łączna długość rozmów: " + str(timedelta(seconds=messages[4]))).pack(side=TOP, pady=5)
+    Label(Window, text="Data pierwszej wiadomości: " + str(datetime.fromtimestamp(messages[5]/1000))).pack(side=TOP, pady=5)
 
 
 # Show my profile window
@@ -285,7 +293,7 @@ def myProfile():
     Label(window, text="Moje dane:", font=("Ariel", 24)).pack(side=TOP, pady=20)
     Label(window, text="Imię i nazwisko: " + username).pack(side=TOP, pady=10)
     Label(window, text="Liczba konwersacji: " + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=10)
-    Label(window, text="Liczba wiadomości: " + str(userMess)).pack(side=TOP, pady=10)
+    Label(window, text="Liczba wszystkich twoich wiadomości: " + str(userMess)).pack(side=TOP, pady=10)
     Label(window, text="Liczba wszystkich wiadomości: " + str(allMess)).pack(side=TOP, pady=10)
     ttk.Button(window, text="Zamknij", padding=7, command=window.destroy).pack(side=TOP, pady=40)
     window.mainloop()
@@ -316,7 +324,6 @@ def Main():
     t['columns'] = ('name', 'pep', 'type', 'msg', 'call')
     t.heading("name", text="Nazwa", anchor=CENTER)
     t.heading("pep", text="Uczestnicy", anchor=CENTER)
-    t.heading("type", text="Typ", anchor=CENTER)
     t.heading("type", text="Typ", anchor=CENTER)
     t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
     t.heading("call", text="Łączna długość rozmów", anchor=CENTER)

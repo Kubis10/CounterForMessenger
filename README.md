@@ -30,7 +30,7 @@ Unzip the file and run the **CFM.exe** file.
 1. It is necessary to choose JSON format of your download request.
 ![fb2](https://user-images.githubusercontent.com/50967586/154365289-96fdd4e0-93a1-4ef7-8f40-20c32711fcd4.png)
 1. Click Create File to confirm the download request.
-1. Facebook will notify you when your copy will be ready to download.
+1. Facebook will notify you when your copy will be ready to download. (It can take up to few days)
 1. Go to the Available Files section.
 1. Click Download and enter your password.
 
