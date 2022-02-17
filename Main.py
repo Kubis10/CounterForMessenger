@@ -25,7 +25,7 @@ def openLoading(lenNum, root):
     label = ttk.Label(Window, text="Ładowanie konwersacji 0/" + str(lenNum))
     progress.pack(side=TOP)
     label.pack(side=TOP)
-    # Window.protocol("WM_DELETE_WINDOW", disable_event)
+    Window.protocol("WM_DELETE_WINDOW", disable_event)
     return progress, label, Window
 
 
