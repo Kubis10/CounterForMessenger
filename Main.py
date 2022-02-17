@@ -9,7 +9,8 @@ from tkinter import messagebox
 
 # from tkhtmlview import HTMLLabel
 
-numMess = 0
+userMess = 0
+allMess = 0
 pathDir = ""
 username = ""
 
@@ -37,7 +38,8 @@ def disable_event():
 
 # Count messages per person
 def countPerPerson(data, path, uname):
-    global numMess
+    global userMess
+    global allMess
     totalNum = 0
     callTime = 0
     participants = []
@@ -48,7 +50,8 @@ def countPerPerson(data, path, uname):
             for msg in data['messages']:
                 totalNum += 1
                 if msg['sender_name'] == uname:
-                    numMess += 1
+                    userMess += 1
+                allMess += 1
                 if msg['type'] == 'Call':
                     callTime += msg['call_duration']
             for k in data['participants']:
@@ -110,20 +113,15 @@ def countAll(path, uname, t, root):
         except Exception as e:
             print(e)
             continue
-        try:
-            x['value'] += 1
-            x.update()
-            label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
-            label.update()
-        except Exception as e:
-            continue
+        x['value'] += 1
+        x.update()
+        label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
+        label.update()
     window.destroy()
     t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
     t.heading('name', command=lambda _col='name': treeview_sort_column(t, _col, False))
     t.heading('type', command=lambda _col='type': treeview_sort_column(t, _col, False))
     t.heading('call', command=lambda _col='call': treeview_sort_msg(t, _col, False))
-    print(len(os.listdir(path)))
-    print(numMess)
 
 
 # Select directory with data
@@ -215,8 +213,7 @@ def settings(root):
     username_entry = ttk.Entry(Window, width=25)
     username_entry.pack(side=TOP, pady=5)
     username_entry.insert(0, username)
-    ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP,
-                                                                                                          pady=40)
+    ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP, pady=40)
 
 
 # Show window with messages stats
@@ -239,10 +236,10 @@ def myProfile():
     window.focus_set()
     window.grab_set()
     Label(window, text="Moje dane:", font=("Ariel", 24)).pack(side=TOP, pady=20)
-    Label(window, text="Imię i nazwisko: " + username).pack(side=TOP, pady=15)
-    Label(window, text="Liczba konwersacji: " + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=15)
-    Label(window, text="Liczba wiadomości: " + str(numMess)).pack(side=TOP, pady=15)
-    Label(window, text="Liczba kontaktów: " + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=15)
+    Label(window, text="Imię i nazwisko: " + username).pack(side=TOP, pady=10)
+    Label(window, text="Liczba konwersacji: " + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=10)
+    Label(window, text="Liczba wiadomości: " + str(userMess)).pack(side=TOP, pady=10)
+    Label(window, text="Liczba wszystkich wiadomości: " + str(allMess)).pack(side=TOP, pady=10)
     ttk.Button(window, text="Zamknij", padding=7, command=window.destroy).pack(side=TOP, pady=40)
     window.mainloop()
 
@@ -279,7 +276,7 @@ def Main():
     t.bind("<Button-3>", lambda event: unselect(t))
     t.bind('<Double-1>', lambda event: showStats(root))
     ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
-    ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
+    ttk.Button(nav, image=vis_icon, text="Załaduj wiadomości", compound=LEFT, padding=5,
                command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
     search_entry = ttk.Entry(nav, width=15)
     search_entry.pack(side=TOP, pady=10)
@@ -288,7 +285,7 @@ def Main():
     ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
     ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5,
                command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
-    ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5).pack(side=BOTTOM)
+    ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5, command=myProfile).pack(side=BOTTOM)
     ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
         side=TOP, pady=10)
     v.pack(side=RIGHT, fill=Y)
