@@ -6,7 +6,8 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
-from tkhtmlview import HTMLLabel
+
+# from tkhtmlview import HTMLLabel
 
 numMess = 0
 pathDir = ""
@@ -25,7 +26,13 @@ def openLoading(lenNum, root):
     label = ttk.Label(Window, text="Ładowanie konwersacji 0/" + str(lenNum))
     progress.pack(side=TOP)
     label.pack(side=TOP)
+    Window.protocol("WM_DELETE_WINDOW", disable_event)
     return progress, label, Window
+
+
+# Disable event
+def disable_event():
+    pass
 
 
 # Count messages per person
@@ -164,8 +171,8 @@ def updateInfo(userName, window):
 def center_window(width=300, height=200, win=None):
     screen_width = win.winfo_screenwidth()
     screen_height = win.winfo_screenheight()
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)
+    x = (screen_width / 2) - (width / 2)
+    y = (screen_height / 2) - (height / 2)
     win.geometry('%dx%d+%d+%d' % (width, height, x, y))
 
 
@@ -178,14 +185,16 @@ def firstTime():
     window.focus_set()
     window.grab_set()
     Label(window, text="Konfiguracja początkowa:", font=("Ariel", 24)).pack(side=TOP, pady=20)
-    Label(window, text="Wskaż folder inbox z danymi:").pack(side=TOP, pady=15)
+    Label(window, text="Wskaż folder inbox z danymi:").pack(side=TOP, pady=5)
     label = Label(window, text=pathDir)
-    label.pack(side=TOP, pady=15)
-    ttk.Button(window, text="Otwórz ekspolator plików", padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
+    label.pack(side=TOP, pady=5)
+    ttk.Button(window, text="Otwórz ekspolator plików", padding=5, command=lambda: selectDir(label)).pack(side=TOP,
+                                                                                                          pady=5)
     Label(window, text="Wpisz imię i nazwisko z facebooka(dokładnie):").pack(side=TOP, pady=15)
     username_entry = ttk.Entry(window, width=25)
     username_entry.pack(side=TOP, pady=5)
-    ttk.Button(window, text="Zapisz", padding=7, command=lambda: saveInfo(username_entry, window)).pack(side=TOP, pady=40)
+    ttk.Button(window, text="Zapisz", padding=7, command=lambda: saveInfo(username_entry, window)).pack(side=TOP,
+                                                                                                        pady=40)
     window.mainloop()
 
 
@@ -200,15 +209,28 @@ def settings(root):
     Label(Window, text="Wskaż folder inbox z danymi:").pack(side=TOP, pady=16)
     label = Label(Window, text=pathDir)
     label.pack(side=TOP, pady=15)
-    ttk.Button(Window, text="Otwórz ekspolator plików", padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
+    ttk.Button(Window, text="Otwórz ekspolator plików", padding=5, command=lambda: selectDir(label)).pack(side=TOP,
+                                                                                                          pady=5)
     Label(Window, text="Zmień imię i nazwisko z facebooka:").pack(side=TOP, pady=15)
     username_entry = ttk.Entry(Window, width=25)
     username_entry.pack(side=TOP, pady=5)
     username_entry.insert(0, username)
-    ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP, pady=40)
+    ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP,
+                                                                                                          pady=40)
 
 
-# Show My profile window
+# Show window with messages stats
+def showStats(root):
+    Window = Toplevel(root)
+    Window.iconbitmap(r'assets\CFM.ico')
+    Window.title("Statystyki")
+    Window.focus_set()
+    Window.grab_set()
+    center_window(800, 600, Window)
+    Label(Window, text="Statystyki wiadomości:").pack(side=TOP, pady=16)
+
+
+# Show my profile window
 def myProfile():
     window = Tk()
     window.title("Mój profil")
@@ -216,7 +238,7 @@ def myProfile():
     center_window(600, 400, window)
     window.focus_set()
     window.grab_set()
-    Label(window, text="Mój profil:", font=("Ariel", 24)).pack(side=TOP, pady=20)
+    Label(window, text="Moje dane:", font=("Ariel", 24)).pack(side=TOP, pady=20)
     Label(window, text="Imię i nazwisko: " + username).pack(side=TOP, pady=15)
     Label(window, text="Liczba konwersacji: " + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=15)
     Label(window, text="Liczba wiadomości: " + str(numMess)).pack(side=TOP, pady=15)
@@ -230,7 +252,7 @@ def Main():
     root = Tk()
     root.title("Counter for messenger")
     root.iconbitmap(r'assets\CFM.ico')
-    center_window(1024, 700, root)
+    center_window(1224, 700, root)
     root.configure(background='#232323')
     s = ttk.Style()
     s.configure('Nav.TFrame', background='#131313')
@@ -255,14 +277,17 @@ def Main():
     t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
     t.heading("call", text="Łączna długość rozmów", anchor=CENTER)
     t.bind("<Button-3>", lambda event: unselect(t))
+    t.bind('<Double-1>', lambda event: showStats(root))
     ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
     ttk.Button(nav, image=vis_icon, text="Pokaż wiadomości", compound=LEFT, padding=5,
                command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
     search_entry = ttk.Entry(nav, width=15)
     search_entry.pack(side=TOP, pady=10)
-    ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=lambda: search(search_entry, t)).pack(side=TOP, pady=10)
+    ttk.Button(nav, image=search_icon, text="Szukaj", compound=LEFT, command=lambda: search(search_entry, t)).pack(
+        side=TOP, pady=10)
     ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
-    ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5, command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
+    ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5,
+               command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
     ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5).pack(side=BOTTOM)
     ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
         side=TOP, pady=10)
