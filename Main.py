@@ -98,6 +98,7 @@ def search(search_entry, t):
     t.selection_set(selections)
 
 
+# Unselect all items in table
 def unselect(t):
     t.selection_remove(t.selection())
 
@@ -262,7 +263,13 @@ def showStats(root, t):
     Label(Window, text="Nazwa: " + str(messages[0])).pack(side=TOP, pady=5)
     Label(Window, text="Typ konwersacji: " + str(messages[1])).pack(side=TOP, pady=5)
     if messages[1] == "Grupa":
-        Label(Window, text="Uczestnicy " + str(messages[2])).pack(side=TOP, pady=5)
+        Label(Window, text="Uczestnicy: "+str(len(messages[2]))).pack(side=TOP, pady=5)
+        listbox = Listbox(Window, width=30, height=15)
+        listbox.pack(side=TOP, pady=5)
+        scrollbar = Scrollbar(Window)
+        scrollbar.pack(side=RIGHT, fill=BOTH)
+        for i in messages[2]:
+            listbox.insert(END, i)
     Label(Window, text="Liczba wiadomości: " + str(messages[3])).pack(side=TOP, pady=5)
     Label(Window, text="Łączna długość rozmów: " + str(timedelta(seconds=messages[4]))).pack(side=TOP, pady=5)
 
