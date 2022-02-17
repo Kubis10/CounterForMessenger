@@ -6,7 +6,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
-
+from datetime import timedelta
 # from tkhtmlview import HTMLLabel
 
 userMess = 0
@@ -27,7 +27,7 @@ def openLoading(lenNum, root):
     label = ttk.Label(Window, text="Ładowanie konwersacji 0/" + str(lenNum))
     progress.pack(side=TOP)
     label.pack(side=TOP)
-    Window.protocol("WM_DELETE_WINDOW", disable_event)
+    # Window.protocol("WM_DELETE_WINDOW", disable_event)
     return progress, label, Window
 
 
@@ -109,14 +109,17 @@ def countAll(path, uname, t, root):
     for i in os.listdir(path):
         try:
             conf = countPerPerson(i, path, uname)
-            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4]))
+            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4], i))
         except Exception as e:
             print(e)
             continue
-        x['value'] += 1
-        x.update()
-        label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
-        label.update()
+        try:
+            x['value'] += 1
+            x.update()
+            label['text'] = "Ładowanie konwersacji " + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
+            label.update()
+        except:
+            continue
     window.destroy()
     t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
     t.heading('name', command=lambda _col='name': treeview_sort_column(t, _col, False))
@@ -216,15 +219,47 @@ def settings(root):
     ttk.Button(Window, text="Zapisz", padding=7, command=lambda: updateInfo(username_entry, Window)).pack(side=TOP, pady=40)
 
 
+# Get messages from specified conversation
+def getMessages(t):
+    global pathDir
+    messages = [0, 0, [], 0, 0]
+    path = pathDir+str(t.item(t.selection())['values'][5])
+    result = glob.glob(path + '/*.json')
+    for j in result:
+        with open(j, 'r') as f:
+            data = json.load(f)
+            for msg in data['messages']:
+                messages[3] += 1
+                if msg['type'] == 'Call':
+                    messages[4] += msg['call_duration']
+            for k in data['participants']:
+                if k['name'] not in messages[2]:
+                    messages[2].append(k['name'].encode('iso-8859-1').decode('utf-8'))
+            messages[0] = data['title'].encode('iso-8859-1').decode('utf-8')
+            thread_type = data['thread_type']
+    if thread_type == "Regular":
+        messages[1] = "Czat Prywatny"
+    elif thread_type == "RegularGroup":
+        messages[1] = "Grupa"
+    return messages
+
+
 # Show window with messages stats
-def showStats(root):
+def showStats(root, t):
     Window = Toplevel(root)
     Window.iconbitmap(r'assets\CFM.ico')
     Window.title("Statystyki")
     Window.focus_set()
     Window.grab_set()
     center_window(800, 600, Window)
+    messages = getMessages(t)
     Label(Window, text="Statystyki wiadomości:").pack(side=TOP, pady=16)
+    Label(Window, text="Nazwa: " + str(messages[0])).pack(side=TOP, pady=5)
+    Label(Window, text="Typ konwersacji: " + str(messages[1])).pack(side=TOP, pady=5)
+    if messages[1] == "Grupa":
+        Label(Window, text="Uczestnicy " + str(messages[2])).pack(side=TOP, pady=5)
+    Label(Window, text="Liczba wiadomości: " + str(messages[3])).pack(side=TOP, pady=5)
+    Label(Window, text="Łączna długość rozmów: " + str(timedelta(seconds=messages[4]))).pack(side=TOP, pady=5)
 
 
 # Show my profile window
@@ -274,7 +309,7 @@ def Main():
     t.heading("msg", text="Liczba wiadomości", anchor=CENTER)
     t.heading("call", text="Łączna długość rozmów", anchor=CENTER)
     t.bind("<Button-3>", lambda event: unselect(t))
-    t.bind('<Double-1>', lambda event: showStats(root))
+    t.bind('<Double-1>', lambda event: showStats(root, t))
     ttk.Button(nav, image=home_icon, text="Strona główna", compound=LEFT, padding=5).pack(side=TOP, pady=10)
     ttk.Button(nav, image=vis_icon, text="Załaduj wiadomości", compound=LEFT, padding=5,
                command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
