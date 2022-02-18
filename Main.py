@@ -25,7 +25,7 @@ def openLoading(lenNum, root):
     label = ttk.Label(Window, text="Ładowanie konwersacji 0/" + str(lenNum))
     progress.pack(side=TOP)
     label.pack(side=TOP)
-    Window.protocol("WM_DELETE_WINDOW", disable_event)
+    # Window.protocol("WM_DELETE_WINDOW", disable_event)
     return progress, label, Window
 
 
@@ -283,8 +283,8 @@ def showStats(root, t):
 
 
 # Show my profile window
-def myProfile():
-    window = Tk()
+def myProfile(root):
+    window = Toplevel(root)
     window.title("Mój profil")
     window.iconbitmap(r'assets\CFM.ico')
     center_window(600, 400, window)
@@ -339,7 +339,7 @@ def Main():
     ttk.Button(nav, image=exit_icon, text="Wyjście", compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
     ttk.Button(nav, image=settings_icon, text="Ustawienia", compound=LEFT, padding=5,
                command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
-    ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5, command=myProfile).pack(side=BOTTOM)
+    ttk.Button(nav, image=person_icon, text="Mój profil", compound=LEFT, padding=5, command=lambda: myProfile(root)).pack(side=BOTTOM)
     ttk.Label(main, text="Liczba wiadomości: ", foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
         side=TOP, pady=10)
     v.pack(side=RIGHT, fill=Y)
