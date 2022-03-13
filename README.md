@@ -1,5 +1,8 @@
 # ![Logo](assets/icon.png)  Counter For Messenger app
 
+<p align="center">
+<img alt="GitHub License" src="https://img.shields.io/badge/license-MIT-yellowgreen"> <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/Kubis10/CounterForMessenger/total"> <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/Kubis10/CounterForMessenger"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/xEdziu/KeepMyPassword-Desktop"> <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/Kubis10/CounterForMessenger"> <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Kubis10/CounterForMessenger"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Kubis10/CounterForMessenger"></p>
+
 #### Counter For Messenger app is a free counter app for messenger which count how many messages you have and a lot more statistics.
 
 ![app](https://user-images.githubusercontent.com/50967586/154368722-0f294219-3bb3-4d80-a23f-4ac3e417741b.png)
