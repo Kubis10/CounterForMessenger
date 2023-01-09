@@ -5,7 +5,7 @@
 
 #### Counter For Messenger app is a free counter app for messenger which count how many messages you have and a lot more statistics.
 
-![app](https://user-images.githubusercontent.com/50967586/154368722-0f294219-3bb3-4d80-a23f-4ac3e417741b.png)
+![image](https://user-images.githubusercontent.com/50967586/211426399-263e03d0-cb17-4f00-adbf-018f451e277d.png)
 
 If you are interested in contributing to this repository, pull requests are much appreciated.
 
