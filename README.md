@@ -10,7 +10,7 @@
 If you are interested in contributing to this repository, pull requests are much appreciated.
 
 ## How to use
-To use this app you need to download your data directly from Facebook (in JSON format) and unzip all files to one folder.
+To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
 <a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
