@@ -7,7 +7,6 @@ from tkinter import *
 from tkinter import ttk, filedialog, messagebox
 from datetime import timedelta, datetime
 from babel.support import Translations
-
 # from tkhtmlview import HTMLLabel
 
 
@@ -15,7 +14,7 @@ userMess = 0
 allMess = 0
 pathDir = ""
 username = ""
-lang = ""
+lang = "en_US"
 _ = Translations.load('locale', [lang]).gettext
 
 
@@ -72,17 +71,20 @@ def countPerPerson(data, path, uname):
                 if msg['sender_name'] == uname:
                     userMess += 1
                 allMess += 1
-                if msg['type'] == 'Call':
-                    callTime += msg['call_duration']
+                try:
+                    if msg['call_duration']:
+                        callTime += msg['call_duration']
+                except KeyError:
+                    pass
             for k in data['participants']:
                 if k['name'].encode('iso-8859-1').decode('utf-8') not in participants:
                     participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
             title = data['title'].encode('iso-8859-1').decode('utf-8')
-            thread_type = data['thread_type']
-    if thread_type == "Regular":
-        thread_type = _("Czat Prywatny")
-    elif thread_type == "RegularGroup":
-        thread_type = _("Grupa")
+            try:
+                thread_type = data['joinable_mode']
+                thread_type = _("Czat Grupowy")
+            except KeyError:
+                thread_type = _("Czat Prywatny")
 
     return title, participants, thread_type, totalNum, callTime
 
@@ -132,14 +134,15 @@ def countAll(path, uname, t, root):
             conf = countPerPerson(i, path, uname)
             t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4], i))
         except Exception as e:
-            print(e)
+            print(str(e))
             continue
         try:
             x['value'] += 1
             x.update()
             label['text'] = _("Ładowanie konwersacji ") + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
             label.update()
-        except:
+        except Exception as e:
+            print(str(e))
             continue
     window.destroy()
     t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
@@ -210,7 +213,7 @@ def firstTime():
     window = Tk()
     window.title(_("Konfiguracja początkowa"))
     window.iconbitmap(r'assets\CFM.ico')
-    center_window(600, 400, window)
+    center_window(700, 450, window)
     window.focus_set()
     window.grab_set()
     Label(window, text=_("Konfiguracja początkowa:"), font=("Ariel", 24)).pack(side=TOP, pady=20)
@@ -263,7 +266,8 @@ def getMessages(t):
     messages = [0, 0, {}, 0, 0, 0]
     try:
         path = pathDir + str(t.item(t.selection())['values'][5])
-    except:
+    except Exception as e:
+        print(e)
         return
     result = glob.glob(path + '/*.json')
     for j in result:
@@ -274,19 +278,22 @@ def getMessages(t):
                     messages[2][k['name'].encode('iso-8859-1').decode('utf-8')] = 0
             for msg in data['messages']:
                 messages[3] += 1
-                if msg['type'] == 'Call':
-                    messages[4] += msg['call_duration']
+                try:
+                    if msg['call_duration']:
+                        messages[4] += msg['call_duration']
+                except KeyError:
+                    pass
                 if msg['sender_name'].encode('iso-8859-1').decode('utf-8') in messages[2].keys():
                     messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] += 1
                 else:
                     messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] = 1
                 messages[5] = msg['timestamp_ms']
             messages[0] = data['title'].encode('iso-8859-1').decode('utf-8')
-            thread_type = data['thread_type']
-    if thread_type == "Regular":
-        messages[1] = _("Czat Prywatny")
-    elif thread_type == "RegularGroup":
-        messages[1] = _("Grupa")
+            try:
+                messages[1] = data['joinable_mode']
+                messages[1] = _("Grupa")
+            except KeyError:
+                messages[1] = _("Czat Prywatny")
     return messages
 
 
