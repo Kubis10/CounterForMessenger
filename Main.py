@@ -227,7 +227,7 @@ def firstTime():
     username_entry.pack(side=TOP, pady=5)
     variable = StringVar(window)
     variable.set("English")
-    w = ttk.OptionMenu(window, variable, "English", "Polski")
+    w = ttk.OptionMenu(window, variable, "English", *("English", "Polski"))
     w.pack(side=TOP, pady=10)
     ttk.Button(window, text=_("Zapisz"), padding=7,
                command=lambda: saveInfo(username_entry, window, variable.get())).pack(side=TOP,
@@ -254,7 +254,7 @@ def settings(root):
     username_entry.insert(0, username)
     variable = StringVar(Window)
     variable.set("English")
-    w = ttk.OptionMenu(Window, variable, "English", "Polski")
+    w = ttk.OptionMenu(Window, variable, "English", *("English", "Polski"))
     w.pack(side=TOP, pady=10)
     ttk.Button(Window, text=_("Zapisz"), padding=7,
                command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)

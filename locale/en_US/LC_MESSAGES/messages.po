@@ -65,7 +65,7 @@ msgstr "Select inbox data folder:"
 
 #: Main.py:189 Main.py:210
 msgid "Otwórz ekspolator plików"
-msgstr "Open file exporter"
+msgstr "Open file explorer"
 
 #: Main.py:191
 msgid "Wpisz imię i nazwisko z facebooka(dokładnie):"
