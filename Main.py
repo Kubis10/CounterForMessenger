@@ -23,13 +23,31 @@ def restart_program():
     os.execl(python, python, *sys.argv)
 
 
+# Get language from string
+def getStrToLang(langs):
+    lan = ""
+    if langs == 'Polski':
+        lan = 'pl_PL'
+    elif langs == 'English':
+        lan = 'en_US'
+    return lan
+
+
+# Get string from language
+def getLangToStr(langs):
+    lan = ""
+    if langs == 'pl_PL':
+        lan = 'Polski'
+    elif langs == 'en_US':
+        lan = 'English'
+    return lan
+
+
+# Change language
 def changeLang(lan):
     global lang
     global _
-    if lan == 'Polski':
-        lang = 'pl_PL'
-    elif lan == 'English':
-        lang = 'en_US'
+    lang = getStrToLang(lan)
     translations = Translations.load('locale', [lang])
     _ = translations.gettext
 
@@ -188,6 +206,9 @@ def saveInfo(userName, where, lan):
 def updateInfo(userName, window, lan):
     global username
     global pathDir
+    if userName.get() == username and lan == getLangToStr(lang):
+        window.destroy()
+        return
     username = userName.get()
     changeLang(lan)
     with open("config.txt", "w") as f:
@@ -254,7 +275,7 @@ def settings(root):
     username_entry.insert(0, username)
     variable = StringVar(Window)
     variable.set("English")
-    w = ttk.OptionMenu(Window, variable, "English", *("English", "Polski"))
+    w = ttk.OptionMenu(Window, variable, getLangToStr(lang), *("English", "Polski"))
     w.pack(side=TOP, pady=10)
     ttk.Button(Window, text=_("Zapisz"), padding=7,
                command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)
