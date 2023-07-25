@@ -150,7 +150,7 @@ def countAll(path, uname, t, root):
     for i in os.listdir(path):
         try:
             conf = countPerPerson(i, path, uname)
-            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4], i))
+            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4], str(i)))
         except Exception as e:
             print(str(e))
             continue
@@ -206,18 +206,17 @@ def saveInfo(userName, where, lan):
 def updateInfo(userName, window, lan):
     global username
     global pathDir
+    with open("config.txt", "w") as f:
+        f.write(f"{username}\n{pathDir}\n{lan}")
+        f.close()
     if userName.get() == username and lan == getLangToStr(lang):
         window.destroy()
         return
     username = userName.get()
     changeLang(lan)
-    with open("config.txt", "w") as f:
-        f.write(f"{username}\n{pathDir}\n{lan}")
-        f.close()
-        window.destroy()
-        messagebox.showinfo(_("Zapisano"),
-                            _("Zapisano ustawienia, aby zastosowac zmiany kliknij przycisk pokaż wiadomości"))
-        restart_program()
+    window.destroy()
+    messagebox.showinfo(_("Zapisano"), _("Zapisano ustawienia, aby zastosowac zmiany kliknij przycisk pokaż wiadomości"))
+    restart_program()
 
 
 # Center window on screen
@@ -241,8 +240,7 @@ def firstTime():
     Label(window, text=_("Wskaż folder inbox z danymi:")).pack(side=TOP, pady=5)
     label = Label(window, text=pathDir)
     label.pack(side=TOP, pady=5)
-    ttk.Button(window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP,
-                                                                                                             pady=5)
+    ttk.Button(window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
     Label(window, text=_("Wpisz imię i nazwisko z facebooka(dokładnie):")).pack(side=TOP, pady=15)
     username_entry = ttk.Entry(window, width=25)
     username_entry.pack(side=TOP, pady=5)
@@ -251,8 +249,7 @@ def firstTime():
     w = ttk.OptionMenu(window, variable, "English", *("English", "Polski"))
     w.pack(side=TOP, pady=10)
     ttk.Button(window, text=_("Zapisz"), padding=7,
-               command=lambda: saveInfo(username_entry, window, variable.get())).pack(side=TOP,
-                                                                                      pady=40)
+               command=lambda: saveInfo(username_entry, window, variable.get())).pack(side=TOP, pady=40)
     window.mainloop()
 
 
@@ -267,8 +264,7 @@ def settings(root):
     Label(Window, text=_("Wskaż folder inbox z danymi:")).pack(side=TOP, pady=16)
     label = Label(Window, text=pathDir)
     label.pack(side=TOP, pady=15)
-    ttk.Button(Window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP,
-                                                                                                             pady=5)
+    ttk.Button(Window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
     Label(Window, text=_("Zmień imię i nazwisko z facebooka:")).pack(side=TOP, pady=15)
     username_entry = ttk.Entry(Window, width=25)
     username_entry.pack(side=TOP, pady=5)
@@ -277,8 +273,7 @@ def settings(root):
     variable.set("English")
     w = ttk.OptionMenu(Window, variable, getLangToStr(lang), *("English", "Polski"))
     w.pack(side=TOP, pady=10)
-    ttk.Button(Window, text=_("Zapisz"), padding=7,
-               command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)
+    ttk.Button(Window, text=_("Zapisz"), padding=7, command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)
 
 
 # Get messages from specified conversation
@@ -322,6 +317,7 @@ def getMessages(t):
 def showStats(root, t):
     if t.item(t.selection())['values'] == '':
         return
+    print(t.item(t.selection())['values'])
     Window = Toplevel(root)
     Window.iconbitmap(r'assets\CFM.ico')
     Window.title(_("Statystyki"))
@@ -346,8 +342,7 @@ def showStats(root, t):
         listbox.insert(END, i + " - " + str(messages[2][i]))
     Label(Window, text=_("Łączna liczba wiadomości: ") + str(messages[3])).pack(side=TOP, pady=5)
     Label(Window, text=_("Łączna długość rozmów: ") + str(timedelta(seconds=messages[4]))).pack(side=TOP, pady=5)
-    Label(Window, text=_("Data pierwszej wiadomości: ") + str(datetime.fromtimestamp(messages[5] / 1000))).pack(
-        side=TOP, pady=5)
+    Label(Window, text=_("Data pierwszej wiadomości: ") + str(datetime.fromtimestamp(messages[5] / 1000))).pack(side=TOP, pady=5)
 
 
 # Show my profile window
@@ -399,20 +394,14 @@ def Main():
     t.bind("<Button-3>", lambda event: unselect(t))
     t.bind('<Double-1>', lambda event: showStats(root, t))
     ttk.Button(nav, image=home_icon, text=_("Strona główna"), compound=LEFT, padding=5).pack(side=TOP, pady=10)
-    ttk.Button(nav, image=vis_icon, text=_("Załaduj wiadomości"), compound=LEFT, padding=5,
-               command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
+    ttk.Button(nav, image=vis_icon, text=_("Załaduj wiadomości"), compound=LEFT, padding=5, command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
     search_entry = ttk.Entry(nav, width=15)
     search_entry.pack(side=TOP, pady=10)
-    ttk.Button(nav, image=search_icon, text=_("Szukaj"), compound=LEFT, command=lambda: search(search_entry, t)).pack(
-        side=TOP, pady=10)
-    ttk.Button(nav, image=exit_icon, text=_("Wyjście"), compound=LEFT, padding=5, command=root.destroy).pack(
-        side=BOTTOM)
-    ttk.Button(nav, image=settings_icon, text=_("Ustawienia"), compound=LEFT, padding=5,
-               command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
-    ttk.Button(nav, image=person_icon, text=_("Mój profil"), compound=LEFT, padding=5,
-               command=lambda: myProfile(root)).pack(side=BOTTOM)
-    ttk.Label(main, text=_("Liczba wiadomości: "), foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(
-        side=TOP, pady=10)
+    ttk.Button(nav, image=search_icon, text=_("Szukaj"), compound=LEFT, command=lambda: search(search_entry, t)).pack(side=TOP, pady=10)
+    ttk.Button(nav, image=exit_icon, text=_("Wyjście"), compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
+    ttk.Button(nav, image=settings_icon, text=_("Ustawienia"), compound=LEFT, padding=5, command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
+    ttk.Button(nav, image=person_icon, text=_("Mój profil"), compound=LEFT, padding=5, command=lambda: myProfile(root)).pack(side=BOTTOM)
+    ttk.Label(main, text=_("Liczba wiadomości: "), foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(side=TOP, pady=10)
     v.pack(side=RIGHT, fill=Y)
     t.pack(side=LEFT, fill=BOTH, expand=1)
     v.config(command=t.yview)
@@ -421,7 +410,7 @@ def Main():
     root.mainloop()
 
 
-# Check if app is first time using
+# Check if app used first time
 if __name__ == '__main__':
     file_exists = exists("config.txt")
     if file_exists:
