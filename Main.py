@@ -107,20 +107,21 @@ def countPerPerson(data, path, uname):
     return title, participants, thread_type, totalNum, callTime
 
 
-# Sort by number
+# updated treeview_sort_msg tag_configure method is used to apply sorting which used numeric sorting
 def treeview_sort_msg(tv, col, reverse):
+    tv.tag_configure('number', numeric_sort=True)
     l = [(tv.set(k, col), k) for k in tv.get_children('')]
     l.sort(key=lambda t: int(t[0]), reverse=reverse)
     for index, (val, k) in enumerate(l):
         tv.move(k, '', index)
-    tv.heading(col,
-               command=lambda: treeview_sort_msg(tv, col, not reverse))
+    tv.heading(col, command=lambda: treeview_sort_msg(tv, col, not reverse))
 
-
-# Sort by string
+    
+# updated treeview_sort_column tag_configure method is used to apply sorting which used string sorting
 def treeview_sort_column(tv, col, reverse):
+    tv.tag_configure('string', numeric_sort=False)
     l = [(tv.set(k, col), k) for k in tv.get_children('')]
-    l.sort(reverse=reverse)
+    l.sort(key=lambda t: t[0].lower(), reverse=reverse)
     for index, (val, k) in enumerate(l):
         tv.move(k, '', index)
     tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
@@ -281,7 +282,7 @@ def settings(root):
                command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)
 
 
-# Get messages from specified conversation
+# update getMessages sorts the participants' dictionary based on their message count in descending order, ensuring that participants in the "more stats" section are sorted by default based on their message count.
 def getMessages(t):
     global pathDir
     messages = [0, 0, {}, 0, 0, 0]
@@ -315,6 +316,9 @@ def getMessages(t):
                 messages[1] = _("Grupa")
             except KeyError:
                 messages[1] = _("Czat Prywatny")
+    # Sort participants based on message count
+    sorted_participants = sorted(messages[2].items(), key=lambda x: x[1], reverse=True)
+    messages[2] = {participant: count for participant, count in sorted_participants}
     return messages
 
 
