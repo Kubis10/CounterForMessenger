@@ -186,8 +186,6 @@ class MainPage(tk.Frame):
     def upload_data(self):
         # wipe all previous data in treeview
         self.treeview.delete(*self.treeview.get_children())
-        self.controller.sent_messages = 0
-        self.controller.total_messages = 0
         try:
             conversations = len(listdir(self.controller.get_directory()))
             LoadingPopup(self.controller, conversations, self.treeview)
@@ -302,25 +300,6 @@ class MasterWindow(tk.Tk):
             self.lang_mdl = importlib.import_module('langs.English')
         return self.language
 
-    def get_message_totals(self):
-        self.total_messages = 0
-        self.sent_messages = 0
-        # noinspection PyUnresolvedReferences
-        if self.directory != '' and not self.directory.isspace() and self.directory != self.lang_mdl.TITLE_NO_SELECTION:
-            for conversation in listdir(self.directory):
-                try:
-                    # update message counters
-                    _, _, _, total_messages, _, sent_messages, _ = self.extract_data(conversation)
-                    self.total_messages += total_messages
-                    self.sent_messages += sent_messages
-                except Exception as e:
-                    # default back to 0 and stop counting
-                    self.total_messages = 0
-                    self.sent_messages = 0
-                    print(str(e))
-                    break
-        return self.total_messages, self.sent_messages
-
     def refresh_frames(self):
         # initialize and stack all the frames on top of each other
         # shuffling between them will allow traversal through the app
@@ -359,7 +338,7 @@ class MasterWindow(tk.Tk):
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration, total_messages, sent_messages, start_date = 0, 0, 0, 0
 
-        for file in glob.glob(self.directory + conversation + '/*.json'):
+        for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
                 data = json.load(f)
                 # collect all chat participants
@@ -423,15 +402,14 @@ class ProfilePopup(tk.Toplevel):
             self, text=f'{self.module.TITLE_NUMBER_OF_CHATS}: {conversations}'
         ).pack(side='top', pady=10)
 
-        total_messages, sent_messages = self.controller.get_message_totals()
         # display total number of sent messages
         ttk.Label(
-            self, text=f'{self.module.TITLE_SENT_MESSAGES}: {sent_messages}'
+            self, text=f'{self.module.TITLE_SENT_MESSAGES}: {self.controller.sent_messages}'
         ).pack(side='top', pady=10)
 
         # display complete message total
         ttk.Label(
-            self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {total_messages}'
+            self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
         ).pack(side='top', pady=10)
 
         # load exit button
@@ -531,10 +509,12 @@ class LoadingPopup(tk.Toplevel):
         # load all conversations to treeview for display
         self.directory = self.controller.get_directory()
         if self.directory != '' and not self.directory.isspace() and self.directory != self.module.TITLE_NO_SELECTION:
+            self.controller.sent_messages = 0
+            self.controller.total_messages = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, calltime, _, _ = self.controller.extract_data(conversation)
-                    if title == '':
+                    title, people, room, all_msgs, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
+                    if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
                         # skip the entire process, nothing to show
@@ -543,6 +523,10 @@ class LoadingPopup(tk.Toplevel):
                         parent='', index='end', values=(
                             title, set(people.keys()), room, all_msgs, calltime, conversation
                         ))
+                    # update global message counters
+                    self.controller.sent_messages += sent_msgs
+                    self.controller.total_messages += all_msgs
+
                     # update progress bar
                     self.progress_bar['value'] += 1
                     self.progress_bar.update()
