@@ -7,6 +7,9 @@ from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
 
+# safeguard for the treeview automated string conversion problem
+DELIMITER = '<@!DELIMITER>'
+
 
 # change to desired resolution
 def set_resolution(window, width, height):
@@ -35,19 +38,19 @@ class ConfigurationPage(tk.Frame):
 
         # ask for directory and show selected path
         tk.Label(
-            self, text=self.module.TITLE_GIVE_INBOX + ':'
+            self, text=f'{self.module.TITLE_GIVE_INBOX}:'
         ).pack(side='top', pady=5)
         self.directory_label = tk.Label(self, text=self.module.TITLE_NO_SELECTION)
         self.directory_label.pack(side='top', pady=5)
 
         # show 'Open File Explorer' button
         ttk.Button(
-            self, text=self.module.TITLE_OPEN_FE + '...', padding=5, command=self.open_file_explorer
+            self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
         ).pack(side='top', pady=5)
 
         # ask for Facebook name
         tk.Label(
-            self, text=self.module.TITLE_GIVE_USERNAME + ':',
+            self, text=f'{self.module.TITLE_GIVE_USERNAME}:',
         ).pack(side='top', pady=15)
         self.username_label = ttk.Entry(self, width=25)
         self.username_label.pack(side='top', pady=5)
@@ -77,7 +80,7 @@ class ConfigurationPage(tk.Frame):
     # invoked by pressing the 'Open file explorer...' button
     def open_file_explorer(self):
         # open FE, extract given path and update label text message
-        path = tk.filedialog.askdirectory() + '/'
+        path = f'{tk.filedialog.askdirectory()}/'
         self.directory_label.config(
             text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
         )
@@ -118,7 +121,7 @@ class MainPage(tk.Frame):
 
         # show frame title
         ttk.Label(
-            self.main, text=self.module.TITLE_NUMBER_OF_MSGS + ': ', foreground='#ffffff', background='#232323',
+            self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
             font=('Arial', 15)
         ).pack(side='top', pady=10)
 
@@ -214,13 +217,11 @@ class MainPage(tk.Frame):
     # invoked on double left click on any treeview listing
     def show_statistics(self):
         try:
-            selection = self.treeview.item(self.treeview.selection()[0])['values']
-            if not isinstance(selection, type([])):
-                # selection variable is assumed to be a list
-                # if not, undefined behavior
-                print('>MainPage/show_statistics "selection" VARIABLE NON-LIST TYPE. NOTIFY OP.')
+            selection = self.treeview.item(self.treeview.selection()[0]).get('values', [])
+            if len(selection) == 0:
                 return
-            StatisticsPopup(self.controller, selection[5])
+            # treeview automated conversion problem, read StatisticsPopup comments
+            StatisticsPopup(self.controller, selection[5].replace(DELIMITER, '_'))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -384,7 +385,7 @@ class ProfilePopup(tk.Toplevel):
 
         # show 'My data' header
         ttk.Label(
-            self, text=self.module.TITLE_MY_DATA + ':', font=('Ariel', 24)
+            self, text=f'{self.module.TITLE_MY_DATA}:', font=('Ariel', 24)
         ).pack(side='top', pady=20)
 
         # display given username
@@ -433,19 +434,19 @@ class SettingsPopup(tk.Toplevel):
 
         # ask for directory and show selected path
         tk.Label(
-            self, text=self.module.TITLE_GIVE_INBOX + ':'
+            self, text=f'{self.module.TITLE_GIVE_INBOX}:'
         ).pack(side='top', pady=16)
         self.directory_label = tk.Label(self, text=self.controller.get_directory())
         self.directory_label.pack(side='top', pady=15)
 
         # show 'Open File Explorer' button
         ttk.Button(
-            self, text=self.module.TITLE_OPEN_FE + '...', padding=5, command=self.open_file_explorer
+            self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
         ).pack(side='top', pady=5)
 
         # ask for Facebook name
         tk.Label(
-            self, text=self.module.TITLE_GIVE_USERNAME + ':',
+            self, text=f'{self.module.TITLE_GIVE_USERNAME}:'
         ).pack(side='top', pady=15)
         self.username_label = ttk.Entry(self, width=25)
         self.username_label.insert(0, self.controller.get_username())
@@ -476,7 +477,7 @@ class SettingsPopup(tk.Toplevel):
     # invoked by pressing the 'Open file explorer...' button
     def open_file_explorer(self):
         # open FE, extract given path and update label text message
-        path = tk.filedialog.askdirectory() + '/'
+        path = f'{tk.filedialog.askdirectory()}/'
         self.directory_label.config(
             text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
         )
@@ -490,7 +491,7 @@ class LoadingPopup(tk.Toplevel):
         set_resolution(self, 300, 100)
 
         # loading window customization
-        self.title(self.module.TITLE_LOADING + '...')
+        self.title(f'{self.module.TITLE_LOADING}...')
         self.resizable(False, False)
         self.focus_set()
         self.grab_set()
@@ -519,9 +520,14 @@ class LoadingPopup(tk.Toplevel):
                         # (meaning it's not the expected inbox folder)
                         # skip the entire process, nothing to show
                         break
+                    # treeview automated conversion problem:
+                    # the treeview will save strings like '1337_1273634187' as '13371273634187'
+                    # because it reads it as int instance (Python allows '_' in integer declarations).
+                    # this is forced and unchangeable, so the only option is to manually make the string
+                    # un-convertable by temporarily replacing '_' with some garbage.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, conversation
+                            title, set(people.keys()), room, all_msgs, calltime, conversation.replace('_', DELIMITER)
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
@@ -558,7 +564,7 @@ class StatisticsPopup(tk.Toplevel):
 
         title, people, room, all_msgs, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
         # display popup title
-        ttk.Label(self, text=self.module.TITLE_MSG_STATS + ':').pack(side='top', pady=16)
+        ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
         ttk.Label(self, text=f'{self.module.TITLE_NAME}: {title}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_CONVERSATION_TYPE}: {room}').pack(side='top', pady=5)
