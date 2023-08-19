@@ -8,7 +8,7 @@ from os.path import exists
 from os import listdir
 
 # safeguard for the treeview automated string conversion problem
-DELIMITER = '<@!DELIMITER>'
+PREFIX = '<@!PREFIX>'
 
 
 # change to desired resolution
@@ -221,7 +221,8 @@ class MainPage(tk.Frame):
             if len(selection) == 0:
                 return
             # treeview automated conversion problem, read StatisticsPopup comments
-            StatisticsPopup(self.controller, selection[5].replace(DELIMITER, '_'))
+            # removing prefix safeguard
+            StatisticsPopup(self.controller, selection[5].replace(PREFIX, ''))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -521,14 +522,14 @@ class LoadingPopup(tk.Toplevel):
                         # (meaning it's not the expected inbox folder)
                         # skip the entire process, nothing to show
                         break
-                    # treeview automated conversion problem:
-                    # the treeview will save strings like '1337_1273634187' as '13371273634187'
-                    # because it reads it as int instance (Python allows '_' in integer declarations).
-                    # this is forced and unchangeable, so the only option is to manually make the string
-                    # un-convertable by temporarily replacing '_' with some garbage.
+                    # TREEVIEW AUTOMATED CONVERSION PROBLEM:
+                    # the ttk treeview will convert able strings to integers.
+                    # e.g. chats named '1337' will be attached to a folder named '1337_17623521673' yet be saved
+                    # internally as '133717623521673'. This is not explicitly preventable.
+                    # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, conversation.replace('_', DELIMITER)
+                            title, set(people.keys()), room, all_msgs, calltime, f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
