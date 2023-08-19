@@ -344,7 +344,8 @@ class MasterWindow(tk.Tk):
                 data = json.load(f)
                 # collect all chat participants
                 for participant in data.get('participants', []):
-                    participants[participant['name'].encode('iso-8859-1').decode('utf-8')] = 0
+                    name = participant['name'].encode('iso-8859-1').decode('utf-8')
+                    participants[name] = participants.get(name, 0)
                 # update all relevant counters
                 for message in data.get('messages', []):
                     total_messages += 1
