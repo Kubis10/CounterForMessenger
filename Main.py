@@ -1,419 +1,603 @@
-import os
 import json
-import sys
+import tkinter as tk
 import glob
-from os.path import exists
-from tkinter import *
-from tkinter import ttk, filedialog, messagebox
+import importlib
 from datetime import timedelta, datetime
-from babel.support import Translations
-# from tkhtmlview import HTMLLabel
+from tkinter import ttk, filedialog
+from os.path import exists
+from os import listdir
+
+# safeguard for the treeview automated string conversion problem
+PREFIX = '<@!PREFIX>'
 
 
-userMess = 0
-allMess = 0
-pathDir = ""
-username = ""
-lang = "en_US"
-_ = Translations.load('locale', [lang]).gettext
+# change to desired resolution
+def set_resolution(window, width, height):
+    x = (window.winfo_screenwidth() - width) // 2
+    y = (window.winfo_screenheight() - height) // 2
+    window.geometry(f'{width}x{height}+{x}+{y}')
 
 
-def restart_program():
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
+def existing_languages():
+    # expected output  of lang.title() ---> '<Name>.py'
+    # keep only the '<Name>'
+    return [lang.title().split('.')[0] for lang in listdir('langs') if lang != '__pycache__']
 
 
-# Get language from string
-def getStrToLang(langs):
-    lan = ""
-    if langs == 'Polski':
-        lan = 'pl_PL'
-    elif langs == 'English':
-        lan = 'en_US'
-    return lan
+class ConfigurationPage(tk.Frame):
+    # build configuration panel
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+
+        # set up frame title
+        tk.Label(
+            self, text=self.module.TITLE_INITIAL_CONFIG, font=('Ariel', 24)
+        ).pack(side='top', pady=10)
+
+        # ask for directory and show selected path
+        tk.Label(
+            self, text=f'{self.module.TITLE_GIVE_INBOX}:'
+        ).pack(side='top', pady=5)
+        self.directory_label = tk.Label(self, text=self.module.TITLE_NO_SELECTION)
+        self.directory_label.pack(side='top', pady=5)
+
+        # show 'Open File Explorer' button
+        ttk.Button(
+            self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
+        ).pack(side='top', pady=5)
+
+        # ask for Facebook name
+        tk.Label(
+            self, text=f'{self.module.TITLE_GIVE_USERNAME}:',
+        ).pack(side='top', pady=15)
+        self.username_label = ttk.Entry(self, width=25)
+        self.username_label.pack(side='top', pady=5)
+
+        # set up language listbox
+        self.language_label = tk.StringVar(self, value='English')
+        ttk.OptionMenu(
+            self, self.language_label, 'English', *existing_languages()
+        ).pack(side='top', pady=10)
+
+        # load save button
+        ttk.Button(
+            self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
+        ).pack(side='top', pady=40)
+
+    # invoked by pressing the save button
+    def setup(self):
+        # communicate provided data with the master window
+        self.controller.update_data(
+            self.username_label.get(),
+            self.directory_label.cget('text'),
+            self.language_label.get()
+        )
+        # go to main page
+        self.controller.show_frame(MainPage.__name__)
+
+    # invoked by pressing the 'Open file explorer...' button
+    def open_file_explorer(self):
+        # open FE, extract given path and update label text message
+        path = f'{tk.filedialog.askdirectory()}/'
+        self.directory_label.config(
+            text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
+        )
 
 
-# Get string from language
-def getLangToStr(langs):
-    lan = ""
-    if langs == 'pl_PL':
-        lan = 'Polski'
-    elif langs == 'en_US':
-        lan = 'English'
-    return lan
+class MainPage(tk.Frame):
+    # build main panel
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.controller.configure(background='#232323')
+        self.module = self.controller.lang_mdl
 
+        # frame style setup
+        self.style = ttk.Style()
+        self.style.configure('Nav.TFrame', background='#131313')
+        self.style.configure('Main.TFrame', background='#232323')
+        self.style.configure('Custom.Treeview', background='#232323', foreground='#ffffff')
+        self.nav = ttk.Frame(self, padding=20, style='Nav.TFrame')
+        self.main = ttk.Frame(self, style='Main.TFrame')
 
-# Change language
-def changeLang(lan):
-    global lang
-    global _
-    lang = getStrToLang(lan)
-    translations = Translations.load('locale', [lang])
-    _ = translations.gettext
+        # build treeview for message data projection
+        scrollbar = tk.Scrollbar(self.main)
+        self.treeview = ttk.Treeview(self.main, height=20, yscrollcommand=scrollbar.set, style='Custom.Treeview')
+        columns = {
+            'name': self.module.TITLE_NAME,
+            'pep': self.module.TITLE_PARTICIPANTS,
+            'type': self.module.TITLE_CHAT_TYPE,
+            'msg': self.module.TITLE_NUMBER_OF_MSGS,
+            'call': self.module.TITLE_CALL_DURATION
+        }
+        self.treeview.column('#0', width=0, stretch=tk.NO)
+        self.treeview['columns'] = tuple(columns.keys())
+        for keyword, text in columns.items():
+            self.treeview.heading(keyword, text=text, anchor='center')
+        self.treeview.bind('<Button-3>', lambda event: self.deselect())
+        self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
 
+        # show frame title
+        ttk.Label(
+            self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
+            font=('Arial', 15)
+        ).pack(side='top', pady=10)
 
-# Create a loading window
-def openLoading(lenNum, root):
-    Window = Toplevel(root)
-    Window.title(_("Ładowanie..."))
-    center_window(300, 100, Window)
-    Window.resizable(False, False)
-    Window.focus_set()
-    Window.grab_set()
-    progress = ttk.Progressbar(Window, orient="horizontal", maximum=int(lenNum), length=200, mode="determinate")
-    label = ttk.Label(Window, text=_("Ładowanie konwersacji 0/") + str(lenNum))
-    progress.pack(side=TOP)
-    label.pack(side=TOP)
-    # Window.protocol("WM_DELETE_WINDOW", disable_event)
-    return progress, label, Window
+        # show home button
+        ttk.Button(
+            self.nav, image=self.controller.ICON_HOME, text=self.module.TITLE_HOME, compound='left', padding=5
+        ).pack(side='top', pady=10)
 
+        # show upload button
+        ttk.Button(
+            self.nav, image=self.controller.ICON_STATUS_VISIBLE, text=self.module.TITLE_UPLOAD_MESSAGES,
+            compound='left', padding=5, command=self.upload_data
+        ).pack(side='top', pady=10)
 
-# Disable event
-def disable_event():
-    pass
+        # show search button
+        self.search_entry = ttk.Entry(self.nav, width=15)
+        self.search_entry.pack(side='top', pady=10)
+        ttk.Button(
+            self.nav, image=self.controller.ICON_SEARCH, text=self.module.TITLE_SEARCH, compound='left',
+            command=self.search
+        ).pack(side='top', pady=10)
 
+        # show exit button
+        ttk.Button(
+            self.nav, image=self.controller.ICON_EXIT, text=self.module.TITLE_EXIT, compound='left', padding=5,
+            command=self.controller.destroy
+        ).pack(side='bottom')
 
-# Count messages per person
-def countPerPerson(data, path, uname):
-    global userMess
-    global allMess
-    totalNum = 0
-    callTime = 0
-    participants = []
-    result = glob.glob(path + data + '/*.json')
-    for j in result:
-        with open(j, 'r') as f:
-            data = json.load(f)
-            for msg in data['messages']:
-                totalNum += 1
-                if msg['sender_name'] == uname:
-                    userMess += 1
-                allMess += 1
-                try:
-                    if msg['call_duration']:
-                        callTime += msg['call_duration']
-                except KeyError:
-                    pass
-            for k in data['participants']:
-                if k['name'].encode('iso-8859-1').decode('utf-8') not in participants:
-                    participants.append(k['name'].encode('iso-8859-1').decode('utf-8'))
-            title = data['title'].encode('iso-8859-1').decode('utf-8')
-            try:
-                thread_type = data['joinable_mode']
-                thread_type = _("Czat Grupowy")
-            except KeyError:
-                thread_type = _("Czat Prywatny")
+        # show settings button
+        ttk.Button(
+            self.nav, image=self.controller.ICON_SETTINGS, text=self.module.TITLE_SETTINGS, compound='left',
+            padding=5, command=lambda: SettingsPopup(self.controller)
+        ).pack(side='bottom', pady=15)
 
-    return title, participants, thread_type, totalNum, callTime
+        # show profile button
+        ttk.Button(
+            self.nav, image=self.controller.ICON_PROFILE, text=self.module.TITLE_PROFILE, compound='left',
+            padding=5, command=lambda: ProfilePopup(self.controller)
+        ).pack(side='bottom')
 
+        scrollbar.pack(side='right', fill='y')
+        self.treeview.pack(side='left', fill='both', expand=1)
+        scrollbar.config(command=self.treeview.yview)
+        self.nav.pack(side='left', fill='y')
+        self.main.pack(side='right', fill='both', expand=True)
 
-# Sort by number
-def treeview_sort_msg(tv, col, reverse):
-    l = [(tv.set(k, col), k) for k in tv.get_children('')]
-    l.sort(key=lambda t: int(t[0]), reverse=reverse)
-    for index, (val, k) in enumerate(l):
-        tv.move(k, '', index)
-    tv.heading(col,
-               command=lambda: treeview_sort_msg(tv, col, not reverse))
+    # invoked on <button 3>
+    def deselect(self):
+        # remove current treeview selection
+        self.treeview.selection_remove(self.treeview.selection())
 
+    def search(self):
+        # highlight all messages whose values contain the query at least once
+        query = self.search_entry.get()
+        selections = []
+        for child in self.treeview.get_children():
+            for value in self.treeview.item(child)['values']:
+                if str(value).find(query) != -1:
+                    # selection accepted, save it and move on
+                    selections.append(child)
+                    break
+        self.treeview.selection_set(selections)
 
-# Sort by string
-def treeview_sort_column(tv, col, reverse):
-    l = [(tv.set(k, col), k) for k in tv.get_children('')]
-    l.sort(reverse=reverse)
-    for index, (val, k) in enumerate(l):
-        tv.move(k, '', index)
-    tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
-
-
-# Search values from table
-def search(search_entry, t):
-    query = search_entry.get()
-    selections = []
-    for child in t.get_children():
-        for i in t.item(child)['values']:
-            if str(i).find(query) != -1:
-                selections.append(child)
-    print(_('znaleziono: '), len(selections))
-    t.selection_set(selections)
-
-
-# Unselect all items in table
-def unselect(t):
-    t.selection_remove(t.selection())
-
-
-# Count all messages
-def countAll(path, uname, t, root):
-    t.delete(*t.get_children())
-    x, label, window = openLoading(len(os.listdir(path)), root)
-    for i in os.listdir(path):
+    # invoked by pressing the upload button
+    def upload_data(self):
+        # wipe all previous data in treeview
+        self.treeview.delete(*self.treeview.get_children())
         try:
-            conf = countPerPerson(i, path, uname)
-            t.insert(parent='', index=END, values=(conf[0], conf[1], conf[2], conf[3], conf[4], str(i)))
-        except Exception as e:
-            print(str(e))
-            continue
+            conversations = len(listdir(self.controller.get_directory()))
+            LoadingPopup(self.controller, conversations, self.treeview)
+
+            # enable column sorting on treeview
+            self.treeview.heading('msg', command=lambda col='msg': self.sort_treeview(col, False, 'numberwise'))
+            self.treeview.heading('name', command=lambda col='name': self.sort_treeview(col, False, 'stringwise'))
+            self.treeview.heading('type', command=lambda col='type': self.sort_treeview(col, False, 'stringwise'))
+            self.treeview.heading('call', command=lambda col='call': self.sort_treeview(col, False, 'numberwise'))
+        except FileNotFoundError:
+            print('>MainPage/upload_data THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
+
+    # invoked by pressing the column headers
+    def sort_treeview(self, column, order, bias):
+        # sort the column's contents based on given parameters
+        contents = [(self.treeview.set(k, column), k) for k in self.treeview.get_children('')]
+        if bias == 'numberwise':
+            contents.sort(key=lambda t: int(t[0]), reverse=order)
+        if bias == 'stringwise':
+            contents.sort(reverse=order)
+        for index, (val, k) in enumerate(contents):
+            self.treeview.move(k, '', index)
+        # re-purpose the original button to sort in the now opposite order on next invocation
+        self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
+
+    # invoked on double left click on any treeview listing
+    def show_statistics(self):
         try:
-            x['value'] += 1
-            x.update()
-            label['text'] = _("Ładowanie konwersacji ") + str(int(x['value'])) + "/" + str(len(os.listdir(path)))
-            label.update()
-        except Exception as e:
-            print(str(e))
-            continue
-    window.destroy()
-    t.heading('msg', command=lambda _col='msg': treeview_sort_msg(t, _col, False))
-    t.heading('name', command=lambda _col='name': treeview_sort_column(t, _col, False))
-    t.heading('type', command=lambda _col='type': treeview_sort_column(t, _col, False))
-    t.heading('call', command=lambda _col='call': treeview_sort_msg(t, _col, False))
+            selection = self.treeview.item(self.treeview.selection()[0]).get('values', [])
+            if len(selection) == 0:
+                return
+            # treeview automated conversion problem, read StatisticsPopup comments
+            # removing prefix safeguard
+            StatisticsPopup(self.controller, selection[5].replace(PREFIX, ''))
+        except IndexError:
+            # miss-click / empty selection, nothing to show here
+            return
 
 
-# Select directory with data
-def selectDir(label):
-    global pathDir
-    pathDir = filedialog.askdirectory() + "/"
-    label.config(text=pathDir)
+class MasterWindow(tk.Tk):
+    # NOTE: lang_mdl throws unresolved reference warnings here because its master
+    # class doesn't recognise the TITLE_ constants.
+    # it works perfectly well, thus the 'noinspection' suppression tags
+    # if a better way to handle these warnings is found, remove them
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
 
+        # load icons
+        self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
+        self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
+        self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
+        self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
+        self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
+        self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
 
-# Load information about user
-def loadInfo():
-    global username
-    global pathDir
-    global lang
-    with open("config.txt", "r") as f:
-        username = f.readline().strip()
-        pathDir = f.readline().strip()
-        changeLang(f.readline().strip())
-        f.close()
+        # global user data
+        self.directory = ''
+        self.username = ''
+        self.language = 'English'
+        self.lang_mdl = importlib.import_module('langs.English')
+        self.sent_messages = 0
+        self.total_messages = 0
 
+        # load user
+        self.load_data()
 
-# Save information about user
-def saveInfo(userName, where, lan):
-    global username
-    global pathDir
-    username = userName.get()
-    changeLang(lan)
-    with open("config.txt", "w") as f:
-        f.write(f"{username}\n{pathDir}\n{lan}")
-        f.close()
-        where.destroy()
-        changeLang(lang)
-        Main()
+        # global window customization
+        self.title('Counter for Messenger')
+        self.iconbitmap('assets/CFM.ico')
 
+        # frame container setup
+        self.container = tk.Frame(self)
+        self.container.pack(side='top', fill='both', expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
 
-# Save information about user
-def updateInfo(userName, window, lan):
-    global username
-    global pathDir
-    with open("config.txt", "w") as f:
-        f.write(f"{username}\n{pathDir}\n{lan}")
-        f.close()
-    if userName.get() == username and lan == getLangToStr(lang):
-        window.destroy()
-        return
-    username = userName.get()
-    changeLang(lan)
-    window.destroy()
-    messagebox.showinfo(_("Zapisano"), _("Zapisano ustawienia, aby zastosowac zmiany kliknij przycisk pokaż wiadomości"))
-    restart_program()
+        # declare all possible app frames along with their desired dimensions (width, height)
+        self.frames = {
+            ConfigurationPage.__name__: [700, 450, None],
+            MainPage.__name__: [1224, 700, None]
+        }
+        # initialize and load frames to container
+        self.refresh_frames()
 
+        # remember user that already went through configuration
+        self.show_frame(
+            MainPage.__name__ if exists('config.txt') else
+            ConfigurationPage.__name__
+        )
 
-# Center window on screen
-def center_window(width=300, height=200, win=None):
-    screen_width = win.winfo_screenwidth()
-    screen_height = win.winfo_screenheight()
-    x = (screen_width / 2) - (width / 2)
-    y = (screen_height / 2) - (height / 2)
-    win.geometry('%dx%d+%d+%d' % (width, height, x, y))
+    # raise the next frame to-be-shown
+    def show_frame(self, page_name):
+        width, height, frame = self.frames.get(page_name)
+        set_resolution(self, width, height)
+        # invoke the new frame
+        frame.tkraise()
 
+    def get_username(self):
+        # noinspection PyUnresolvedReferences
+        return self.lang_mdl.TITLE_NOT_APPLICABLE if self.username == '' or self.username.isspace() else self.username
 
-# Show window on first time using app
-def firstTime():
-    window = Tk()
-    window.title(_("Konfiguracja początkowa"))
-    window.iconbitmap(r'assets\CFM.ico')
-    center_window(700, 450, window)
-    window.focus_set()
-    window.grab_set()
-    Label(window, text=_("Konfiguracja początkowa:"), font=("Ariel", 24)).pack(side=TOP, pady=20)
-    Label(window, text=_("Wskaż folder inbox z danymi:")).pack(side=TOP, pady=5)
-    label = Label(window, text=pathDir)
-    label.pack(side=TOP, pady=5)
-    ttk.Button(window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
-    Label(window, text=_("Wpisz imię i nazwisko z facebooka(dokładnie):")).pack(side=TOP, pady=15)
-    username_entry = ttk.Entry(window, width=25)
-    username_entry.pack(side=TOP, pady=5)
-    variable = StringVar(window)
-    variable.set("English")
-    w = ttk.OptionMenu(window, variable, "English", *("English", "Polski"))
-    w.pack(side=TOP, pady=10)
-    ttk.Button(window, text=_("Zapisz"), padding=7,
-               command=lambda: saveInfo(username_entry, window, variable.get())).pack(side=TOP, pady=40)
-    window.mainloop()
+    def get_directory(self):
+        # noinspection PyUnresolvedReferences
+        return self.lang_mdl.TITLE_NO_SELECTION if self.directory == '/' or self.directory.isspace() else self.directory
 
+    def get_language(self):
+        # check if current language variable holds valid assignment
+        if self.language not in existing_languages():
+            # default to english if something went wrong
+            self.language = 'English'
+            self.lang_mdl = importlib.import_module('langs.English')
+        return self.language
 
-# Show settings window
-def settings(root):
-    Window = Toplevel(root)
-    Window.iconbitmap(r'assets\CFM.ico')
-    Window.title(_("Ustawienia"))
-    Window.focus_set()
-    Window.grab_set()
-    center_window(800, 600, Window)
-    Label(Window, text=_("Wskaż folder inbox z danymi:")).pack(side=TOP, pady=16)
-    label = Label(Window, text=pathDir)
-    label.pack(side=TOP, pady=15)
-    ttk.Button(Window, text=_("Otwórz ekspolator plików"), padding=5, command=lambda: selectDir(label)).pack(side=TOP, pady=5)
-    Label(Window, text=_("Zmień imię i nazwisko z facebooka:")).pack(side=TOP, pady=15)
-    username_entry = ttk.Entry(Window, width=25)
-    username_entry.pack(side=TOP, pady=5)
-    username_entry.insert(0, username)
-    variable = StringVar(Window)
-    variable.set("English")
-    w = ttk.OptionMenu(Window, variable, getLangToStr(lang), *("English", "Polski"))
-    w.pack(side=TOP, pady=10)
-    ttk.Button(Window, text=_("Zapisz"), padding=7, command=lambda: updateInfo(username_entry, Window, variable.get())).pack(side=TOP, pady=40)
+    def refresh_frames(self):
+        # initialize and stack all the frames on top of each other
+        # shuffling between them will allow traversal through the app
+        # without it "committing suicide" each time
+        for page in (ConfigurationPage, MainPage):
+            page_name = page.__name__
+            width, height, old_frame = self.frames[page_name]
+            new_frame = page(parent=self.container, controller=self)
+            self.frames[page_name] = [width, height, new_frame]
+            new_frame.grid(row=0, column=0, sticky='nsew')
 
+    # update internal trackers to user made changes
+    def update_data(self, username, directory, language):
+        temp = self.language
+        self.username = username
+        self.directory = directory
+        self.language = language
+        self.lang_mdl = importlib.import_module(f'langs.{language}')
+        # also save user provided data to 'config.txt'
+        with open('config.txt', 'w') as f:
+            f.write(f'{username}\n{directory}\n{language}')
+        # refresh only to apply a new language
+        if temp != language:
+            self.refresh_frames()
 
-# Get messages from specified conversation
-def getMessages(t):
-    global pathDir
-    messages = [0, 0, {}, 0, 0, 0]
-    try:
-        path = pathDir + str(t.item(t.selection())['values'][5])
-    except Exception as e:
-        print(e)
-        return
-    result = glob.glob(path + '/*.json')
-    for j in result:
-        with open(j, 'r') as f:
-            data = json.load(f)
-            for k in data['participants']:
-                if k['name'].encode('iso-8859-1').decode('utf-8') not in messages[2].keys():
-                    messages[2][k['name'].encode('iso-8859-1').decode('utf-8')] = 0
-            for msg in data['messages']:
-                messages[3] += 1
+    def load_data(self):
+        if exists('config.txt'):
+            with open('config.txt', 'r') as f:
+                self.username, self.directory, self.language = f.read().splitlines()
+            self.lang_mdl = importlib.import_module(f'langs.{self.language}')
+
+    # extract relevant data from given .json files
+    def extract_data(self, conversation):
+        participants = {}
+        # noinspection PyUnresolvedReferences
+        chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
+        call_duration, total_messages, sent_messages, start_date = 0, 0, 0, 0
+
+        for file in glob.glob(f'{self.directory}{conversation}/*.json'):
+            with open(file, 'r') as f:
+                data = json.load(f)
+                # collect all chat participants
+                for participant in data.get('participants', []):
+                    name = participant['name'].encode('iso-8859-1').decode('utf-8')
+                    participants[name] = participants.get(name, 0)
+                # update all relevant counters
+                for message in data.get('messages', []):
+                    total_messages += 1
+                    sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
+                    if sender == self.get_username():
+                        sent_messages += 1
+                    # keep track of each participant's message total
+                    participants[sender] = participants.get(sender, 0) + 1
+                    # save call durations, if any
+                    call_duration += message.get('call_duration', 0)
+                    # fetch conversation creation date
+                    start_date = message['timestamp_ms']
+                # fetch chat name and type
+                chat_title = data.get('title', '').encode('iso-8859-1').decode('utf-8')
                 try:
-                    if msg['call_duration']:
-                        messages[4] += msg['call_duration']
+                    # trick: attempt to read 'joinable mode' element
+                    # if non-existent, it means that the chat is a private one
+                    _ = data['joinable_mode']
                 except KeyError:
-                    pass
-                if msg['sender_name'].encode('iso-8859-1').decode('utf-8') in messages[2].keys():
-                    messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] += 1
-                else:
-                    messages[2][msg['sender_name'].encode('iso-8859-1').decode('utf-8')] = 1
-                messages[5] = msg['timestamp_ms']
-            messages[0] = data['title'].encode('iso-8859-1').decode('utf-8')
-            try:
-                messages[1] = data['joinable_mode']
-                messages[1] = _("Grupa")
-            except KeyError:
-                messages[1] = _("Czat Prywatny")
-    return messages
+                    # noinspection PyUnresolvedReferences
+                    chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
+
+        return chat_title, participants, chat_type, total_messages, call_duration, sent_messages, start_date
 
 
-# Show window with messages stats
-def showStats(root, t):
-    if t.item(t.selection())['values'] == '':
-        return
-    print(t.item(t.selection())['values'])
-    Window = Toplevel(root)
-    Window.iconbitmap(r'assets\CFM.ico')
-    Window.title(_("Statystyki"))
-    Window.focus_set()
-    Window.grab_set()
-    center_window(800, 600, Window)
-    messages = getMessages(t)
-    Label(Window, text=_("Statystyki wiadomości:")).pack(side=TOP, pady=16)
-    Label(Window, text=_("Nazwa: ") + str(messages[0])).pack(side=TOP, pady=5)
-    Label(Window, text=_("Typ konwersacji: ") + str(messages[1])).pack(side=TOP, pady=5)
-    if messages[1] == _("Grupa"):
-        Label(Window, text=_("Wszyscy uczestnicy i wiadomości: ") + str(len(messages[2]))).pack(side=TOP, pady=5)
-        listbox = Listbox(Window, width=30, height=15)
-        listbox.pack(side=TOP, pady=5)
-        scrollbar = Scrollbar(Window)
-        scrollbar.pack(side=RIGHT, fill=BOTH)
-    else:
-        Label(Window, text=_("Osoby i wiadomości:")).pack(side=TOP, pady=5)
-        listbox = Listbox(Window, width=30, height=2)
-        listbox.pack(side=TOP, pady=5)
-    for i in messages[2]:
-        listbox.insert(END, i + " - " + str(messages[2][i]))
-    Label(Window, text=_("Łączna liczba wiadomości: ") + str(messages[3])).pack(side=TOP, pady=5)
-    Label(Window, text=_("Łączna długość rozmów: ") + str(timedelta(seconds=messages[4]))).pack(side=TOP, pady=5)
-    Label(Window, text=_("Data pierwszej wiadomości: ") + str(datetime.fromtimestamp(messages[5] / 1000))).pack(side=TOP, pady=5)
+class ProfilePopup(tk.Toplevel):
+    def __init__(self, controller):
+        tk.Toplevel.__init__(self)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+        set_resolution(self, 600, 400)
+
+        # profile window customization
+        self.title(self.module.TITLE_PROFILE)
+        self.iconbitmap('assets/CFM.ico')
+        self.focus_set()
+        self.grab_set()
+
+        # show 'My data' header
+        ttk.Label(
+            self, text=f'{self.module.TITLE_MY_DATA}:', font=('Ariel', 24)
+        ).pack(side='top', pady=20)
+
+        # display given username
+        ttk.Label(
+            self, text=f'{self.module.TITLE_NAME}: {self.controller.get_username()}'
+        ).pack(side='top', pady=10)
+
+        # display total number of conversations
+        try:
+            conversations = len(listdir(self.controller.get_directory()))
+        except FileNotFoundError:
+            conversations = 0
+            print('>ProfilePage/#CONVERSATIONS CALCULATION THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
+        ttk.Label(
+            self, text=f'{self.module.TITLE_NUMBER_OF_CHATS}: {conversations}'
+        ).pack(side='top', pady=10)
+
+        # display total number of sent messages
+        ttk.Label(
+            self, text=f'{self.module.TITLE_SENT_MESSAGES}: {self.controller.sent_messages}'
+        ).pack(side='top', pady=10)
+
+        # display complete message total
+        ttk.Label(
+            self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
+        ).pack(side='top', pady=10)
+
+        # load exit button
+        ttk.Button(
+            self, text=self.module.TITLE_CLOSE_POPUP, padding=7, command=self.destroy
+        ).pack(side='top', pady=40)
 
 
-# Show my profile window
-def myProfile(root):
-    window = Toplevel(root)
-    window.title(_("Mój profil"))
-    window.iconbitmap(r'assets\CFM.ico')
-    center_window(600, 400, window)
-    window.focus_set()
-    window.grab_set()
-    Label(window, text=_("Moje dane:"), font=("Ariel", 24)).pack(side=TOP, pady=20)
-    Label(window, text=_("Imię i nazwisko: ") + username).pack(side=TOP, pady=10)
-    Label(window, text=_("Liczba konwersacji: ") + str(len(os.listdir(pathDir)))).pack(side=TOP, pady=10)
-    Label(window, text=_("Liczba wszystkich twoich wiadomości: ") + str(userMess)).pack(side=TOP, pady=10)
-    Label(window, text=_("Liczba wszystkich wiadomości: ") + str(allMess)).pack(side=TOP, pady=10)
-    ttk.Button(window, text=_("Zamknij"), padding=7, command=window.destroy).pack(side=TOP, pady=40)
-    window.mainloop()
+class SettingsPopup(tk.Toplevel):
+    def __init__(self, controller):
+        tk.Toplevel.__init__(self)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+        set_resolution(self, 800, 600)
+
+        # settings window customization
+        self.title(self.module.TITLE_SETTINGS)
+        self.iconbitmap('assets/CFM.ico')
+        self.focus_set()
+        self.grab_set()
+
+        # ask for directory and show selected path
+        tk.Label(
+            self, text=f'{self.module.TITLE_GIVE_INBOX}:'
+        ).pack(side='top', pady=16)
+        self.directory_label = tk.Label(self, text=self.controller.get_directory())
+        self.directory_label.pack(side='top', pady=15)
+
+        # show 'Open File Explorer' button
+        ttk.Button(
+            self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
+        ).pack(side='top', pady=5)
+
+        # ask for Facebook name
+        tk.Label(
+            self, text=f'{self.module.TITLE_GIVE_USERNAME}:'
+        ).pack(side='top', pady=15)
+        self.username_label = ttk.Entry(self, width=25)
+        self.username_label.insert(0, self.controller.get_username())
+        self.username_label.pack(side='top', pady=5)
+
+        # set up language listbox
+        self.language_label = tk.StringVar(self, value=self.controller.get_language())
+        ttk.OptionMenu(
+            self, self.language_label, self.controller.get_language(), *existing_languages()
+        ).pack(side='top', pady=10)
+
+        # load save button
+        ttk.Button(
+            self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
+        ).pack(side='top', pady=40)
+
+    # invoked by pressing the save button
+    def setup(self):
+        # communicate provided data with the master window
+        self.controller.update_data(
+            self.username_label.get(),
+            self.directory_label.cget('text'),
+            self.language_label.get()
+        )
+        # exit popup
+        self.destroy()
+
+    # invoked by pressing the 'Open file explorer...' button
+    def open_file_explorer(self):
+        # open FE, extract given path and update label text message
+        path = f'{tk.filedialog.askdirectory()}/'
+        self.directory_label.config(
+            text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
+        )
 
 
-# Show main window
-def Main():
-    loadInfo()
-    root = Tk()
-    root.title("Counter for messenger")
-    root.iconbitmap(r'assets\CFM.ico')
-    center_window(1224, 700, root)
-    root.configure(background='#232323')
-    s = ttk.Style()
-    s.configure('Nav.TFrame', background='#131313')
-    s.configure('Main.TFrame', background='#232323')
-    s.configure('Custom.Treeview', background='#232323', foreground='#ffffff')
-    nav = ttk.Frame(root, padding=20, style='Nav.TFrame')
-    main = ttk.Frame(root, style='Main.TFrame')
-    home_icon = PhotoImage(file='./assets/home.png')
-    settings_icon = PhotoImage(file='./assets/settings.png')
-    exit_icon = PhotoImage(file='./assets/exit.png')
-    vis_icon = PhotoImage(file='./assets/visible.png')
-    search_icon = PhotoImage(file='./assets/search.png')
-    person_icon = PhotoImage(file='./assets/person.png')
-    v = Scrollbar(main)
-    t = ttk.Treeview(main, height=20, yscrollcommand=v.set, style='Custom.Treeview')
-    t.column("#0", width=0, stretch=NO)
-    t['columns'] = ('name', 'pep', 'type', 'msg', 'call')
-    t.heading("name", text=_("Nazwa"), anchor=CENTER)
-    t.heading("pep", text=_("Uczestnicy"), anchor=CENTER)
-    t.heading("type", text=_("Typ"), anchor=CENTER)
-    t.heading("msg", text=_("Liczba wiadomości"), anchor=CENTER)
-    t.heading("call", text=_("Łączna długość rozmów"), anchor=CENTER)
-    t.bind("<Button-3>", lambda event: unselect(t))
-    t.bind('<Double-1>', lambda event: showStats(root, t))
-    ttk.Button(nav, image=home_icon, text=_("Strona główna"), compound=LEFT, padding=5).pack(side=TOP, pady=10)
-    ttk.Button(nav, image=vis_icon, text=_("Załaduj wiadomości"), compound=LEFT, padding=5, command=lambda: countAll(pathDir, username, t, root)).pack(side=TOP, pady=10)
-    search_entry = ttk.Entry(nav, width=15)
-    search_entry.pack(side=TOP, pady=10)
-    ttk.Button(nav, image=search_icon, text=_("Szukaj"), compound=LEFT, command=lambda: search(search_entry, t)).pack(side=TOP, pady=10)
-    ttk.Button(nav, image=exit_icon, text=_("Wyjście"), compound=LEFT, padding=5, command=root.destroy).pack(side=BOTTOM)
-    ttk.Button(nav, image=settings_icon, text=_("Ustawienia"), compound=LEFT, padding=5, command=lambda: settings(root)).pack(side=BOTTOM, pady=15)
-    ttk.Button(nav, image=person_icon, text=_("Mój profil"), compound=LEFT, padding=5, command=lambda: myProfile(root)).pack(side=BOTTOM)
-    ttk.Label(main, text=_("Liczba wiadomości: "), foreground='#ffffff', background='#232323', font=('Arial', 15)).pack(side=TOP, pady=10)
-    v.pack(side=RIGHT, fill=Y)
-    t.pack(side=LEFT, fill=BOTH, expand=1)
-    v.config(command=t.yview)
-    nav.pack(side=LEFT, fill=Y)
-    main.pack(side=RIGHT, fill=BOTH, expand=True)
-    root.mainloop()
+class LoadingPopup(tk.Toplevel):
+    def __init__(self, controller, chat_total, treeview):
+        tk.Toplevel.__init__(self)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+        set_resolution(self, 300, 100)
+
+        # loading window customization
+        self.title(f'{self.module.TITLE_LOADING}...')
+        self.resizable(False, False)
+        self.focus_set()
+        self.grab_set()
+
+        # load progress bar
+        self.progress_bar = ttk.Progressbar(
+            self, orient='horizontal', maximum=chat_total, length=200, mode='determinate'
+        )
+        self.progress_bar.pack(side='top')
+
+        # load progress counter label
+        self.progress_label = ttk.Label(
+            self, text=f'{self.module.TITLE_LOADING_CHAT} 0/{chat_total}'
+        )
+        self.progress_label.pack(side='top')
+        # load all conversations to treeview for display
+        self.directory = self.controller.get_directory()
+        if self.directory != '' and not self.directory.isspace() and self.directory != self.module.TITLE_NO_SELECTION:
+            self.controller.sent_messages = 0
+            self.controller.total_messages = 0
+            for conversation in listdir(self.directory):
+                try:
+                    title, people, room, all_msgs, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
+                    if len(people) == 0:
+                        # if this occurs, the given path is of correct directory format but contains no useful info
+                        # (meaning it's not the expected inbox folder)
+                        # skip the entire process, nothing to show
+                        break
+                    # TREEVIEW AUTOMATED CONVERSION PROBLEM:
+                    # the ttk treeview will convert able strings to integers.
+                    # e.g. chats named '1337' will be attached to a folder named '1337_17623521673' yet be saved
+                    # internally as '133717623521673'. This is not explicitly preventable.
+                    # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
+                    treeview.insert(
+                        parent='', index='end', values=(
+                            title, set(people.keys()), room, all_msgs, calltime, f'{PREFIX}{conversation}'
+                        ))
+                    # update global message counters
+                    self.controller.sent_messages += sent_msgs
+                    self.controller.total_messages += all_msgs
+
+                    # update progress bar
+                    self.progress_bar['value'] += 1
+                    self.progress_bar.update()
+
+                    # update progress label
+                    progress_value = self.progress_bar['value']
+                    self.progress_label['text'] = f'{self.module.TITLE_LOADING_CHAT} {int(progress_value)}/{chat_total}'
+                    self.progress_label.update()
+                except Exception as e:
+                    print(str(e))
+                    continue
+
+        # return to app
+        self.destroy()
 
 
-# Check if app used first time
+class StatisticsPopup(tk.Toplevel):
+    def __init__(self, controller, selection):
+        tk.Toplevel.__init__(self)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+        set_resolution(self, 800, 600)
+
+        # statistics window customization
+        self.title(self.module.TITLE_STATISTICS)
+        self.iconbitmap('assets/CFM.ico')
+        self.focus_set()
+        self.grab_set()
+
+        title, people, room, all_msgs, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
+        # display popup title
+        ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
+        # show conversation title and type
+        ttk.Label(self, text=f'{self.module.TITLE_NAME}: {title}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_CONVERSATION_TYPE}: {room}').pack(side='top', pady=5)
+
+        # load participants list box
+        ttk.Label(
+            self, text=f'{self.module.TITLE_PEOPLE}({len(people)}) {self.module.TITLE_AND_MESSAGES}: '
+        ).pack(side='top', pady=5)
+        if room == self.module.TITLE_GROUP_CHAT:
+            # larger amount of participants, load bigger box and include a scrollbar
+            height = 15
+            ttk.Scrollbar(self).pack(side='right', fill='both')
+        else:
+            # fixed 2 people per private chat, load small box
+            height = 2
+        listbox = tk.Listbox(self, width=30, height=height)
+        listbox.pack(side='top', pady=5)
+        # paste participants inside listbox
+        for participant, messages in people.items():
+            listbox.insert('end', f'{participant} - {messages}')
+
+        # show total number of messages and total calltime in conversation
+        ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
+        ttk.Label(
+            self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
+        ).pack(side='top', pady=5)
+        # show first message date
+        ttk.Label(
+            self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
+        ).pack(side='top', pady=5)
+
+
 if __name__ == '__main__':
-    file_exists = exists("config.txt")
-    if file_exists:
-        Main()
-    else:
-        firstTime()
+    MasterWindow().mainloop()
