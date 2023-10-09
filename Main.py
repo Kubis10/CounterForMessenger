@@ -251,6 +251,7 @@ class MasterWindow(tk.Tk):
         self.lang_mdl = importlib.import_module('langs.English')
         self.sent_messages = 0
         self.total_messages = 0
+        self.total_chars = 0
 
         # load user
         self.load_data()
@@ -338,7 +339,7 @@ class MasterWindow(tk.Tk):
         participants = {}
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
-        call_duration, total_messages, sent_messages, start_date = 0, 0, 0, 0
+        call_duration, total_messages,total_chars, sent_messages, start_date = 0, 0, 0, 0, 0
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -350,6 +351,7 @@ class MasterWindow(tk.Tk):
                 # update all relevant counters
                 for message in data.get('messages', []):
                     total_messages += 1
+                    total_chars += len(message)
                     sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
                     if sender == self.get_username():
                         sent_messages += 1
@@ -369,7 +371,7 @@ class MasterWindow(tk.Tk):
                     # noinspection PyUnresolvedReferences
                     chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
 
-        return chat_title, participants, chat_type, total_messages, call_duration, sent_messages, start_date
+        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date
 
 
 class ProfilePopup(tk.Toplevel):
@@ -413,6 +415,11 @@ class ProfilePopup(tk.Toplevel):
         # display complete message total
         ttk.Label(
             self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
+        ).pack(side='top', pady=10)
+
+        #display total number of characters
+        ttk.Label(
+            self, text=f'{self.module.TITLE_TOTAL_CHARS}: {self.controller.total_chars}'
         ).pack(side='top', pady=10)
 
         # load exit button
@@ -514,6 +521,7 @@ class LoadingPopup(tk.Toplevel):
         if self.directory != '' and not self.directory.isspace() and self.directory != self.module.TITLE_NO_SELECTION:
             self.controller.sent_messages = 0
             self.controller.total_messages = 0
+            self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
                     title, people, room, all_msgs, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
