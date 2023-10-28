@@ -222,7 +222,7 @@ class MainPage(tk.Frame):
                 return
             # treeview automated conversion problem, read StatisticsPopup comments
             # removing prefix safeguard
-            StatisticsPopup(self.controller, selection[5].replace(PREFIX, ''))
+            StatisticsPopup(self.controller, selection[6].replace(PREFIX, ''))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -251,6 +251,7 @@ class MasterWindow(tk.Tk):
         self.lang_mdl = importlib.import_module('langs.English')
         self.sent_messages = 0
         self.total_messages = 0
+        self.total_chars = 0
 
         # load user
         self.load_data()
@@ -338,7 +339,7 @@ class MasterWindow(tk.Tk):
         participants = {}
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
-        call_duration, total_messages, sent_messages, start_date = 0, 0, 0, 0
+        call_duration, total_messages,total_chars, sent_messages, start_date = 0, 0, 0, 0, 0
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -350,6 +351,7 @@ class MasterWindow(tk.Tk):
                 # update all relevant counters
                 for message in data.get('messages', []):
                     total_messages += 1
+                    total_chars += len(message)
                     sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
                     if sender == self.get_username():
                         sent_messages += 1
@@ -369,7 +371,7 @@ class MasterWindow(tk.Tk):
                     # noinspection PyUnresolvedReferences
                     chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
 
-        return chat_title, participants, chat_type, total_messages, call_duration, sent_messages, start_date
+        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date
 
 
 class ProfilePopup(tk.Toplevel):
@@ -413,6 +415,11 @@ class ProfilePopup(tk.Toplevel):
         # display complete message total
         ttk.Label(
             self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
+        ).pack(side='top', pady=10)
+
+        #display total number of characters
+        ttk.Label(
+            self, text=f'{self.module.TITLE_TOTAL_CHARS}: {self.controller.total_chars}'
         ).pack(side='top', pady=10)
 
         # load exit button
@@ -514,9 +521,10 @@ class LoadingPopup(tk.Toplevel):
         if self.directory != '' and not self.directory.isspace() and self.directory != self.module.TITLE_NO_SELECTION:
             self.controller.sent_messages = 0
             self.controller.total_messages = 0
+            self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -529,12 +537,12 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, f'{PREFIX}{conversation}'
+                            title, set(people.keys()), room, all_msgs, all_chars, calltime, f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
                     self.controller.total_messages += all_msgs
-
+                    self.controller.total_chars += all_chars
                     # update progress bar
                     self.progress_bar['value'] += 1
                     self.progress_bar.update()
@@ -544,7 +552,7 @@ class LoadingPopup(tk.Toplevel):
                     self.progress_label['text'] = f'{self.module.TITLE_LOADING_CHAT} {int(progress_value)}/{chat_total}'
                     self.progress_label.update()
                 except Exception as e:
-                    print(str(e))
+                    print("Error in loading: " + str(e))
                     continue
 
         # return to app
@@ -564,7 +572,7 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -590,6 +598,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # show total number of messages and total calltime in conversation
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady = 5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
