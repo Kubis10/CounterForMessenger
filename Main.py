@@ -222,7 +222,7 @@ class MainPage(tk.Frame):
                 return
             # treeview automated conversion problem, read StatisticsPopup comments
             # removing prefix safeguard
-            StatisticsPopup(self.controller, selection[5].replace(PREFIX, ''))
+            StatisticsPopup(self.controller, selection[6].replace(PREFIX, ''))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -552,7 +552,7 @@ class LoadingPopup(tk.Toplevel):
                     self.progress_label['text'] = f'{self.module.TITLE_LOADING_CHAT} {int(progress_value)}/{chat_total}'
                     self.progress_label.update()
                 except Exception as e:
-                    print(str(e))
+                    print("Error in loading: " + str(e))
                     continue
 
         # return to app
