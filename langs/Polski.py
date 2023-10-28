@@ -1,8 +1,8 @@
-TITLE_APP_NAME = 'Licznik dla Messenger'   # REVIEW THIS TRANSLATION, NOT SURE IF CORRECT
+TITLE_APP_NAME = 'Licznik wiadomośći Messenger'
 TITLE_NOT_APPLICABLE = 'N/A'
 TITLE_INITIAL_CONFIG = 'Konfiguracja początkowa'
 TITLE_GIVE_INBOX = 'Wskaż folder inbox z danymi'
-TITLE_NO_SELECTION = 'Nic nie wybrano'   # REVIEW THIS TRANSLATION, NOT SURE IF CORRECT
+TITLE_NO_SELECTION = 'Nic nie wybrano'
 TITLE_OPEN_FE = 'Otwórz ekspolator plików'
 TITLE_GIVE_USERNAME = 'Wpisz imię i nazwisko z facebooka'
 TITLE_SAVE = 'Zapisz'
