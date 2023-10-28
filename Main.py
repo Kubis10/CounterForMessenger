@@ -524,7 +524,7 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -537,12 +537,12 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, f'{PREFIX}{conversation}'
+                            title, set(people.keys()), room, all_msgs, all_chars, calltime, f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
                     self.controller.total_messages += all_msgs
-
+                    self.controller.total_chars += all_chars
                     # update progress bar
                     self.progress_bar['value'] += 1
                     self.progress_bar.update()
@@ -572,7 +572,7 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -598,6 +598,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # show total number of messages and total calltime in conversation
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady = 5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
