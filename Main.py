@@ -111,7 +111,7 @@ class MainPage(tk.Frame):
             'type': self.module.TITLE_CHAT_TYPE,
             'msg': self.module.TITLE_NUMBER_OF_MSGS,
             'call': self.module.TITLE_CALL_DURATION,
-            'photos': 'Photos'
+            'photos': self.module.TITLE_NUMBER_OF_PHOTOS,
         }
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
@@ -604,6 +604,7 @@ class StatisticsPopup(tk.Toplevel):
         # show total number of messages and total calltime in conversation
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_PHOTOS}: {total_photos}').pack(side='top', pady=5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
@@ -611,7 +612,6 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
-        ttk.Label(self, text=f'Total Photos: {total_photos}').pack(side='top', pady=5)
 
 
 if __name__ == '__main__':
