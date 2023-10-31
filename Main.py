@@ -110,7 +110,8 @@ class MainPage(tk.Frame):
             'pep': self.module.TITLE_PARTICIPANTS,
             'type': self.module.TITLE_CHAT_TYPE,
             'msg': self.module.TITLE_NUMBER_OF_MSGS,
-            'call': self.module.TITLE_CALL_DURATION
+            'call': self.module.TITLE_CALL_DURATION,
+            'photos': 'Photos'
         }
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
@@ -198,6 +199,7 @@ class MainPage(tk.Frame):
             self.treeview.heading('name', command=lambda col='name': self.sort_treeview(col, False, 'stringwise'))
             self.treeview.heading('type', command=lambda col='type': self.sort_treeview(col, False, 'stringwise'))
             self.treeview.heading('call', command=lambda col='call': self.sort_treeview(col, False, 'numberwise'))
+            self.treeview.heading('photos', command=lambda col='photos': self.sort_treeview(col, False, 'numberwise'))
         except FileNotFoundError:
             print('>MainPage/upload_data THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
 
@@ -222,7 +224,7 @@ class MainPage(tk.Frame):
                 return
             # treeview automated conversion problem, read StatisticsPopup comments
             # removing prefix safeguard
-            StatisticsPopup(self.controller, selection[6].replace(PREFIX, ''))
+            StatisticsPopup(self.controller, selection[7].replace(PREFIX, ''))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -269,7 +271,7 @@ class MasterWindow(tk.Tk):
         # declare all possible app frames along with their desired dimensions (width, height)
         self.frames = {
             ConfigurationPage.__name__: [700, 450, None],
-            MainPage.__name__: [1224, 700, None]
+            MainPage.__name__: [1375, 700, None]
         }
         # initialize and load frames to container
         self.refresh_frames()
@@ -339,7 +341,7 @@ class MasterWindow(tk.Tk):
         participants = {}
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
-        call_duration, total_messages,total_chars, sent_messages, start_date = 0, 0, 0, 0, 0
+        call_duration, total_messages, total_chars, sent_messages, start_date, total_photos = 0, 0, 0, 0, 0, 0
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -361,6 +363,8 @@ class MasterWindow(tk.Tk):
                     call_duration += message.get('call_duration', 0)
                     # fetch conversation creation date
                     start_date = message['timestamp_ms']
+                    if 'photos' in message:
+                        total_photos += len(message['photos'])
                 # fetch chat name and type
                 chat_title = data.get('title', '').encode('iso-8859-1').decode('utf-8')
                 try:
@@ -371,7 +375,7 @@ class MasterWindow(tk.Tk):
                     # noinspection PyUnresolvedReferences
                     chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
 
-        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date
+        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos
 
 
 class ProfilePopup(tk.Toplevel):
@@ -417,7 +421,7 @@ class ProfilePopup(tk.Toplevel):
             self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
         ).pack(side='top', pady=10)
 
-        #display total number of characters
+        # display total number of characters
         ttk.Label(
             self, text=f'{self.module.TITLE_TOTAL_CHARS}: {self.controller.total_chars}'
         ).pack(side='top', pady=10)
@@ -524,7 +528,7 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _ = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos = self.controller.extract_data(conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -537,7 +541,8 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, all_chars, calltime, f'{PREFIX}{conversation}'
+                            title, set(people.keys()), room, all_msgs, calltime, total_photos, all_chars,
+                            f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
@@ -572,7 +577,7 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(selection)
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -598,7 +603,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # show total number of messages and total calltime in conversation
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
-        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady = 5)
+        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady=5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
@@ -606,6 +611,7 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
+        ttk.Label(self, text=f'Total Photos: {total_photos}').pack(side='top', pady=5)
 
 
 if __name__ == '__main__':
