@@ -111,7 +111,7 @@ class MainPage(tk.Frame):
             'type': self.module.TITLE_CHAT_TYPE,
             'msg': self.module.TITLE_NUMBER_OF_MSGS,
             'call': self.module.TITLE_CALL_DURATION,
-            'photos': 'photos'
+            'photos': 'Photos'
         }
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
@@ -341,7 +341,7 @@ class MasterWindow(tk.Tk):
         participants = {}
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
-        call_duration, total_messages,total_chars, sent_messages, start_date, total_photos = 0, 0, 0, 0, 0, 0
+        call_duration, total_messages, total_chars, sent_messages, start_date, total_photos = 0, 0, 0, 0, 0, 0
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -421,7 +421,7 @@ class ProfilePopup(tk.Toplevel):
             self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
         ).pack(side='top', pady=10)
 
-        #display total number of characters
+        # display total number of characters
         ttk.Label(
             self, text=f'{self.module.TITLE_TOTAL_CHARS}: {self.controller.total_chars}'
         ).pack(side='top', pady=10)
@@ -541,7 +541,8 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, total_photos,all_chars, f'{PREFIX}{conversation}'
+                            title, set(people.keys()), room, all_msgs, calltime, total_photos, all_chars,
+                            f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
                     self.controller.sent_messages += sent_msgs
@@ -602,7 +603,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # show total number of messages and total calltime in conversation
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
-        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady = 5)
+        ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady=5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
