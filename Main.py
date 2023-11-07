@@ -6,7 +6,6 @@ from datetime import timedelta, datetime
 from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
-import customtkinter as ctk
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
