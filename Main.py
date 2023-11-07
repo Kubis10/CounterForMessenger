@@ -6,6 +6,7 @@ from datetime import timedelta, datetime
 from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
+import customtkinter as ctk
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
@@ -205,16 +206,24 @@ class MainPage(tk.Frame):
 
     # invoked by pressing the column headers
     def sort_treeview(self, column, order, bias):
-        # sort the column's contents based on given parameters
-        contents = [(self.treeview.set(k, column), k) for k in self.treeview.get_children('')]
+    # Cache the get_children call
+        children = self.treeview.get_children('')
+        # Retrieve the column's contents
+        contents = [(self.treeview.set(k, column), k) for k in children]      
+        # For number-wise sorting, convert to integers once, beforehand
         if bias == 'numberwise':
-            contents.sort(key=lambda t: int(t[0]), reverse=order)
-        if bias == 'stringwise':
+            # Convert strings to integers and sort
+            contents = [(int(val), k) for val, k in contents]
+            contents.sort(key=lambda t: t[0], reverse=order)
+        else:
+            # For string-wise sorting, Python's default sort is string-wise
             contents.sort(reverse=order)
+        # Reinsert the items into the treeview in sorted order
         for index, (val, k) in enumerate(contents):
             self.treeview.move(k, '', index)
-        # re-purpose the original button to sort in the now opposite order on next invocation
+        # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
+
 
     # invoked on double left click on any treeview listing
     def show_statistics(self):
