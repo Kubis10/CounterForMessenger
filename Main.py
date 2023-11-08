@@ -2,6 +2,7 @@ import json
 import tkinter as tk
 import glob
 import importlib
+from time import time
 from datetime import timedelta, datetime
 from tkinter import ttk, filedialog
 from os.path import exists
@@ -370,7 +371,7 @@ class MasterWindow(tk.Tk):
                     # save call durations, if any
                     call_duration += message.get('call_duration', 0)
                     # fetch conversation creation date
-                    start_date = message['timestamp_ms']
+                    start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
                     if 'photos' in message:
                         total_photos += len(message['photos'])
                 # fetch chat name and type
@@ -620,6 +621,18 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
+        
+        # show average messages per time period
+        sec_since_start = int(time() - start_date/1000)
+        ttk.Label(
+            self, text=f'{self.module.TITLE_AVERAGE_MESSAGES}: '
+        ).pack(side='top', pady=5)
+        listbox = tk.Listbox(self, width=30, height=4)
+        listbox.pack(side='top', pady=5)
+        listbox.insert('end', f'{self.module.TITLE_PER_DAY} - {all_msgs / (sec_since_start / 86400):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
 
 
 if __name__ == '__main__':
