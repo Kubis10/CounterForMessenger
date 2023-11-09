@@ -587,6 +587,9 @@ class StatisticsPopup(tk.Toplevel):
         self.grab_set()
 
         title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(selection)
+        # resize the window to fit all data if the conversation is a group chat
+        if room == self.module.TITLE_GROUP_CHAT:
+            set_resolution(self, 800, 650)
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -626,14 +629,10 @@ class StatisticsPopup(tk.Toplevel):
         sec_since_start = int(time() - start_date/1000)
         ttk.Label(
             self, text=f'{self.module.TITLE_AVERAGE_MESSAGES}: '
-        ).pack(side='top', pady=0)
-
-        height = 4
-        if room == self.module.TITLE_GROUP_CHAT:
-            ttk.Scrollbar(self).pack(side='right', fill='both')
-            height = 2
-        listbox = tk.Listbox(self, width=30, height=height)
-        listbox.pack(side='top', pady=0)
+        ).pack(side='top', pady=5)
+            
+        listbox = tk.Listbox(self, width=30, height=4)
+        listbox.pack(side='top', pady=5)
         listbox.insert('end', f'{self.module.TITLE_PER_DAY} - {all_msgs / (sec_since_start / 86400):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
