@@ -7,6 +7,7 @@ from datetime import timedelta, datetime
 from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
+from collections import Counter
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
@@ -240,12 +241,11 @@ class MainPage(tk.Frame):
 
 
 class MasterWindow(tk.Tk):
-    # NOTE: lang_mdl throws unresolved reference warnings here because its master
-    # class doesn't recognise the TITLE_ constants.
-    # it works perfectly well, thus the 'noinspection' suppression tags
-    # if a better way to handle these warnings is found, remove them
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+
+        # initialize directory
+        self.directory = './conversation_data/'
 
         # load icons
         self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
@@ -254,9 +254,9 @@ class MasterWindow(tk.Tk):
         self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
         self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
         self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
+        self.username = self.find_username()
 
         # global user data
-        self.directory = ''
         self.username = ''
         self.language = 'English'
         self.lang_mdl = importlib.import_module('langs.English')
@@ -291,6 +291,36 @@ class MasterWindow(tk.Tk):
             ConfigurationPage.__name__
         )
 
+    def find_username(self):
+        # Automatically find the username from the message data
+        username_counts = Counter()
+
+        # Ensure that self.directory is not empty or None before proceeding
+        if not self.directory or not exists(self.directory):
+            return 'N/A'  # Return a default value if the directory is not valid
+
+        for conversation in listdir(self.directory):
+            try:
+                for file in glob.glob(f'{self.directory}{conversation}/*.json'):
+                    with open(file, 'r') as f:
+                        data = json.load(f)
+
+                        for message in data.get('messages', []):
+                            sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
+                            username_counts[sender] += 1
+
+                # Find the sender with the highest message count as the assumed username
+                most_frequent_sender, most_messages = username_counts.most_common(1)[0]
+
+                # Return the most frequent sender as the username
+                return most_frequent_sender
+
+            except Exception as e:
+                print("Error in loading: " + str(e))
+
+        return 'N/A'  # Return a default value if the username is not found
+
+        
     # raise the next frame to-be-shown
     def show_frame(self, page_name):
         width, height, frame = self.frames.get(page_name)
