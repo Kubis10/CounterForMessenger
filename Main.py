@@ -1,13 +1,14 @@
 import json
+import os
 import tkinter as tk
 import glob
 import importlib
 from collections import defaultdict
+from time import time
 from datetime import timedelta, datetime
-from shlex import join
 from tkinter import ttk, filedialog
+from os.path import exists
 from os import listdir
-from os.path import isfile, join, exists
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
@@ -81,23 +82,33 @@ class ConfigurationPage(tk.Frame):
 
     # invoked by pressing the 'Open file explorer...' button
     def open_file_explorer(self):
-        # Open File Explorer and extract the given path
-        selected_directory = tk.filedialog.askdirectory()
-        if selected_directory:
-            # Ensure the path ends with a slash
-            path = f"{selected_directory}/" if not selected_directory.endswith("/") else selected_directory
-            self.directory_label.config(text=path)
-            # Update the directory in the controller
-            self.controller.directory = path
-            # Attempt to find the user name based on the new directory
-            self.controller.update_username_from_conversations(path)
-            user_name = self.controller.username
-            if user_name:
-                self.username_label.delete(0, tk.END)
-                self.username_label.insert(0, user_name)
-        else:
-            # Handle the case where no directory is selected
-            self.directory_label.config(text=self.module.TITLE_NO_SELECTION)
+        try:
+            selected_directory = tk.filedialog.askdirectory()
+
+            if selected_directory:
+                path = os.path.join(selected_directory, "")  # Ensure the path ends with a slash
+                self.update_directory_ui(path)
+
+                # Update the directory in the controller
+                self.controller.directory = path
+
+                # Attempt to find the user name based on the new directory
+                self.controller.update_username_from_conversations(path)
+                user_name = self.controller.username
+
+                if user_name:
+                    self.username_label.delete(0, tk.END)
+                    self.username_label.insert(0, user_name)
+            else:
+                # Handle the case where no directory is selected
+                self.update_directory_ui(self.module.TITLE_NO_SELECTION)
+        except Exception as e:
+            # Handle unexpected errors gracefully
+            print(f"Error in open_file_explorer: {e}")
+
+    def update_directory_ui(self, path):
+        # Update the directory label in the UI
+        self.directory_label.config(text=path)
 
 
 class MainPage(tk.Frame):
@@ -222,7 +233,7 @@ class MainPage(tk.Frame):
     # Cache the get_children call
         children = self.treeview.get_children('')
         # Retrieve the column's contents
-        contents = [(self.treeview.set(k, column), k) for k in children]
+        contents = [(self.treeview.set(k, column), k) for k in children]      
         # For number-wise sorting, convert to integers once, beforehand
         if bias == 'numberwise':
             # Convert strings to integers and sort
@@ -305,39 +316,48 @@ class MasterWindow(tk.Tk):
         )
 
     def find_user_in_conversations(self, conversation):
-        # Find all conversation files
-        participant_counts = defaultdict(int)
-        two_person_chats = []
-        # List conversations
-        for conversation in glob.glob(f'{self.directory}/*'):
-            # Extract participants
-            participants = set()
-            for file in glob.glob(f'{conversation}/*.json'):
-                with open(file, 'r') as f:
-                    data = json.load(f)
-                    for participant in data.get('participants', []):
-                        name = participant['name'].encode('iso-8859-1').decode('utf-8')
-                        if name != '':
-                            participants.add(name)
+        try:
+            # Find all conversation files
+            participant_counts = defaultdict(int)
+            two_person_chats = []
 
-            # Check if the chat has exactly two participants
-            if len(participants) == 2:
-                two_person_chats.append(participants)
+            # List conversations
+            for conversation in glob.glob(f'{self.directory}/*'):
+                # Extract participants
+                participants = set()
 
-        # Find a common participant
-        for participants in two_person_chats:
-            for participant in participants:
-                participant_counts[participant] += 1
-                if participant_counts[participant] > 1:
-                    return participant  # Found a common participant
+                for file in glob.glob(f'{conversation}/*.json'):
+                    with open(file, 'r') as f:
+                        data = json.load(f)
+                        for participant in data.get('participants', []):
+                            name = participant.get('name', '').encode('iso-8859-1').decode('utf-8')
+                            if name:
+                                participants.add(name)
 
-        return None  # No common participant found
+                # Check if the chat has exactly two participants
+                if len(participants) == 2:
+                    two_person_chats.append(participants)
+
+            # Find a common participant
+            for participants in two_person_chats:
+                for participant in participants:
+                    participant_counts[participant] += 1
+                    if participant_counts[participant] > 1:
+                        return participant  # Found a common participant
+
+            # No common participant found
+            return None
+        except Exception as e:
+            # Handle exceptions, log, or print an error message
+            print(f"Error in find_user_in_conversations: {e}")
+            return None
 
     def update_username_from_conversations(self, directory):
         user_name = self.find_user_in_conversations(directory)
         if user_name:
             self.username = user_name
             # Update UI or other elements as needed
+
     # raise the next frame to-be-shown
     def show_frame(self, page_name):
         width, height, frame = self.frames.get(page_name)
@@ -640,6 +660,9 @@ class StatisticsPopup(tk.Toplevel):
         self.grab_set()
 
         title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(selection)
+        # resize the window to fit all data if the conversation is a group chat
+        if room == self.module.TITLE_GROUP_CHAT:
+            set_resolution(self, 800, 650)
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -674,6 +697,19 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
+        
+        # show average messages per time period
+        sec_since_start = int(time() - start_date/1000)
+        ttk.Label(
+            self, text=f'{self.module.TITLE_AVERAGE_MESSAGES}: '
+        ).pack(side='top', pady=5)
+            
+        listbox = tk.Listbox(self, width=30, height=4)
+        listbox.pack(side='top', pady=5)
+        listbox.insert('end', f'{self.module.TITLE_PER_DAY} - {all_msgs / (sec_since_start / 86400):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
+        listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
 
 
 if __name__ == '__main__':
