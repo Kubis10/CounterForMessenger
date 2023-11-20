@@ -1,7 +1,10 @@
 import json
+import os
+import threading
 import tkinter as tk
 import glob
 import importlib
+from collections import defaultdict
 from time import time
 from datetime import timedelta, datetime
 from tkinter import ttk, filedialog
@@ -80,11 +83,46 @@ class ConfigurationPage(tk.Frame):
 
     # invoked by pressing the 'Open file explorer...' button
     def open_file_explorer(self):
-        # open FE, extract given path and update label text message
-        path = f'{tk.filedialog.askdirectory()}/'
-        self.directory_label.config(
-            text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
-        )
+        try:
+            selected_directory = tk.filedialog.askdirectory()
+            if selected_directory:
+                loading_dialog = LoadingDialog(self)
+
+                def task():
+                    path = os.path.join(selected_directory, "")  # Ensure the path ends with a slash
+                    self.controller.directory = path
+                    self.controller.update_username_from_conversations(path)
+
+                    user_name = self.controller.username
+                    if user_name:
+                        self.username_label.delete(0, tk.END)
+                        self.username_label.insert(0, user_name)
+
+                    self.update_directory_ui(path)
+                    loading_dialog.destroy()  # Close the loading dialog
+
+                # Run the task in a separate thread
+                threading.Thread(target=task).start()
+
+        except Exception as e:
+            print(f"Error in open_file_explorer: {e}")
+
+    def update_directory_ui(self, path):
+        # Update the directory label in the UI
+        self.directory_label.config(text=path)
+
+
+class LoadingDialog(tk.Toplevel):
+    def __init__(self, parent, title="Loading"):
+        super().__init__(parent)
+
+        # Window settings
+        self.title(title)
+        self.geometry("200x100")  # Adjust the size as needed
+        self.resizable(False, False)
+
+        # Loading message
+        tk.Label(self, text="Loading, please wait...").pack(pady=20)
 
 
 class MainPage(tk.Frame):
@@ -206,10 +244,10 @@ class MainPage(tk.Frame):
 
     # invoked by pressing the column headers
     def sort_treeview(self, column, order, bias):
-    # Cache the get_children call
+        # Cache the get_children call
         children = self.treeview.get_children('')
         # Retrieve the column's contents
-        contents = [(self.treeview.set(k, column), k) for k in children]      
+        contents = [(self.treeview.set(k, column), k) for k in children]
         # For number-wise sorting, convert to integers once, beforehand
         if bias == 'numberwise':
             # Convert strings to integers and sort
@@ -223,7 +261,6 @@ class MainPage(tk.Frame):
             self.treeview.move(k, '', index)
         # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
-
 
     # invoked on double left click on any treeview listing
     def show_statistics(self):
@@ -290,6 +327,49 @@ class MasterWindow(tk.Tk):
             MainPage.__name__ if exists('config.txt') else
             ConfigurationPage.__name__
         )
+
+    def find_user_in_conversations(self, conversation):
+        try:
+            # Find all conversation files
+            participant_counts = defaultdict(int)
+            two_person_chats = []
+
+            # List conversations
+            for conversation in glob.glob(f'{self.directory}/*'):
+                # Extract participants
+                participants = set()
+
+                for file in glob.glob(f'{conversation}/*.json'):
+                    with open(file, 'r') as f:
+                        data = json.load(f)
+                        for participant in data.get('participants', []):
+                            name = participant.get('name', '').encode('iso-8859-1').decode('utf-8')
+                            if name:
+                                participants.add(name)
+
+                # Check if the chat has exactly two participants
+                if len(participants) == 2:
+                    two_person_chats.append(participants)
+
+            # Find a common participant
+            for participants in two_person_chats:
+                for participant in participants:
+                    participant_counts[participant] += 1
+                    if participant_counts[participant] > 1:
+                        return participant  # Found a common participant
+
+            # No common participant found
+            return None
+        except Exception as e:
+            # Handle exceptions, log, or print an error message
+            print(f"Error in find_user_in_conversations: {e}")
+            return None
+
+    def update_username_from_conversations(self, directory):
+        user_name = self.find_user_in_conversations(directory)
+        if user_name:
+            self.username = user_name
+            # Update UI or other elements as needed
 
     # raise the next frame to-be-shown
     def show_frame(self, page_name):
@@ -371,7 +451,7 @@ class MasterWindow(tk.Tk):
                     # save call durations, if any
                     call_duration += message.get('call_duration', 0)
                     # fetch conversation creation date
-                    start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
+                    start_date = message['timestamp_ms']
                     if 'photos' in message:
                         total_photos += len(message['photos'])
                 # fetch chat name and type
@@ -498,11 +578,27 @@ class SettingsPopup(tk.Toplevel):
 
     # invoked by pressing the 'Open file explorer...' button
     def open_file_explorer(self):
-        # open FE, extract given path and update label text message
         path = f'{tk.filedialog.askdirectory()}/'
-        self.directory_label.config(
-            text=(self.module.TITLE_NO_SELECTION if path == '' or path.isspace() or path == '/' else path)
-        )
+        if path not in ['/', '']:
+            # Display loading dialog
+            loading_dialog = LoadingDialog(self)
+
+            self.directory_label.config(
+                text=(self.module.TITLE_NO_SELECTION if path == '/' else path)
+            )
+
+            def task():
+                self.controller.update_username_from_conversations(path)
+                user_name = self.controller.username
+                if user_name:
+                    self.username_label.delete(0, tk.END)
+                    self.username_label.insert(0, user_name)
+
+                # Close loading dialog
+                loading_dialog.destroy()
+
+            # Run the task in a separate thread
+            threading.Thread(target=task).start()
 
 
 class LoadingPopup(tk.Toplevel):
@@ -537,7 +633,8 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos = self.controller.extract_data(
+                        conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -586,7 +683,8 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(
+            selection)
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
             set_resolution(self, 800, 650)
@@ -624,13 +722,13 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
-        
+
         # show average messages per time period
-        sec_since_start = int(time() - start_date/1000)
+        sec_since_start = int(time() - start_date / 1000)
         ttk.Label(
             self, text=f'{self.module.TITLE_AVERAGE_MESSAGES}: '
         ).pack(side='top', pady=5)
-            
+
         listbox = tk.Listbox(self, width=30, height=4)
         listbox.pack(side='top', pady=5)
         listbox.insert('end', f'{self.module.TITLE_PER_DAY} - {all_msgs / (sec_since_start / 86400):.2f}')
