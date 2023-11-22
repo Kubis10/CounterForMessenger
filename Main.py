@@ -362,7 +362,10 @@ class MasterWindow(tk.Tk):
                 # update all relevant counters
                 for message in data.get('messages', []):
                     total_messages += 1
-                    total_chars += len(message)
+                    try:
+                        total_chars += len(message['content'])
+                    except KeyError:
+                        continue
                     sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
                     if sender == self.get_username():
                         sent_messages += 1
