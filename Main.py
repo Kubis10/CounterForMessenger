@@ -113,6 +113,9 @@ class MainPage(tk.Frame):
             'msg': self.module.TITLE_NUMBER_OF_MSGS,
             'call': self.module.TITLE_CALL_DURATION,
             'photos': self.module.TITLE_NUMBER_OF_PHOTOS,
+            'gifs': self.module.TITLE_NUMBER_OF_GIFS,
+            'videos': self.module.TITLE_NUMBER_OF_VIDEOS,
+            'files': self.module.TITLE_NUMBER_OF_FILES,
         }
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
@@ -233,7 +236,7 @@ class MainPage(tk.Frame):
                 return
             # treeview automated conversion problem, read StatisticsPopup comments
             # removing prefix safeguard
-            StatisticsPopup(self.controller, selection[7].replace(PREFIX, ''))
+            StatisticsPopup(self.controller, selection[10].replace(PREFIX, ''))
         except IndexError:
             # miss-click / empty selection, nothing to show here
             return
@@ -350,7 +353,7 @@ class MasterWindow(tk.Tk):
         participants = {}
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
-        call_duration, total_messages, total_chars, sent_messages, start_date, total_photos = 0, 0, 0, 0, 0, 0
+        call_duration, total_messages, total_chars, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files = 0, 0, 0, 0, 0, 0, 0, 0, 0
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -377,6 +380,12 @@ class MasterWindow(tk.Tk):
                     start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
                     if 'photos' in message:
                         total_photos += len(message['photos'])
+                    if 'gifs' in message:
+                        total_gifs += len(message['gifs'])
+                    if 'videos' in message:
+                        total_videos += len(message['videos'])
+                    if 'files' in message:
+                        total_files += len(message['files'])
                 # fetch chat name and type
                 chat_title = data.get('title', '').encode('iso-8859-1').decode('utf-8')
                 try:
@@ -387,7 +396,7 @@ class MasterWindow(tk.Tk):
                     # noinspection PyUnresolvedReferences
                     chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
 
-        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos
+        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files
 
 
 class ProfilePopup(tk.Toplevel):
@@ -540,7 +549,7 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -553,7 +562,7 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, total_photos, all_chars,
+                            title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos, total_files, all_chars,
                             f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
@@ -589,7 +598,7 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(selection)
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
             set_resolution(self, 800, 650)
@@ -620,6 +629,9 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_PHOTOS}: {total_photos}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_GIFS}: {total_gifs}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_VIDEOS}: {total_videos}').pack(side='top', pady=5)
+        ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_FILES}: {total_files}').pack(side='top', pady=5)
         ttk.Label(
             self, text=f'{self.module.TITLE_CALL_DURATION}: {timedelta(seconds=calltime)}'
         ).pack(side='top', pady=5)
