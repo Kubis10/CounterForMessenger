@@ -50,12 +50,12 @@ class ConfigurationPage(tk.Frame):
             self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
         ).pack(side='top', pady=5)
 
-        # Create 'from' date entry using tkcalendar in settings popup
+        # Create 'from' date entry using tkcalendar in config page
         tk.Label(self, text="From:").pack(side='top', pady=5)
         self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000)
         self.from_date_entry.pack(side='top', pady=10)
 
-        # Create 'to' date entry using tkcalendar in settings popup
+        # Create 'to' date entry using tkcalendar in config page
         tk.Label(self, text="To:").pack(side='top', pady=5)
         self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True)
         self.to_date_entry.pack(side='top', pady=10)
@@ -397,10 +397,8 @@ class MasterWindow(tk.Tk):
                     name = participant['name'].encode('iso-8859-1').decode('utf-8')
                     participants[name] = participants.get(name, 0)
                 # update all relevant counters
+                # filter messages that are in the chosen time window
                 for message in data.get('messages', []):
-                    #  print(type(message["timestamp_ms"]))
-                    #print(type(datetime.fromtimestamp(int(message["timestamp_ms"])/1000).date()))
-                    #print(type(self.from_date_entry))
                     if self.from_date_entry <= datetime.fromtimestamp(int(message["timestamp_ms"])/1000).date() <= self.to_date_entry:
                         total_messages += 1
                         try:
