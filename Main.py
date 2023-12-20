@@ -50,13 +50,13 @@ class ConfigurationPage(tk.Frame):
             self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
         ).pack(side='top', pady=5)
 
-        # Create 'from' date entry using tkcalendar in config page
-        tk.Label(self, text="From:").pack(side='top', pady=5)
-        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000)
+        # Create 'from' date entry using tkcalendar in settings popup
+        tk.Label(self, text=f'{self.module.TITLE_FROM}:').pack(side='top', pady=5)
+        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000, month=1, day=1)
         self.from_date_entry.pack(side='top', pady=10)
 
-        # Create 'to' date entry using tkcalendar in config page
-        tk.Label(self, text="To:").pack(side='top', pady=5)
+        # Create 'to' date entry using tkcalendar in settings popup
+        tk.Label(self, text=f'{self.module.TITLE_TO}:').pack(side='top', pady=5)
         self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True)
         self.to_date_entry.pack(side='top', pady=10)
 
@@ -330,8 +330,8 @@ class MasterWindow(tk.Tk):
         return self.lang_mdl.TITLE_NOT_APPLICABLE if self.from_date_entry == '' else self.from_date_entry
 
     def get_to_date_entry(self):
-            # noinspection PyUnresolvedReferences
-            return self.lang_mdl.TITLE_NOT_APPLICABLE if self.to_date_entry == '' else self.to_date_entry
+        # noinspection PyUnresolvedReferences
+        return self.lang_mdl.TITLE_NOT_APPLICABLE if self.to_date_entry == '' else self.to_date_entry
 
     def get_language(self):
         # check if current language variable holds valid assignment
@@ -524,13 +524,39 @@ class SettingsPopup(tk.Toplevel):
         self.username_label.pack(side='top', pady=5)
 
         # Create 'from' date entry using tkcalendar in settings popup
-        load_from_date=datetime.strptime(self.controller.get_from_date_entry(),"%Y-%m-%d") if not isinstance(self.controller.get_from_date_entry(),date) else self.controller.get_from_date_entry()
+        date_entry = self.controller.get_from_date_entry()
+        if not date_entry:
+            # Handle the case where the entry is empty
+            load_from_date = None
+        elif isinstance(date_entry, tuple) and len(date_entry) == 1 and isinstance(date_entry[0], date):
+            # If it's a tuple containing a datetime.date object, use it directly
+            load_from_date = date_entry[0]
+        elif isinstance(date_entry, date):
+            # If it's a datetime.date object, use it directly
+            load_from_date = date_entry
+        else:
+            # If it's already a string, parse it as a datetime object
+            load_from_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
+
         tk.Label(self, text="From:").pack(side='top', pady=10)
         self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,year=load_from_date.year, month=load_from_date.month, day=load_from_date.day)
         self.from_date_entry.pack(side='top', pady=5)
 
         # Create 'to' date entry using tkcalendar in settings popup
-        load_to_date=datetime.strptime(self.controller.get_to_date_entry(),"%Y-%m-%d") if not isinstance(self.controller.get_to_date_entry(),date) else self.controller.get_to_date_entry()
+        date_entry = self.controller.get_to_date_entry()
+        if not date_entry:
+            # Handle the case where the entry is empty
+            load_to_date = None
+        elif isinstance(date_entry, tuple) and len(date_entry) == 1 and isinstance(date_entry[0], date):
+            # If it's a tuple containing a datetime.date object, use it directly
+            load_to_date = date_entry[0]
+        elif isinstance(date_entry, date):
+            # If it's a datetime.date object, use it directly
+            load_to_date = date_entry
+        else:
+            # If it's already a string, parse it as a datetime object
+            load_to_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
+
         tk.Label(self, text="To:").pack(side='top', pady=10)
         self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=load_to_date.year, month=load_to_date.month, day=load_to_date.day)
         self.to_date_entry.pack(side='top', pady=5)
