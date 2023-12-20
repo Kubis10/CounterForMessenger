@@ -3,10 +3,11 @@ import tkinter as tk
 import glob
 import importlib
 from time import time
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
+from tkcalendar import DateEntry
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
@@ -49,6 +50,17 @@ class ConfigurationPage(tk.Frame):
             self, text=f'{self.module.TITLE_OPEN_FE}...', padding=5, command=self.open_file_explorer
         ).pack(side='top', pady=5)
 
+        # Create 'from' date entry using tkcalendar in settings popup
+        tk.Label(self, text="From:").pack(side='top', pady=5)
+        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000)
+        self.from_date_entry.pack(side='top', pady=10)
+
+        # Create 'to' date entry using tkcalendar in settings popup
+        tk.Label(self, text="To:").pack(side='top', pady=5)
+        self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True)
+        self.to_date_entry.pack(side='top', pady=10)
+
+
         # ask for Facebook name
         tk.Label(
             self, text=f'{self.module.TITLE_GIVE_USERNAME}:',
@@ -73,7 +85,9 @@ class ConfigurationPage(tk.Frame):
         self.controller.update_data(
             self.username_label.get(),
             self.directory_label.cget('text'),
-            self.language_label.get()
+            self.language_label.get(),
+            self.from_date_entry.get_date(),
+            self.to_date_entry.get_date()
         )
         # go to main page
         self.controller.show_frame(MainPage.__name__)
@@ -262,6 +276,8 @@ class MasterWindow(tk.Tk):
         self.directory = ''
         self.username = ''
         self.language = 'English'
+        self.from_date_entry = ''
+        self.to_date_entry = ''
         self.lang_mdl = importlib.import_module('langs.English')
         self.sent_messages = 0
         self.total_messages = 0
@@ -282,7 +298,7 @@ class MasterWindow(tk.Tk):
 
         # declare all possible app frames along with their desired dimensions (width, height)
         self.frames = {
-            ConfigurationPage.__name__: [700, 450, None],
+            ConfigurationPage.__name__: [800, 600, None],
             MainPage.__name__: [1375, 700, None]
         }
         # initialize and load frames to container
@@ -309,6 +325,14 @@ class MasterWindow(tk.Tk):
         # noinspection PyUnresolvedReferences
         return self.lang_mdl.TITLE_NO_SELECTION if self.directory == '/' or self.directory.isspace() else self.directory
 
+    def get_from_date_entry(self):
+        # noinspection PyUnresolvedReferences
+        return self.lang_mdl.TITLE_NOT_APPLICABLE if self.from_date_entry == '' else self.from_date_entry
+
+    def get_to_date_entry(self):
+            # noinspection PyUnresolvedReferences
+            return self.lang_mdl.TITLE_NOT_APPLICABLE if self.to_date_entry == '' else self.to_date_entry
+
     def get_language(self):
         # check if current language variable holds valid assignment
         if self.language not in existing_languages():
@@ -329,15 +353,17 @@ class MasterWindow(tk.Tk):
             new_frame.grid(row=0, column=0, sticky='nsew')
 
     # update internal trackers to user made changes
-    def update_data(self, username, directory, language):
+    def update_data(self, username, directory, language, from_date_entry, to_date_entry):
         temp = self.language
         self.username = username
         self.directory = directory
         self.language = language
+        self.from_date_entry = from_date_entry,
+        self.to_date_entry = to_date_entry,
         self.lang_mdl = importlib.import_module(f'langs.{language}')
         # also save user provided data to 'config.txt'
         with open('config.txt', 'w') as f:
-            f.write(f'{username}\n{directory}\n{language}')
+            f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}')
         # refresh only to apply a new language
         if temp != language:
             self.refresh_frames()
@@ -345,7 +371,7 @@ class MasterWindow(tk.Tk):
     def load_data(self):
         if exists('config.txt'):
             with open('config.txt', 'r') as f:
-                self.username, self.directory, self.language = f.read().splitlines()
+                self.username, self.directory, self.language, self.from_date_entry, self.to_date_entry = f.read().splitlines()
             self.lang_mdl = importlib.import_module(f'langs.{self.language}')
 
     # extract relevant data from given .json files
@@ -354,6 +380,14 @@ class MasterWindow(tk.Tk):
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration, total_messages, total_chars, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files = 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        if isinstance(self.from_date_entry,tuple):
+            self.from_date_entry = self.from_date_entry[0]
+        if isinstance(self.to_date_entry,tuple):
+            self.to_date_entry = self.to_date_entry[0]
+        if not isinstance(self.from_date_entry, date) and not isinstance(self.to_date_entry, date):
+            self.from_date_entry=datetime.strptime(self.from_date_entry,"%Y-%m-%d").date() if not isinstance(self.from_date_entry,date) else self.from_date_entry
+            self.to_date_entry=datetime.strptime(self.to_date_entry,"%Y-%m-%d").date() if not isinstance(self.to_date_entry,date) else self.to_date_entry
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -364,28 +398,33 @@ class MasterWindow(tk.Tk):
                     participants[name] = participants.get(name, 0)
                 # update all relevant counters
                 for message in data.get('messages', []):
-                    total_messages += 1
-                    try:
-                        total_chars += len(message['content'])
-                    except KeyError:
-                        pass
-                    sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
-                    if sender == self.get_username():
-                        sent_messages += 1
-                    # keep track of each participant's message total
-                    participants[sender] = participants.get(sender, 0) + 1
-                    # save call durations, if any
-                    call_duration += message.get('call_duration', 0)
-                    # fetch conversation creation date
-                    start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
-                    if 'photos' in message:
-                        total_photos += len(message['photos'])
-                    if 'gifs' in message:
-                        total_gifs += len(message['gifs'])
-                    if 'videos' in message:
-                        total_videos += len(message['videos'])
-                    if 'files' in message:
-                        total_files += len(message['files'])
+                    #  print(type(message["timestamp_ms"]))
+                    #print(type(datetime.fromtimestamp(int(message["timestamp_ms"])/1000).date()))
+                    #print(type(self.from_date_entry))
+                    if self.from_date_entry <= datetime.fromtimestamp(int(message["timestamp_ms"])/1000).date() <= self.to_date_entry:
+                        total_messages += 1
+                        try:
+                            total_chars += len(message['content'])
+                        except KeyError:
+                            pass
+                        sender = message['sender_name'].encode('iso-8859-1').decode('utf-8')
+                        if sender == self.get_username():
+                            sent_messages += 1
+                        # keep track of each participant's message total
+                        participants[sender] = participants.get(sender, 0) + 1
+                        # save call durations, if any
+                        call_duration += message.get('call_duration', 0)
+                        # fetch conversation creation date
+                        start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
+                        if 'photos' in message:
+                            total_photos += len(message['photos'])
+                        if 'gifs' in message:
+                            total_gifs += len(message['gifs'])
+                        if 'videos' in message:
+                            total_videos += len(message['videos'])
+                        if 'files' in message:
+                            total_files += len(message['files'])
+
                 # fetch chat name and type
                 chat_title = data.get('title', '').encode('iso-8859-1').decode('utf-8')
                 try:
@@ -486,6 +525,18 @@ class SettingsPopup(tk.Toplevel):
         self.username_label.insert(0, self.controller.get_username())
         self.username_label.pack(side='top', pady=5)
 
+        # Create 'from' date entry using tkcalendar in settings popup
+        load_from_date=datetime.strptime(self.controller.get_from_date_entry(),"%Y-%m-%d") if not isinstance(self.controller.get_from_date_entry(),date) else self.controller.get_from_date_entry()
+        tk.Label(self, text="From:").pack(side='top', pady=10)
+        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,year=load_from_date.year, month=load_from_date.month, day=load_from_date.day)
+        self.from_date_entry.pack(side='top', pady=5)
+
+        # Create 'to' date entry using tkcalendar in settings popup
+        load_to_date=datetime.strptime(self.controller.get_to_date_entry(),"%Y-%m-%d") if not isinstance(self.controller.get_to_date_entry(),date) else self.controller.get_to_date_entry()
+        tk.Label(self, text="To:").pack(side='top', pady=10)
+        self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=load_to_date.year, month=load_to_date.month, day=load_to_date.day)
+        self.to_date_entry.pack(side='top', pady=5)
+
         # set up language listbox
         self.language_label = tk.StringVar(self, value=self.controller.get_language())
         ttk.OptionMenu(
@@ -503,7 +554,9 @@ class SettingsPopup(tk.Toplevel):
         self.controller.update_data(
             self.username_label.get(),
             self.directory_label.cget('text'),
-            self.language_label.get()
+            self.language_label.get(),
+            self.from_date_entry.get_date(),
+            self.to_date_entry.get_date()
         )
         # exit popup
         self.destroy()
