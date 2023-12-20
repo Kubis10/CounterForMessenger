@@ -538,7 +538,7 @@ class SettingsPopup(tk.Toplevel):
             # If it's already a string, parse it as a datetime object
             load_from_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
 
-        tk.Label(self, text="From:").pack(side='top', pady=10)
+        tk.Label(self, text=f'{self.module.TITLE_FROM}:').pack(side='top', pady=10)
         self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,year=load_from_date.year, month=load_from_date.month, day=load_from_date.day)
         self.from_date_entry.pack(side='top', pady=5)
 
@@ -557,7 +557,7 @@ class SettingsPopup(tk.Toplevel):
             # If it's already a string, parse it as a datetime object
             load_to_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
 
-        tk.Label(self, text="To:").pack(side='top', pady=10)
+        tk.Label(self, text=f'{self.module.TITLE_TO}:').pack(side='top', pady=10)
         self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=load_to_date.year, month=load_to_date.month, day=load_to_date.day)
         self.to_date_entry.pack(side='top', pady=5)
 
