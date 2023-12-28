@@ -7,7 +7,14 @@
 
 ![image](https://user-images.githubusercontent.com/50967586/211426399-263e03d0-cb17-4f00-adbf-018f451e277d.png)
 
-If you are interested in contributing to this repository, pull requests are much appreciated.
+You can check extensive and accurate statistics for each chat (group and private) that you won't find in any other application. Just double click. 
+
+<p align="center">
+<img src="https://github.com/Kubis10/CounterForMessenger/assets/50967586/435dcde8-6b89-4524-a18a-37ef2814f674" alt="files">
+</p>
+
+You can also check the number of messages for specific time intervals, so if you want to do a "messenger wrapped" this is the perfect app for that.
+### If you are interested in contributing to this repository, pull requests are much appreciated.
 
 ## How to use
 To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
