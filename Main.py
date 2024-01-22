@@ -676,6 +676,11 @@ class StatisticsPopup(tk.Toplevel):
         self.grab_set()
 
         title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(selection)
+
+        # Initialize search functionality
+        self.add_search_functionality()
+
+
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
             set_resolution(self, 800, 650)
@@ -729,6 +734,28 @@ class StatisticsPopup(tk.Toplevel):
         listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
+
+    def add_search_functionality(self):
+        # Search entry
+        self.search_var = tk.StringVar()
+        search_entry = ttk.Entry(self, textvariable=self.search_var)
+        search_entry.pack(side='top', pady=5)
+        search_entry.bind('<KeyRelease>', self.update_listbox)
+
+        # Original list of participants
+        self.original_participants = list(self.people.keys()) 
+
+        # Creating the Listbox for participants
+        self.participants_listbox = tk.Listbox(self, width=30, height=15)  # Adjust height as needed
+        self.participants_listbox.pack(side='top', pady=5)
+        self.update_listbox()
+
+    def update_listbox(self, event=None):
+        search_term = self.search_var.get().lower()
+        self.participants_listbox.delete(0, tk.END)
+        for participant in self.original_participants:
+            if search_term in participant.lower():
+                self.participants_listbox.insert(tk.END, participant)
 
 
 if __name__ == '__main__':
