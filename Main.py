@@ -52,14 +52,14 @@ class ConfigurationPage(tk.Frame):
 
         # Create 'from' date entry using tkcalendar in settings popup
         tk.Label(self, text=f'{self.module.TITLE_FROM}:').pack(side='top', pady=5)
-        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000, month=1, day=1)
+        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=2000, month=1,
+                                         day=1)
         self.from_date_entry.pack(side='top', pady=10)
 
         # Create 'to' date entry using tkcalendar in settings popup
         tk.Label(self, text=f'{self.module.TITLE_TO}:').pack(side='top', pady=5)
         self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True)
         self.to_date_entry.pack(side='top', pady=10)
-
 
         # ask for Facebook name
         tk.Label(
@@ -223,10 +223,10 @@ class MainPage(tk.Frame):
 
     # invoked by pressing the column headers
     def sort_treeview(self, column, order, bias):
-    # Cache the get_children call
+        # Cache the get_children call
         children = self.treeview.get_children('')
         # Retrieve the column's contents
-        contents = [(self.treeview.set(k, column), k) for k in children]      
+        contents = [(self.treeview.set(k, column), k) for k in children]
         # For number-wise sorting, convert to integers once, beforehand
         if bias == 'numberwise':
             # Convert strings to integers and sort
@@ -240,7 +240,6 @@ class MainPage(tk.Frame):
             self.treeview.move(k, '', index)
         # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
-
 
     # invoked on double left click on any treeview listing
     def show_statistics(self):
@@ -362,7 +361,7 @@ class MasterWindow(tk.Tk):
         self.to_date_entry = to_date_entry,
         self.lang_mdl = importlib.import_module(f'langs.{language}')
         # also save user provided data to 'config.txt'
-        with open('config.txt', 'w') as f:
+        with open('config.txt', 'w', encoding='utf-8') as f:
             f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}')
         # refresh only to apply a new language
         if temp != language:
@@ -370,7 +369,7 @@ class MasterWindow(tk.Tk):
 
     def load_data(self):
         if exists('config.txt'):
-            with open('config.txt', 'r') as f:
+            with open('config.txt', 'r', encoding='utf-8') as f:
                 self.username, self.directory, self.language, self.from_date_entry, self.to_date_entry = f.read().splitlines()
             self.lang_mdl = importlib.import_module(f'langs.{self.language}')
 
@@ -381,13 +380,15 @@ class MasterWindow(tk.Tk):
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration, total_messages, total_chars, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files = 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-        if isinstance(self.from_date_entry,tuple):
+        if isinstance(self.from_date_entry, tuple):
             self.from_date_entry = self.from_date_entry[0]
-        if isinstance(self.to_date_entry,tuple):
+        if isinstance(self.to_date_entry, tuple):
             self.to_date_entry = self.to_date_entry[0]
         if not isinstance(self.from_date_entry, date) and not isinstance(self.to_date_entry, date):
-            self.from_date_entry=datetime.strptime(self.from_date_entry,"%Y-%m-%d").date() if not isinstance(self.from_date_entry,date) else self.from_date_entry
-            self.to_date_entry=datetime.strptime(self.to_date_entry,"%Y-%m-%d").date() if not isinstance(self.to_date_entry,date) else self.to_date_entry
+            self.from_date_entry = datetime.strptime(self.from_date_entry, "%Y-%m-%d").date() if not isinstance(
+                self.from_date_entry, date) else self.from_date_entry
+            self.to_date_entry = datetime.strptime(self.to_date_entry, "%Y-%m-%d").date() if not isinstance(
+                self.to_date_entry, date) else self.to_date_entry
 
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             with open(file, 'r') as f:
@@ -399,7 +400,8 @@ class MasterWindow(tk.Tk):
                 # update all relevant counters
                 # filter messages that are in the chosen time window
                 for message in data.get('messages', []):
-                    if self.from_date_entry <= datetime.fromtimestamp(int(message["timestamp_ms"])/1000).date() <= self.to_date_entry:
+                    if self.from_date_entry <= datetime.fromtimestamp(
+                            int(message["timestamp_ms"]) / 1000).date() <= self.to_date_entry:
                         total_messages += 1
                         try:
                             total_chars += len(message['content'])
@@ -539,7 +541,8 @@ class SettingsPopup(tk.Toplevel):
             load_from_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
 
         tk.Label(self, text=f'{self.module.TITLE_FROM}:').pack(side='top', pady=10)
-        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,year=load_from_date.year, month=load_from_date.month, day=load_from_date.day)
+        self.from_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,
+                                         year=load_from_date.year, month=load_from_date.month, day=load_from_date.day)
         self.from_date_entry.pack(side='top', pady=5)
 
         # Create 'to' date entry using tkcalendar in settings popup
@@ -558,7 +561,8 @@ class SettingsPopup(tk.Toplevel):
             load_to_date = datetime.strptime(str(date_entry), "%Y-%m-%d").date()
 
         tk.Label(self, text=f'{self.module.TITLE_TO}:').pack(side='top', pady=10)
-        self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True, year=load_to_date.year, month=load_to_date.month, day=load_to_date.day)
+        self.to_date_entry = DateEntry(self, date_pattern='yyyy-mm-dd', width=12, allow_none=True,
+                                       year=load_to_date.year, month=load_to_date.month, day=load_to_date.day)
         self.to_date_entry.pack(side='top', pady=5)
 
         # set up language listbox
@@ -626,7 +630,8 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(conversation)
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+                        conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
                         # (meaning it's not the expected inbox folder)
@@ -639,7 +644,8 @@ class LoadingPopup(tk.Toplevel):
                     # easiest solution is to force the name to be a string by temporarily adding some garbage to it.
                     treeview.insert(
                         parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos, total_files, all_chars,
+                            title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos,
+                            total_files, all_chars,
                             f'{PREFIX}{conversation}'
                         ))
                     # update global message counters
@@ -675,7 +681,8 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(selection)
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+            selection)
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
             set_resolution(self, 800, 650)
@@ -716,13 +723,13 @@ class StatisticsPopup(tk.Toplevel):
         ttk.Label(
             self, text=f'{self.module.TITLE_START_DATE}: {datetime.fromtimestamp(start_date / 1000)}'
         ).pack(side='top', pady=5)
-        
+
         # show average messages per time period
-        sec_since_start = int(time() - start_date/1000)
+        sec_since_start = int(time() - start_date / 1000)
         ttk.Label(
             self, text=f'{self.module.TITLE_AVERAGE_MESSAGES}: '
         ).pack(side='top', pady=5)
-            
+
         listbox = tk.Listbox(self, width=30, height=4)
         listbox.pack(side='top', pady=5)
         listbox.insert('end', f'{self.module.TITLE_PER_DAY} - {all_msgs / (sec_since_start / 86400):.2f}')
