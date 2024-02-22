@@ -607,6 +607,7 @@ class LoadingPopup(tk.Toplevel):
 
         # loading window customization
         self.title(f'{self.module.TITLE_LOADING}...')
+        self.iconbitmap('assets/CFM.ico')
         self.resizable(False, False)
         self.focus_set()
         self.grab_set()
