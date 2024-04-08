@@ -1,0 +1,92 @@
+{
+  "participants": [
+    {
+      "name": "Emily Smith"
+    },
+    {
+      "name": "John Doe"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500512000,
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "is_geoblocked_for_viewer": false
+    },
+        {
+      "sender_name": "Emily Smith",
+      "timestamp_ms": 1593704401662,
+      "photos": [
+        {
+          "uri": "/photos/3955771561164136.png",
+          "creation_timestamp": 1649500512000
+        },
+                {
+          "uri": "/photos/3955771561164136.png",
+          "creation_timestamp": 1649500512000
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Emily Smith",
+      "timestamp_ms": 1649500510000,
+      "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0098\u0086",
+          "actor": "John Doe"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500505000,
+      "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Emily Smith",
+      "timestamp_ms": 1649500490000,
+      "content": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "call_duration": 578,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500480000,
+      "content": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Emily Smith",
+      "timestamp_ms": 1649500470000,
+      "content": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500460000,
+      "content": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Emily Smith",
+      "timestamp_ms": 1649500450000,
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500440000,
+      "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Emily Smith",
+  "is_still_participant": true,
+  "thread_path": "SampleData/emilyjohn_123456789",
+  "magic_words": []
+}

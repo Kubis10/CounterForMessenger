@@ -1,0 +1,76 @@
+{
+  "participants": [
+    {
+      "name": "Lucas Johnson"
+    },
+    {
+      "name": "Ethan Smith"
+    },
+    {
+      "name": "John Doe"
+    },
+    {
+      "name": "Mason Taylor"
+    },
+    {
+      "name": "Liam Brown"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Liam Brown",
+      "timestamp_ms": 1628073565366,
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Ethan Smith",
+      "timestamp_ms": 1628069152290,
+      "content": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Liam Brown",
+      "timestamp_ms": 1628003293783,
+      "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Liam Brown",
+      "timestamp_ms": 1627996465673,
+      "content": "Pfff",
+      "videos": [
+        {
+          "uri": "/videos/_n_262983068988811.mp4",
+          "creation_timestamp": 1627934222
+        }
+        ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1627996433919,
+      "content": "@Liam Brown",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1627996429313,
+      "content": "Talk ended",
+      "call_duration": 111,
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "group1",
+  "is_still_participant": true,
+  "thread_path": "SampleData/group1_4437375262993687",
+  "magic_words": [],
+  "image": {
+    "uri": "/photos/_n_1163281470749734.jpg",
+    "creation_timestamp": 1627906923
+  },
+  "joinable_mode": {
+    "mode": 1,
+    "link": ""
+  }
+}

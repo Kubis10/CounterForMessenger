@@ -1,0 +1,52 @@
+{
+  "participants": [
+    {
+      "name": "John Doe"
+    },
+    {
+      "name": "Alice Johnson"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500512000,
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "call_duration": 7578,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Alice Johnson",
+      "timestamp_ms": 1649500510000,
+      "audio_files": [
+        {
+          "uri": "audio/audioclip.mp4",
+          "creation_timestamp": 1649500510000
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500505000,
+      "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Alice Johnson",
+      "timestamp_ms": 1649500490000,
+      "content": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "John Doe",
+      "timestamp_ms": 1649500480000,
+      "content": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Alice Johnson",
+  "is_still_participant": true,
+  "thread_path": "SampleData/johnalice_987654321",
+  "magic_words": []
+}
