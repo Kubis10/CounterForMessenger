@@ -22,7 +22,7 @@ To use this app you need to download all(recomended) your data directly from Fac
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
 </p>
-In messages folder you need to copy all folders from archived_threads, filtered_threads and message_requests to inbox folder.
+In messages folder you need to copy all folders from archived_threads, filtered_threads, e2ee_cutover and message_requests to inbox folder. Sometimes you will have 2 folders your_activity_across_facebook and your_facebook_activity so you need to copy from all places to one folder.
 
 ## Installation 
 
