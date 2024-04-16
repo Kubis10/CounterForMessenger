@@ -8,9 +8,19 @@ from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
 from tkcalendar import DateEntry
+from PIL import Image, ImageTk
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
+
+def setIcon(object):
+    """
+    This function sets the icon of a tkinter window (passed in as `object`) to 
+    the CFM icon.
+    """
+    im = Image.open('assets/CFM.ico')
+    photo = ImageTk.PhotoImage(im)
+    object.wm_iconphoto(True, photo)
 
 
 # change to desired resolution
@@ -287,7 +297,7 @@ class MasterWindow(tk.Tk):
 
         # global window customization
         self.title('Counter for Messenger')
-        self.iconbitmap('assets/CFM.ico')
+        setIcon(self)
 
         # frame container setup
         self.container = tk.Frame(self)
@@ -447,7 +457,7 @@ class ProfilePopup(tk.Toplevel):
 
         # profile window customization
         self.title(self.module.TITLE_PROFILE)
-        self.iconbitmap('assets/CFM.ico')
+        setIcon(self)
         self.focus_set()
         self.grab_set()
 
@@ -501,7 +511,7 @@ class SettingsPopup(tk.Toplevel):
 
         # settings window customization
         self.title(self.module.TITLE_SETTINGS)
-        self.iconbitmap('assets/CFM.ico')
+        setIcon(self)
         self.focus_set()
         self.grab_set()
 
@@ -607,7 +617,7 @@ class LoadingPopup(tk.Toplevel):
 
         # loading window customization
         self.title(f'{self.module.TITLE_LOADING}...')
-        self.iconbitmap('assets/CFM.ico')
+        setIcon(self)
         self.resizable(False, False)
         self.focus_set()
         self.grab_set()
@@ -678,7 +688,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # statistics window customization
         self.title(self.module.TITLE_STATISTICS)
-        self.iconbitmap('assets/CFM.ico')
+        setIcon(self)
         self.focus_set()
         self.grab_set()
 
