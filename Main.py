@@ -934,7 +934,7 @@ class MultiSortPopup(tk.Toplevel):
         # Have columns fill width
         listbox_frame.grid_columnconfigure(0, weight=1)
         listbox_frame.grid_columnconfigure(1, weight=1)
-        
+
         # Listbox of "available" columns
         tk.Label(listbox_frame, text="Available Columns").grid(row=0, column=0)
         self.available_listbox = tk.Listbox(listbox_frame)
@@ -1087,14 +1087,14 @@ class MultiSortPopup(tk.Toplevel):
 
         # Retrieve the index
         idx = self.temp_ordering.index(column_name)
-        
+
         # Delete current entry in listbox
         self.sort_order_listbox.delete(idx)
 
         # Rewrite entry
         text = self.get_entry_text(column_name)
         self.sort_order_listbox.insert(idx, text)
-        
+
     def clear(self):
         """
         Reset the sort ordering column
@@ -1110,7 +1110,7 @@ class MultiSortPopup(tk.Toplevel):
         """
         Sort according to the ordering the user builds and close this popup.
         """
-        # Overwrite old state 
+        # Overwrite old state
         self.sort_columns.clear()
         self.columns_reversed.clear()
 
@@ -1132,18 +1132,40 @@ class MultiSortPopup(tk.Toplevel):
         if len(idx) <= 0: return
         (idx,) = idx
         column_name = self.columns[idx]
-        
+
         if column_name != "" and column_name not in self.temp_ordering:
             self.add_to_sort(column_name)
 
     def remove_clicked(self):
         """
         "Remove" button clicked
+
+        Try to read a selection from both listboxes, giving priority to the left
+        one.
         """
-        idx = self.available_listbox.curselection()
-        if len(idx) <= 0: return
-        (idx,) = idx
-        column_name = self.columns[idx]
+        idx = None
+        column_name = None
+        left_idx = self.available_listbox.curselection()
+        right_idx = self.sort_order_listbox.curselection()
+        if len(left_idx) > 0:
+            (idx,) = left_idx
+
+            """
+            In this case, `idx` corresponds to an index in the list of available
+            columns.
+            """
+            column_name = self.columns[idx]
+        elif len(right_idx) > 0:
+            (idx,) = right_idx
+
+            """
+            In this case, `idx` corresponds to an index in the temporary
+            ordering.
+            """
+            column_name = self.temp_ordering[idx]
+        else:
+            # Give up
+            return
 
         if column_name != "" and column_name in self.temp_ordering:
             self.remove_from_sort(column_name)
@@ -1178,10 +1200,29 @@ class MultiSortPopup(tk.Toplevel):
         """
         "Reverse" button clicked
         """
-        idx = self.available_listbox.curselection()
-        if len(idx) <= 0: return
-        (idx,) = idx
-        column_name = self.columns[idx]
+        idx = None
+        column_name = None
+        left_idx = self.available_listbox.curselection()
+        right_idx = self.sort_order_listbox.curselection()
+        if len(left_idx) > 0:
+            (idx,) = left_idx
+
+            """
+            In this case, `idx` corresponds to an index in the list of available
+            columns.
+            """
+            column_name = self.columns[idx]
+        elif len(right_idx) > 0:
+            (idx,) = right_idx
+
+            """
+            In this case, `idx` corresponds to an index in the temporary
+            ordering.
+            """
+            column_name = self.temp_ordering[idx]
+        else:
+            # Give up
+            return
 
         if column_name != "" and column_name in self.temp_ordering:
             self.reverse(column_name)
