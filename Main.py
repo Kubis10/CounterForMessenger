@@ -14,7 +14,7 @@ from functools import cmp_to_key
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
 
-def setIcon(object):
+def set_icon(object):
     """
     This function sets the icon of a tkinter window (passed in as `object`) to 
     the CFM icon.
@@ -429,7 +429,7 @@ class MasterWindow(tk.Tk):
 
         # global window customization
         self.title('Counter for Messenger')
-        setIcon(self)
+        set_icon(self)
 
         # frame container setup
         self.container = tk.Frame(self)
@@ -589,7 +589,7 @@ class ProfilePopup(tk.Toplevel):
 
         # profile window customization
         self.title(self.module.TITLE_PROFILE)
-        setIcon(self)
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -643,7 +643,7 @@ class SettingsPopup(tk.Toplevel):
 
         # settings window customization
         self.title(self.module.TITLE_SETTINGS)
-        setIcon(self)
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -749,7 +749,7 @@ class LoadingPopup(tk.Toplevel):
 
         # loading window customization
         self.title(f'{self.module.TITLE_LOADING}...')
-        setIcon(self)
+        set_icon(self)
         self.resizable(False, False)
         self.focus_set()
         self.grab_set()
@@ -820,7 +820,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # statistics window customization
         self.title(self.module.TITLE_STATISTICS)
-        setIcon(self)
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -914,9 +914,9 @@ class MultiSortPopup(tk.Toplevel):
         self.temp_ordering = self.sort_columns[:]
         self.temp_reversed = {**self.columns_reversed}
 
-        # Profile window customization
+        # Window customization
         self.title(self.module.TITLE_CONFIGURE_MULTI_SORT)
-        setIcon(self)
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
