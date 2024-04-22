@@ -185,9 +185,6 @@ class MainPage(tk.Frame):
         """
         self.columns_reversed = dict()
 
-        # Add the ability to select multiple columns
-        self.select_multiple_columns = False
-
         # show frame title
         ttk.Label(
             self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
