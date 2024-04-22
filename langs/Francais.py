@@ -44,3 +44,15 @@ TITLE_PER_MONTH = 'Mois' # REVIEW NEEDED
 TITLE_PER_YEAR = 'An' #R EVIEW NEEDED
 TITLE_FROM = 'De'
 TITLE_TO = 'À'
+# For the multi-sort popup: NEEDS REVIEW
+TITLE_MULTI_SORT = 'Tri multi-critères'
+TITLE_CONFIGURE_MULTI_SORT = 'Configurer le tri multi-critères'
+TITLE_AVAILABLE_COLUMNS = 'Colonnes disponibles'
+TITLE_SORT_ORDER = 'Ordre de tri'
+TITLE_ADD = 'Ajouter'
+TITLE_REMOVE = 'Supprimer'
+TITLE_REVERSE = 'Inverser'
+TITLE_MOVE_UP = 'Remonter'
+TITLE_MOVE_DOWN = 'Descendre'
+TITLE_CLEAR = 'Effacer'
+TITLE_APPLY = 'Appliquer'

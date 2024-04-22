@@ -44,3 +44,15 @@ TITLE_PER_MONTH = 'महीने' # REVIEW NEEDED
 TITLE_PER_YEAR = 'वर्ष' # REVIEW NEEDED
 TITLE_FROM = 'से'
 TITLE_TO = 'तक'
+# For the multi-sort popup: NEEDS REVIEW
+TITLE_MULTI_SORT = 'मल्टी-सॉर्ट'
+TITLE_CONFIGURE_MULTI_SORT = 'मल्टी-सॉर्ट को कॉन्फ़िगर करें'
+TITLE_AVAILABLE_COLUMNS = 'उपलब्ध कॉलम'
+TITLE_SORT_ORDER = 'सॉर्ट क्रम'
+TITLE_ADD = 'जोड़ें'
+TITLE_REMOVE = 'हटाएं'
+TITLE_REVERSE = 'उल्टा करें'
+TITLE_MOVE_UP = 'ऊपर ले जाएं'
+TITLE_MOVE_DOWN = 'नीचे ले जाएं'
+TITLE_CLEAR = 'हटाएं'
+TITLE_APPLY = 'लागू करें'

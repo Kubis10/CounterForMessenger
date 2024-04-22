@@ -915,14 +915,14 @@ class MultiSortPopup(tk.Toplevel):
         self.temp_reversed = {**self.columns_reversed}
 
         # Profile window customization
-        self.title("Configure Multi-Sort")
+        self.title(self.module.TITLE_CONFIGURE_MULTI_SORT)
         setIcon(self)
         self.focus_set()
         self.grab_set()
 
         # Show 'My data' header
         ttk.Label(
-            self, text=f'Multi-Sort', font=('Ariel', 24)
+            self, text=self.module.TITLE_MULTI_SORT, font=('Ariel', 24)
         ).pack(side='top', pady=20)
 
         """
@@ -936,7 +936,10 @@ class MultiSortPopup(tk.Toplevel):
         listbox_frame.grid_columnconfigure(1, weight=1)
 
         # Listbox of "available" columns
-        tk.Label(listbox_frame, text="Available Columns").grid(row=0, column=0)
+        tk.Label(
+            listbox_frame,
+            text=self.module.TITLE_AVAILABLE_COLUMNS
+        ).grid(row=0, column=0)
         self.available_listbox = tk.Listbox(listbox_frame)
         self.available_listbox.grid(row=1, column=0, sticky='nesw')
 
@@ -946,7 +949,10 @@ class MultiSortPopup(tk.Toplevel):
             self.available_listbox.insert(tk.END, column_title)
 
         # Listbox to configure sort_order (empty to begin with)
-        tk.Label(listbox_frame, text="Sort Order").grid(row=0, column=1)
+        tk.Label(
+            listbox_frame,
+            text=self.module.TITLE_SORT_ORDER
+        ).grid(row=0, column=1)
         self.sort_order_listbox = tk.Listbox(listbox_frame)
         self.sort_order_listbox.grid(row=1, column=1, columnspan=1, sticky='nesw')
 
@@ -958,47 +964,47 @@ class MultiSortPopup(tk.Toplevel):
         # "Add" and "Remove" buttons
         tk.Button(
             listbox_frame, 
-            text="Add",
+            text=self.module.TITLE_ADD,
             command = lambda : self.add_clicked()
         ).grid(row=2,column=0)
 
         tk.Button(
             listbox_frame,
-            text="Remove",
+            text=self.module.TITLE_REMOVE,
             command = lambda : self.remove_clicked()
         ).grid(row=3,column=0)
 
         # "Move up" and "Move down" buttons
         tk.Button(
             listbox_frame,
-            text="Move up",
+            text=self.module.TITLE_MOVE_UP,
             command = lambda : self.move_up_clicked()
         ).grid(row=2, column=1)
 
         tk.Button(
             listbox_frame,
-            text="Move down",
+            text=self.module.TITLE_MOVE_DOWN,
             command = lambda : self.move_down_clicked()
         ).grid(row=3, column=1)
 
         # "Reverse" button
         tk.Button(
             listbox_frame,
-            text="Reverse",
+            text=self.module.TITLE_REVERSE,
             command = lambda : self.reverse_clicked()
         ).grid(row=4,column=0)
 
         # "Clear" button
         tk.Button(
             listbox_frame,
-            text="Clear",
+            text=self.module.TITLE_CLEAR,
             command = lambda : self.clear()
         ).grid(row=4,column=1)
 
         # "Apply" button
         tk.Button(
             self,
-            text="Apply",
+            text=self.module.TITLE_APPLY,
             command = lambda : self.apply()
         ).pack()
 
