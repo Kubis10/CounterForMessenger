@@ -917,7 +917,7 @@ class MultiSortPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        # Show 'My data' header
+        # Show header
         ttk.Label(
             self, text=self.module.TITLE_MULTI_SORT, font=('Ariel', 24)
         ).pack(side='top', pady=20)
@@ -1008,7 +1008,7 @@ class MultiSortPopup(tk.Toplevel):
     def get_entry_text(self, column_name):
         """
         Helper function that returns a string representation of `column_name`
-        for display in the "Sort order" column.
+        for display in the listboxes.
         """
         text = self.column_titles[column_name]
 
