@@ -896,18 +896,23 @@ class MultiSortPopup(tk.Toplevel):
         self.column_titles = column_titles
 
         """
-        bind sort info so we can mutate it later - it's important we don't break
+        Bind sort info so we can mutate it later - it's important we don't break
         these aliases
         """
-        self.columns_reversed = columns_reversed
         self.sort_columns = sort_columns
+        self.columns_reversed = columns_reversed
 
         # We can call this function to apply the sort
         self.apply_callback = apply_callback
 
-        # Temporary ordering - we will keep this in sync with a listbox
-        self.temp_ordering = []
-        self.temp_reversed = dict()
+        """
+        Temporary ordering - we will keep this in sync with a listbox.
+
+        We initialize the ordering with the ordering from the MainPage, if one
+        exists.
+        """
+        self.temp_ordering = self.sort_columns[:]
+        self.temp_reversed = {**self.columns_reversed}
 
         # Profile window customization
         self.title("Configure Multi-Sort")
@@ -944,6 +949,11 @@ class MultiSortPopup(tk.Toplevel):
         tk.Label(listbox_frame, text="Sort Order").grid(row=0, column=1)
         self.sort_order_listbox = tk.Listbox(listbox_frame)
         self.sort_order_listbox.grid(row=1, column=1, columnspan=1, sticky='nesw')
+
+        # Fill the listbox with restored columns
+        for column_name in self.temp_ordering:
+            text = self.get_entry_text(column_name)
+            self.sort_order_listbox.insert(tk.END, text)
 
         # "Add" and "Remove" buttons
         tk.Button(
