@@ -149,6 +149,20 @@ class MainPage(tk.Frame):
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
         self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
 
+        # *Ordered* list of columns (so we can display them in a fixed order)
+        self.columns = [
+            'name',
+            'pep',
+            'type',
+            'msg',
+            'call',
+            'photos',
+            'gifs',
+            'videos',
+            'files'
+        ]
+        self.column_titles = columns
+
         # Ordered list of columns to sort by
         self.sort_columns = []
 
@@ -206,7 +220,8 @@ class MainPage(tk.Frame):
             command = lambda : 
             MultiSortPopup(
                 self.controller,
-                self.column_biases,
+                self.columns[:],                   # Pass a copy
+                {**self.column_titles},            # Pass a copy
                 self.columns_reversed,
                 self.sort_columns,
                 lambda : self.apply_multi_sort()
@@ -869,19 +884,21 @@ class MultiSortPopup(tk.Toplevel):
     """
     This class implements the sort-editor popup
     """
-    def __init__(self, controller, column_biases, columns_reversed, sort_columns, apply_callback):
+    def __init__(self, controller, columns, column_titles, columns_reversed, sort_columns, apply_callback):
         tk.Toplevel.__init__(self)
         self.controller = controller
         self.module = self.controller.lang_mdl
 
         # This popup is bigger to make room for all the additional buttons
-        set_resolution(self, 600, 600)
+        set_resolution(self, 800, 600)
+
+        self.columns = columns        
+        self.column_titles = column_titles
 
         """
         bind sort info so we can mutate it later - it's important we don't break
         these aliases
         """
-        self.column_biases = column_biases
         self.columns_reversed = columns_reversed
         self.sort_columns = sort_columns
 
@@ -907,20 +924,26 @@ class MultiSortPopup(tk.Toplevel):
         Listbox Frame
         """
         listbox_frame = tk.Frame(self)
-        listbox_frame.pack()
+        listbox_frame.pack(fill=tk.X, padx=50)
+
+        # Have columns fill width
+        listbox_frame.grid_columnconfigure(0, weight=1)
+        listbox_frame.grid_columnconfigure(1, weight=1)
+        
         # Listbox of "available" columns
         tk.Label(listbox_frame, text="Available Columns").grid(row=0, column=0)
         self.available_listbox = tk.Listbox(listbox_frame)
-        self.available_listbox.grid(row=1, column=0)
+        self.available_listbox.grid(row=1, column=0, sticky='nesw')
 
         # Fill the listbox with all the columns
-        for column_name in self.column_biases:
-            self.available_listbox.insert("end", column_name)
+        for column_name in self.columns:
+            column_title = self.column_titles[column_name]
+            self.available_listbox.insert(tk.END, column_title)
 
         # Listbox to configure sort_order (empty to begin with)
         tk.Label(listbox_frame, text="Sort Order").grid(row=0, column=1)
         self.sort_order_listbox = tk.Listbox(listbox_frame)
-        self.sort_order_listbox.grid(row=1, column=1)
+        self.sort_order_listbox.grid(row=1, column=1, columnspan=1, sticky='nesw')
 
         # "Add" and "Remove" buttons
         tk.Button(
@@ -974,10 +997,12 @@ class MultiSortPopup(tk.Toplevel):
         Helper function that returns a string representation of `column_name`
         for display in the "Sort order" column.
         """
+        text = self.column_titles[column_name]
+
         if self.temp_reversed[column_name]:
-            return f"{column_name} (reversed)"
+            return f"{text} (reversed)"
         else:
-            return column_name
+            return text
 
     def add_to_sort(self, column_name):
         """
@@ -985,10 +1010,13 @@ class MultiSortPopup(tk.Toplevel):
         """
         # Add to the temporary ordering
         self.temp_ordering.append(column_name)
-        # Add to listbox
-        self.sort_order_listbox.insert(tk.END, column_name)
+
         # Not reversed by default
         self.temp_reversed[column_name] = False
+
+        # Add to listbox
+        text = self.get_entry_text(column_name)
+        self.sort_order_listbox.insert(tk.END, text)
 
     def remove_from_sort(self, column_name):
         """
@@ -1090,7 +1118,10 @@ class MultiSortPopup(tk.Toplevel):
         """
         "Add" button clicked
         """
-        column_name = self.available_listbox.get(tk.ANCHOR)
+        idx = self.available_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+        column_name = self.columns[idx]
         
         if column_name != "" and column_name not in self.temp_ordering:
             self.add_to_sort(column_name)
@@ -1099,7 +1130,10 @@ class MultiSortPopup(tk.Toplevel):
         """
         "Remove" button clicked
         """
-        column_name = self.available_listbox.get(tk.ANCHOR)
+        idx = self.available_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+        column_name = self.columns[idx]
 
         if column_name != "" and column_name in self.temp_ordering:
             self.remove_from_sort(column_name)
@@ -1134,7 +1168,10 @@ class MultiSortPopup(tk.Toplevel):
         """
         "Reverse" button clicked
         """
-        column_name = self.available_listbox.get(tk.ANCHOR)
+        idx = self.available_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+        column_name = self.columns[idx]
 
         if column_name != "" and column_name in self.temp_ordering:
             self.reverse(column_name)
