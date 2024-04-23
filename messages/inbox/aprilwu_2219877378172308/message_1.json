@@ -1,0 +1,84 @@
+{
+  "participants": [
+    {
+      "name": "April Wu"
+    },
+    {
+      "name": "Cathy Xu"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661967058208,
+      "content": "How did u get that",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "April Wu",
+      "timestamp_ms": 1661961042587,
+      "content": "rightttttt",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661913046429,
+      "content": "Wtf",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661913045495,
+      "content": "Cool",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661913043439,
+      "content": "Colli",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661913040570,
+      "content": "Omg this is so chill",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "April Wu",
+      "timestamp_ms": 1661908205883,
+      "content": "welcome to zuckerberg world",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661908177343,
+      "content": "And accepted reqs from process",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1661908170053,
+      "content": "I finally have Facebook",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "April Wu",
+      "timestamp_ms": 1661908156155,
+      "content": "Thx for accepting the friend request",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "April Wu",
+      "timestamp_ms": 1661908142537,
+      "content": "\u00f0\u009f\u0091\u008b",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "April Wu",
+  "is_still_participant": true,
+  "thread_path": "inbox/aprilwu_2219877378172308",
+  "magic_words": [
+    
+  ]
+}
