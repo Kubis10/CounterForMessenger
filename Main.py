@@ -148,6 +148,32 @@ class MainPage(tk.Frame):
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
         self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
 
+        # *Ordered* list of columns (so we can display them in a fixed order)
+        self.columns = [
+            'name',
+            'pep',
+            'type',
+            'msg',
+            'call',
+            'photos',
+            'gifs',
+            'videos',
+            'files'
+        ]
+        self.column_titles = columns
+
+        # filter columns
+        self.filter_columns = {
+            'name': '',
+            'pep': set(),
+            'msg': -1,
+            'call': -1,
+            'photos': -1,
+            'gifs': -1,
+            'videos': -1,
+            'files': -1
+        }
+        
         # show frame title
         ttk.Label(
             self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
@@ -250,6 +276,39 @@ class MainPage(tk.Frame):
             self.treeview.move(k, '', index)
         # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
+
+    def filter_treeview(self):
+        """
+        This function filters out rows based on criterias selected by the user.
+        Example: Show messages with more than 10 photos, but less than 50.
+        """
+
+        # Retrieve all the rows in the treeview
+        children = self.treeview.get_children('')
+
+        filtered = []
+
+        for child in children:
+            # Check if user wants to filter by name
+            if self.filter_columns['name'] != '':
+                if child['name'] != self.filter_columns['name']:
+                    filtered.append(child)
+
+            # Check if user wants to filter by participants
+            if self.filter_columns['pep'] != {}:
+                # only append if  no participants are in the list
+                if self.filter_columns['pep'].isdisjoint(child['pep']):
+                    filtered.append(child)
+
+            for column_name in ['msg', 'call', 'photos', 'gifs', 'videos', 'files']:
+                # Check if user wants to filter by messages
+                if self.filter_columns[column_name] != -1:
+                    min, max = self.filter_columns[column_name]
+                    if min <= child[column_name] <= max:
+                        filtered.append(child)
+
+        # Set the selection to the filtered list
+        self.treeview.selection_set(filtered)
 
     # invoked on double left click on any treeview listing
     def show_statistics(self):
