@@ -1,0 +1,66 @@
+{
+  "participants": [
+    {
+      "name": "Annie Nam"
+    },
+    {
+      "name": "Cathy Xu"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Annie Nam",
+      "timestamp_ms": 1680889714855,
+      "content": "Reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1680888877619,
+      "content": "ahh okk",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Annie Nam"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Annie Nam",
+      "timestamp_ms": 1680883143663,
+      "content": "can i pay breanna or renee in cash and they venmo for me for yhe fundraiser",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Annie Nam",
+      "timestamp_ms": 1680883128035,
+      "content": "Hi my venmo is disabled until the 12",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Annie Nam",
+      "timestamp_ms": 1676254742958,
+      "content": "Can u respond in slack pls",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Annie Nam",
+      "timestamp_ms": 1676240574378,
+      "content": "Hihi can u check slack plss",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674430296541,
+      "content": "You are now connected on Messenger",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Annie Nam",
+  "is_still_participant": true,
+  "thread_path": "inbox/annienam_1623434734754134",
+  "magic_words": [
+    
+  ]
+}
