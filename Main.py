@@ -464,12 +464,52 @@ class MasterWindow(tk.Tk):
     # method to retrieve message data for statistics popup
     def get_statistics_data(self, conversation):
         return self.extract_data(conversation)
+    
+    # methods to compile data based on chat type in profile popup
+    # Compile data for all conversations
+    def get_all_data(self):
+        return self._compile_conversations_data()
+    
+    # Compile data for private chats
+    def get_private_chats_data(self):
+        return self._compile_conversations_data(chat_type_filter=self.lang_mdl.TITLE_PRIVATE_CHAT)
+    
+    # Compile data for group chats
+    def get_group_chats_data(self):
+        return self._compile_conversations_data(chat_type_filter=self.lang_mdl.TITLE_GROUP_CHAT)
+    
+    # Method to compile conversation data based on chat type
+    def _compile_conversations_data(self, chat_type_filter=None):
+        # Initialize statistics
+        stats = {
+            'conversations': 0,
+            'sent_messages': 0,
+            'total_messages': 0,
+            'all_messages': 0,
+            'total_chars': 0
+        }
+
+        # List all conversations directories in the given directory
+        for conversation_dir in listdir(self.directory):
+            chat_data = self.extract_data(conversation_dir)
+            chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files, first_five_messages = chat_data
+
+            # Apply chat type filter if specified
+            if chat_type_filter and chat_type != chat_type_filter:
+                continue
+
+            # Update statistics
+            stats['conversations'] += 1
+            stats['sent_messages'] += sent_messages
+            stats['total_messages'] += total_messages
+            stats['all_messages'] += total_messages
+            stats['total_chars'] += total_chars
+
+        return stats
         
-
-
 class ProfilePopup(tk.Toplevel):
     def __init__(self, controller):
-        tk.Toplevel.__init__(self)
+        super().__init__(controller)
         self.controller = controller
         self.module = self.controller.lang_mdl
         set_resolution(self, 600, 400)
@@ -480,45 +520,57 @@ class ProfilePopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        # show 'My data' header
-        ttk.Label(
-            self, text=f'{self.module.TITLE_MY_DATA}:', font=('Ariel', 24)
-        ).pack(side='top', pady=20)
+        # Initialize filter option variable and default it to 'all'
+        self.filter_option = tk.StringVar(value='all')
 
-        # display given username
-        ttk.Label(
-            self, text=f'{self.module.TITLE_NAME}: {self.controller.get_username()}'
-        ).pack(side='top', pady=10)
+        # Show 'My data' header
+        ttk.Label(self, text=f'{self.module.TITLE_MY_DATA}:', font=('Ariel', 24)).pack(side='top', pady=20)
 
-        # display total number of conversations
-        try:
-            conversations = len(listdir(self.controller.get_directory()))
-        except FileNotFoundError:
-            conversations = 0
-            print('>ProfilePage/#CONVERSATIONS CALCULATION THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
-        ttk.Label(
-            self, text=f'{self.module.TITLE_NUMBER_OF_CHATS}: {conversations}'
-        ).pack(side='top', pady=10)
+        # Add filter options as radio buttons
+        filter_frame = tk.Frame(self)
+        filter_frame.pack(side='top', pady=5)
+        tk.Radiobutton(filter_frame, text='All Chats', variable=self.filter_option, value='all', command=self.update_stats).pack(side='left')
+        tk.Radiobutton(filter_frame, text='Private Chats', variable=self.filter_option, value='private', command=self.update_stats).pack(side='left')
+        tk.Radiobutton(filter_frame, text='Group Chats', variable=self.filter_option, value='group', command=self.update_stats).pack(side='left')
 
-        # display total number of sent messages
-        ttk.Label(
-            self, text=f'{self.module.TITLE_SENT_MESSAGES}: {self.controller.sent_messages}'
-        ).pack(side='top', pady=10)
+        # Initialize labels for displaying data with placeholder values
+        self.conversations_label = ttk.Label(self, text='Number of conversations: 0')
+        self.conversations_label.pack(side='top', pady=5)
 
-        # display complete message total
-        ttk.Label(
-            self, text=f'{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages}'
-        ).pack(side='top', pady=10)
+        self.sent_messages_label = ttk.Label(self, text='Sent messages: 0')
+        self.sent_messages_label.pack(side='top', pady=5)
 
-        # display total number of characters
-        ttk.Label(
-            self, text=f'{self.module.TITLE_TOTAL_CHARS}: {self.controller.total_chars}'
-        ).pack(side='top', pady=10)
+        self.all_messages_label = ttk.Label(self, text='All messages: 0')
+        self.all_messages_label.pack(side='top', pady=5)
+
+        self.total_chars_label = ttk.Label(self, text='Total Characters: 0')
+        self.total_chars_label.pack(side='top', pady=5)
+
+        # Initialize with all data
+        self.update_stats()
 
         # load exit button
-        ttk.Button(
-            self, text=self.module.TITLE_CLOSE_POPUP, padding=7, command=self.destroy
-        ).pack(side='top', pady=40)
+        ttk.Button(self, text=self.module.TITLE_CLOSE_POPUP, padding=7, command=self.destroy).pack(side='top', pady=40)
+
+    def update_stats(self):
+        # Get the selected filter option
+        filter_by = self.filter_option.get()
+
+        # Get the filtered data based on the selected filter
+        # Replace the following lines with calls to your controller methods
+        if filter_by == 'all':
+            data = self.controller.get_all_data()
+        elif filter_by == 'private':
+            data = self.controller.get_private_chats_data()
+        elif filter_by == 'group':
+            data = self.controller.get_group_chats_data()
+
+        # Update labels with the new data
+        self.conversations_label.config(text=f'Number of conversations: {data["conversations"]}')
+        self.sent_messages_label.config(text=f'Sent messages: {data["sent_messages"]}')
+        self.all_messages_label.config(text=f'All messages: {data["all_messages"]}')
+        self.total_chars_label.config(text=f'Total Characters: {data["total_chars"]}')
+
 
 
 class SettingsPopup(tk.Toplevel):
