@@ -44,3 +44,15 @@ TITLE_PER_MONTH = 'Μήνα'  # REVIEW NEEDED
 TITLE_PER_YEAR = 'Ετος'  # REVIEW NEEDED
 TITLE_FROM = 'Από'
 TITLE_TO = 'Προς'
+# For the multi-sort popup: NEEDS REVIEW
+TITLE_MULTI_SORT = 'Πολλαπλή Διαλογή'
+TITLE_CONFIGURE_MULTI_SORT = 'Ρύθμιση Πολλαπλής Διαλογής'
+TITLE_AVAILABLE_COLUMNS = 'Διαθέσιμες Στήλες'
+TITLE_SORT_ORDER = 'Σειρά Διαλογής'
+TITLE_ADD = 'Προσθήκη'
+TITLE_REMOVE = 'Αφαίρεση'
+TITLE_REVERSE = 'Αντιστροφή'
+TITLE_MOVE_UP = 'Μετακίνηση Πάνω'
+TITLE_MOVE_DOWN = 'Μετακίνηση Κάτω'
+TITLE_CLEAR = 'Εκκαθάριση'
+TITLE_APPLY = 'Εφαρμογή'

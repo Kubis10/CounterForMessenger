@@ -8,9 +8,20 @@ from tkinter import ttk, filedialog
 from os.path import exists
 from os import listdir
 from tkcalendar import DateEntry
+from PIL import Image, ImageTk
+from functools import cmp_to_key
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
+
+def set_icon(object):
+    """
+    This function sets the icon of a tkinter window (passed in as `object`) to 
+    the CFM icon.
+    """
+    im = Image.open('assets/CFM.ico')
+    photo = ImageTk.PhotoImage(im)
+    object.wm_iconphoto(True, photo)
 
 
 # change to desired resolution
@@ -138,6 +149,42 @@ class MainPage(tk.Frame):
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
         self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
 
+        # *Ordered* list of columns (so we can display them in a fixed order)
+        self.columns = [
+            'name',
+            'pep',
+            'type',
+            'msg',
+            'call',
+            'photos',
+            'gifs',
+            'videos',
+            'files'
+        ]
+        self.column_titles = columns
+
+        # Ordered list of columns to sort by
+        self.sort_columns = []
+
+        # Store the biases for each column in one place
+        self.column_biases = {
+            "name": "stringwise",
+            "pep": "numberwise",
+            "type": "stringwise",
+            "msg": "numberwise",
+            "call": "numberwise",
+            "photos": "numberwise",
+            "gifs": "numberwise",
+            "videos": "numberwise",
+            "files": "numberwise",
+        }
+
+        """
+        Store whether each column is reversed. We only need this if we are doing
+        a multi-sort.
+        """
+        self.columns_reversed = dict()
+
         # show frame title
         ttk.Label(
             self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
@@ -161,6 +208,21 @@ class MainPage(tk.Frame):
         ttk.Button(
             self.nav, image=self.controller.ICON_SEARCH, text=self.module.TITLE_SEARCH, compound='left',
             command=self.search
+        ).pack(side='top', pady=10)
+
+        
+        # Multi-sort button opens the sort-editor UI
+        ttk.Button(
+            self.nav, text=self.module.TITLE_MULTI_SORT, padding=5,
+            command = lambda : 
+            MultiSortPopup(
+                self.controller,
+                self.columns[:],                   # Pass a copy
+                {**self.column_titles},            # Pass a copy
+                self.columns_reversed,
+                self.sort_columns,
+                lambda : self.apply_multi_sort()
+            )
         ).pack(side='top', pady=10)
 
         # show exit button
@@ -212,16 +274,27 @@ class MainPage(tk.Frame):
             conversations = len(listdir(self.controller.get_directory()))
             LoadingPopup(self.controller, conversations, self.treeview)
 
-            # enable column sorting on treeview
-            self.treeview.heading('msg', command=lambda col='msg': self.sort_treeview(col, False, 'numberwise'))
-            self.treeview.heading('name', command=lambda col='name': self.sort_treeview(col, False, 'stringwise'))
-            self.treeview.heading('type', command=lambda col='type': self.sort_treeview(col, False, 'stringwise'))
-            self.treeview.heading('call', command=lambda col='call': self.sort_treeview(col, False, 'numberwise'))
-            self.treeview.heading('photos', command=lambda col='photos': self.sort_treeview(col, False, 'numberwise'))
+            # bind general purpose handler to column clicks
+            self.treeview.heading('msg', command=lambda col='msg': self.click_column(col, False, 'numberwise'))
+            self.treeview.heading('name', command=lambda col='name': self.click_column(col, False, 'stringwise'))
+            self.treeview.heading('type', command=lambda col='type': self.click_column(col, False, 'stringwise'))
+            self.treeview.heading('call', command=lambda col='call': self.click_column(col, False, 'numberwise'))
+            self.treeview.heading('photos', command=lambda col='photos': self.click_column(col, False, 'numberwise'))
+
         except FileNotFoundError:
             print('>MainPage/upload_data THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
 
-    # invoked by pressing the column headers
+
+    def click_column(self, col, order, bias):
+        """
+        Clicking a column (and therefore doing a sort on it) discards multi-sort
+        info
+        """
+        self.sort_columns.clear()
+        self.columns_reversed.clear()
+
+        self.sort_treeview(col, order, bias)
+
     def sort_treeview(self, column, order, bias):
         # Cache the get_children call
         children = self.treeview.get_children('')
@@ -240,6 +313,72 @@ class MainPage(tk.Frame):
             self.treeview.move(k, '', index)
         # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
+
+    def apply_multi_sort(self):
+        """
+        This function sorts the rows based on the ordering stored in
+        `self.sort_columns`.
+
+        To achieve this, the `compare` function tries to break ties based
+        each successive column in the ordering, before giving up and declaring
+        a tie.
+        """
+        def compare(a, b, ordering):
+            # a and b are *rows* of data (dictionaries)
+            if ordering == []:
+                # We have nothing left to break ties on
+                return 0
+
+            # We will try to break the tie on this column
+            column_name = ordering[0]
+            bias = self.column_biases[column_name]
+            reverse_multiplier = -1 if self.columns_reversed[column_name] else 1
+
+            # Retrieve the appropriate column from each row
+            a_value = a[column_name]
+            b_value = b[column_name]
+
+            if bias == "stringwise":
+                if a_value < b_value: return -1 * reverse_multiplier
+                elif a_value > b_value: return 1 * reverse_multiplier
+            elif bias == "numberwise":
+                a_value, b_value = int(a_value), int(b_value)
+                if a_value < b_value: return -1 * reverse_multiplier
+                elif a_value > b_value: return 1 * reverse_multiplier
+            else:
+                raise Exception(f"Undefined bias '{bias}'")
+
+            """
+            If we made it here, then the values are equal when compared
+            on the current column value.
+
+            We continue with the next column in the ordering.
+            """
+            return compare(a, b, ordering[1:])
+
+        def compare_wrapper(a, b):
+            (_, a) = a
+            (_, b) = b
+
+            return compare(a, b, self.sort_columns)
+
+        # Retrieve all of the rows of the dataset
+        children = self.treeview.get_children('')
+        rows = [
+            (k,
+                {
+                    column_name: self.treeview.set(k, column_name)
+                    for column_name in self.column_biases
+                }
+            )
+            for k in children
+        ]
+
+        rows.sort(key = cmp_to_key(compare_wrapper))
+
+        for (idx, (k, _)) in enumerate(rows):
+            self.treeview.move(k, '', idx)
+
 
     # invoked on double left click on any treeview listing
     def show_statistics(self):
@@ -287,7 +426,7 @@ class MasterWindow(tk.Tk):
 
         # global window customization
         self.title('Counter for Messenger')
-        self.iconbitmap('assets/CFM.ico')
+        set_icon(self)
 
         # frame container setup
         self.container = tk.Frame(self)
@@ -447,7 +586,7 @@ class ProfilePopup(tk.Toplevel):
 
         # profile window customization
         self.title(self.module.TITLE_PROFILE)
-        self.iconbitmap('assets/CFM.ico')
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -501,7 +640,7 @@ class SettingsPopup(tk.Toplevel):
 
         # settings window customization
         self.title(self.module.TITLE_SETTINGS)
-        self.iconbitmap('assets/CFM.ico')
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -607,7 +746,7 @@ class LoadingPopup(tk.Toplevel):
 
         # loading window customization
         self.title(f'{self.module.TITLE_LOADING}...')
-        self.iconbitmap('assets/CFM.ico')
+        set_icon(self)
         self.resizable(False, False)
         self.focus_set()
         self.grab_set()
@@ -678,7 +817,7 @@ class StatisticsPopup(tk.Toplevel):
 
         # statistics window customization
         self.title(self.module.TITLE_STATISTICS)
-        self.iconbitmap('assets/CFM.ico')
+        set_icon(self)
         self.focus_set()
         self.grab_set()
 
@@ -737,6 +876,359 @@ class StatisticsPopup(tk.Toplevel):
         listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
+
+class MultiSortPopup(tk.Toplevel):
+    """
+    This class implements the sort-editor popup
+    """
+    def __init__(self, controller, columns, column_titles, columns_reversed, sort_columns, apply_callback):
+        tk.Toplevel.__init__(self)
+        self.controller = controller
+        self.module = self.controller.lang_mdl
+
+        # This popup is bigger to make room for all the additional buttons
+        set_resolution(self, 800, 600)
+
+        self.columns = columns        
+        self.column_titles = column_titles
+
+        """
+        Bind sort info so we can mutate it later - it's important we don't break
+        these aliases
+        """
+        self.sort_columns = sort_columns
+        self.columns_reversed = columns_reversed
+
+        # We can call this function to apply the sort
+        self.apply_callback = apply_callback
+
+        """
+        Temporary ordering - we will keep this in sync with a listbox.
+
+        We initialize the ordering with the ordering from the MainPage, if one
+        exists.
+        """
+        self.temp_ordering = self.sort_columns[:]
+        self.temp_reversed = {**self.columns_reversed}
+
+        # Window customization
+        self.title(self.module.TITLE_CONFIGURE_MULTI_SORT)
+        set_icon(self)
+        self.focus_set()
+        self.grab_set()
+
+        # Show header
+        ttk.Label(
+            self, text=self.module.TITLE_MULTI_SORT, font=('Ariel', 24)
+        ).pack(side='top', pady=20)
+
+        """
+        Listbox Frame
+        """
+        listbox_frame = tk.Frame(self)
+        listbox_frame.pack(fill=tk.X, padx=50)
+
+        # Have columns fill width
+        listbox_frame.grid_columnconfigure(0, weight=1)
+        listbox_frame.grid_columnconfigure(1, weight=1)
+
+        # Listbox of "available" columns
+        tk.Label(
+            listbox_frame,
+            text=self.module.TITLE_AVAILABLE_COLUMNS
+        ).grid(row=0, column=0)
+        self.available_listbox = tk.Listbox(listbox_frame)
+        self.available_listbox.grid(row=1, column=0, sticky='nesw')
+
+        # Fill the listbox with all the columns
+        for column_name in self.columns:
+            column_title = self.column_titles[column_name]
+            self.available_listbox.insert(tk.END, column_title)
+
+        # Listbox to configure sort_order (empty to begin with)
+        tk.Label(
+            listbox_frame,
+            text=self.module.TITLE_SORT_ORDER
+        ).grid(row=0, column=1)
+        self.sort_order_listbox = tk.Listbox(listbox_frame)
+        self.sort_order_listbox.grid(row=1, column=1, columnspan=1, sticky='nesw')
+
+        # Fill the listbox with restored columns
+        for column_name in self.temp_ordering:
+            text = self.get_entry_text(column_name)
+            self.sort_order_listbox.insert(tk.END, text)
+
+        # "Add" and "Remove" buttons
+        tk.Button(
+            listbox_frame, 
+            text=self.module.TITLE_ADD,
+            command = lambda : self.add_clicked()
+        ).grid(row=2,column=0)
+
+        tk.Button(
+            listbox_frame,
+            text=self.module.TITLE_REMOVE,
+            command = lambda : self.remove_clicked()
+        ).grid(row=3,column=0)
+
+        # "Move up" and "Move down" buttons
+        tk.Button(
+            listbox_frame,
+            text=self.module.TITLE_MOVE_UP,
+            command = lambda : self.move_up_clicked()
+        ).grid(row=2, column=1)
+
+        tk.Button(
+            listbox_frame,
+            text=self.module.TITLE_MOVE_DOWN,
+            command = lambda : self.move_down_clicked()
+        ).grid(row=3, column=1)
+
+        # "Reverse" button
+        tk.Button(
+            listbox_frame,
+            text=self.module.TITLE_REVERSE,
+            command = lambda : self.reverse_clicked()
+        ).grid(row=4,column=0)
+
+        # "Clear" button
+        tk.Button(
+            listbox_frame,
+            text=self.module.TITLE_CLEAR,
+            command = lambda : self.clear()
+        ).grid(row=4,column=1)
+
+        # "Apply" button
+        tk.Button(
+            self,
+            text=self.module.TITLE_APPLY,
+            command = lambda : self.apply()
+        ).pack()
+
+    def get_entry_text(self, column_name):
+        """
+        Helper function that returns a string representation of `column_name`
+        for display in the listboxes.
+        """
+        text = self.column_titles[column_name]
+
+        if self.temp_reversed[column_name]:
+            return f"{text} (reversed)"
+        else:
+            return text
+
+    def add_to_sort(self, column_name):
+        """
+        Add a column to the ordering
+        """
+        # Add to the temporary ordering
+        self.temp_ordering.append(column_name)
+
+        # Not reversed by default
+        self.temp_reversed[column_name] = False
+
+        # Add to listbox
+        text = self.get_entry_text(column_name)
+        self.sort_order_listbox.insert(tk.END, text)
+
+    def remove_from_sort(self, column_name):
+        """
+        Remove a column from the ordering
+        """
+        # Retrieve the index
+        idx = self.temp_ordering.index(column_name)
+
+        # Delete from the temporary ordering
+        self.temp_ordering.pop(idx)
+
+        # Delete from the listbox
+        self.sort_order_listbox.delete(idx)
+
+        # Delete reversed info
+        del self.temp_reversed[column_name]
+
+    def move_up(self, column_name):
+        """
+        Move a column up in the sort ordering
+        """
+        # Retrieve the index
+        idx = self.temp_ordering.index(column_name)
+        new_idx = max(0, idx - 1)
+
+        # Move in the temporary ordering
+        self.temp_ordering.pop(idx)
+        self.temp_ordering.insert(new_idx, column_name)
+
+        # Move in the listbox
+        self.sort_order_listbox.delete(idx)
+        text = self.get_entry_text(column_name)
+        self.sort_order_listbox.insert(new_idx, text)
+
+    def move_down(self, column_name):
+        """
+        Move a column down in the sort ordering
+        """
+        # Retrieve the index
+        idx = self.temp_ordering.index(column_name)
+        new_idx = min(len(self.temp_ordering) - 1, idx + 1)
+
+        # Move in the temporary ordering
+        self.temp_ordering.pop(idx)
+        self.temp_ordering.insert(new_idx, column_name)
+
+        # Move in the listbox
+        self.sort_order_listbox.delete(idx)
+        text = self.get_entry_text(column_name)
+        self.sort_order_listbox.insert(new_idx, text)
+
+    def reverse(self, column_name):
+        """
+        Specify that a column should be sorted in reverse order.
+        """
+        # Reverse in the dictionary
+        self.temp_reversed[column_name] = not self.temp_reversed[column_name]
+
+        # Retrieve the index
+        idx = self.temp_ordering.index(column_name)
+
+        # Delete current entry in listbox
+        self.sort_order_listbox.delete(idx)
+
+        # Rewrite entry
+        text = self.get_entry_text(column_name)
+        self.sort_order_listbox.insert(idx, text)
+
+    def clear(self):
+        """
+        Reset the sort ordering column
+        """
+        # Reset state
+        self.temp_ordering = []
+        self.temp_reversed = dict()
+
+        # Clear listbox
+        self.sort_order_listbox.delete(0, tk.END)
+
+    def apply(self):
+        """
+        Sort according to the ordering the user builds and close this popup.
+        """
+        # Overwrite old state
+        self.sort_columns.clear()
+        self.columns_reversed.clear()
+
+        # Write new state
+        self.sort_columns.extend(self.temp_ordering)
+        self.columns_reversed.update(self.temp_reversed)
+
+        # Call the callback
+        self.apply_callback()
+
+        # Close the window
+        self.destroy()
+
+    def add_clicked(self):
+        """
+        "Add" button clicked
+        """
+        idx = self.available_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+        column_name = self.columns[idx]
+
+        if column_name != "" and column_name not in self.temp_ordering:
+            self.add_to_sort(column_name)
+
+    def remove_clicked(self):
+        """
+        "Remove" button clicked
+
+        Try to read a selection from both listboxes, giving priority to the left
+        one.
+        """
+        idx = None
+        column_name = None
+        left_idx = self.available_listbox.curselection()
+        right_idx = self.sort_order_listbox.curselection()
+        if len(left_idx) > 0:
+            (idx,) = left_idx
+
+            """
+            In this case, `idx` corresponds to an index in the list of available
+            columns.
+            """
+            column_name = self.columns[idx]
+        elif len(right_idx) > 0:
+            (idx,) = right_idx
+
+            """
+            In this case, `idx` corresponds to an index in the temporary
+            ordering.
+            """
+            column_name = self.temp_ordering[idx]
+        else:
+            # Give up
+            return
+
+        if column_name != "" and column_name in self.temp_ordering:
+            self.remove_from_sort(column_name)
+
+    def move_up_clicked(self):
+        """
+        "Move up" button clicked
+        """
+        idx = self.sort_order_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+
+        column_name = self.temp_ordering[idx]
+
+        if column_name != "":
+            self.move_up(column_name)
+
+    def move_down_clicked(self):
+        """
+        "Move down" button clicked
+        """
+        idx = self.sort_order_listbox.curselection()
+        if len(idx) <= 0: return
+        (idx,) = idx
+
+        column_name = self.temp_ordering[idx]
+
+        if column_name != "":
+            self.move_down(column_name)
+
+    def reverse_clicked(self):
+        """
+        "Reverse" button clicked
+        """
+        idx = None
+        column_name = None
+        left_idx = self.available_listbox.curselection()
+        right_idx = self.sort_order_listbox.curselection()
+        if len(left_idx) > 0:
+            (idx,) = left_idx
+
+            """
+            In this case, `idx` corresponds to an index in the list of available
+            columns.
+            """
+            column_name = self.columns[idx]
+        elif len(right_idx) > 0:
+            (idx,) = right_idx
+
+            """
+            In this case, `idx` corresponds to an index in the temporary
+            ordering.
+            """
+            column_name = self.temp_ordering[idx]
+        else:
+            # Give up
+            return
+
+        if column_name != "" and column_name in self.temp_ordering:
+            self.reverse(column_name)
 
 
 if __name__ == '__main__':
