@@ -202,7 +202,7 @@ class MainPage(tk.Frame):
 
         # show filter button
         ttk.Button(
-            self.nav, text=self.module.TITLE_FILTER, padding=5, command=lambda: FilterPopup(self.controller, self.columns, self.column_titles)
+            self.nav, text=self.module.TITLE_FILTER, padding=5, command=lambda: FilterPopup(self.controller, self.columns, self.column_titles, self.filter_columns, lambda : self.filter_treeview())
         ).pack(side='top', pady=10)
 
         # show exit button
@@ -288,7 +288,7 @@ class MainPage(tk.Frame):
         This function filters out rows based on criterias selected by the user.
         Example: Show messages with more than 10 photos, but less than 50.
         """
-
+        print(self.filter_columns)
         # Retrieve all the rows in the treeview
         children = self.treeview.get_children('')
 
@@ -817,7 +817,7 @@ class FilterPopup(tk.Toplevel):
     """
     This class implements the sort-editor popup
     """
-    def __init__(self, controller, columns, column_titles):
+    def __init__(self, controller, columns, column_titles, filter_columns, apply_callback):
         tk.Toplevel.__init__(self)
         self.controller = controller
         self.module = self.controller.lang_mdl
@@ -832,6 +832,9 @@ class FilterPopup(tk.Toplevel):
         self.grab_set()
 
         self.filter_entries = {}  # Dictionary to store filter entry widgets
+        self.filter_columns = filter_columns
+
+        self.apply_callback = apply_callback
 
         # Create filter GUI elements
         ttk.Label(self, text="Filter by:", foreground='#000000', background='#ffffff', font=('Arial', 15)).pack(side='top', pady=10)
@@ -866,24 +869,29 @@ class FilterPopup(tk.Toplevel):
     
                 label = ttk.Label(self.viewPort, text=f"{self.column_titles[column]}:", foreground='#000000', background='#ffffff', anchor="center", width = label_width)
                 label.pack(side='top', pady=5)  # Fill the label horizontally
+                
                 label_frame = ttk.Frame(self.viewPort)
                 label_frame.pack(side='top', pady=5)  # Fill and expand the label frame horizontally
                 container_frame = ttk.Frame(label_frame)
                 container_frame.pack()
+
                 min_label = ttk.Label(container_frame, text="Min:")
-                # min_label.pack(side='left', padx=(0, 10), expand=True)
                 min_label.grid(row=0, column=0, padx=(0, 5))
+
                 min_entry = ttk.Entry(container_frame, width=5)
-                # min_entry.pack(side='left', padx=(0, 10), fill='x')  # Fill the entry horizontally
                 min_entry.grid(row=0, column=1, padx=(0, 5))
+
                 max_label = ttk.Label(container_frame, text="Max:")
-                # max_label.pack(side='left', padx=(0, 10), expand=True)
                 max_label.grid(row=0, column=2, padx=(0, 5))
+
                 max_entry = ttk.Entry(container_frame, width=5)
-                # max_entry.pack(side='left', padx=(0, 10), fill='x')  # Fill the entry horizontally
                 max_entry.grid(row=0, column=3, padx=(0, 5))
+
                 container_frame.grid_columnconfigure(0, weight=1)
                 self.filter_entries[column] = (min_entry, max_entry)
+        
+        apply_button = ttk.Button(self.viewPort, text="Apply Filters", command=self.apply_filters)
+        apply_button.pack(fill=tk.X, pady=10)  # Fill the button horizontally
 
     def onFrameConfigure(self, event):                                              
         '''Reset the scroll region to encompass the inner frame'''
@@ -920,20 +928,15 @@ class FilterPopup(tk.Toplevel):
             self.canvas.unbind_all("<MouseWheel>")
 
 
-
-
     def apply_filters(self):
-        # Gather filter criteria from entry widgets
-        filter_criteria = {}
         for column, entry in self.filter_entries.items():
             if column in ['name', 'pep']:
-                filter_criteria[column] = entry.get()
+                self.filter_columns[column] = entry.get()
             else:  # For numerical fields
                 min_val = entry[0].get()
                 max_val = entry[1].get()
-                filter_criteria[column] = (int(min_val) if min_val else -1, int(max_val) if max_val else -1)
-
-
+                self.filter_columns[column] = (int(min_val) if min_val else -1, int(max_val) if max_val else -1)
+        self.apply_callback()
         
 
  
