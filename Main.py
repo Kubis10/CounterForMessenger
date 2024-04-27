@@ -10,6 +10,7 @@ from os import listdir
 from tkcalendar import DateEntry
 from PIL import Image, ImageTk
 import platform
+import ast 
 
 # safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'
@@ -288,31 +289,34 @@ class MainPage(tk.Frame):
         This function filters out rows based on criterias selected by the user.
         Example: Show messages with more than 10 photos, but less than 50.
         """
-        print(self.filter_columns)
         # Retrieve all the rows in the treeview
         children = self.treeview.get_children('')
+
+        column_headers = self.treeview['columns']
 
         filtered = []
 
         for child in children:
+            row_content = self.treeview.item(child)['values']
+            row_dict = {column_header: value for column_header, value in zip(column_headers, row_content)}
+
             # Check if user wants to filter by name
-            if self.filter_columns['name'] != '':
-                if child['name'] != self.filter_columns['name']:
+            if self.filter_columns['name'] == '' or row_dict['name'] == self.filter_columns['name']:
                     filtered.append(child)
 
             # Check if user wants to filter by participants
-            if self.filter_columns['pep'] != {}:
-                # only append if  no participants are in the list
-                if self.filter_columns['pep'].isdisjoint(child['pep']):
+            if self.filter_columns['pep'] == {} or self.filter_columns['pep'] == ast.literal_eval(row_dict['pep']):
                     filtered.append(child)
 
             for column_name in ['msg', 'call', 'photos', 'gifs', 'videos', 'files']:
                 # Check if user wants to filter by messages
-                if self.filter_columns[column_name] != -1:
+                if self.filter_columns[column_name] == -1:
+                    filtered.append(child)
+                else: 
                     min, max = self.filter_columns[column_name]
-                    if min <= child[column_name] <= max:
+                    if min <= row_dict[column_name] <= max:
                         filtered.append(child)
-
+                        
         # Set the selection to the filtered list
         self.treeview.selection_set(filtered)
 
@@ -930,8 +934,10 @@ class FilterPopup(tk.Toplevel):
 
     def apply_filters(self):
         for column, entry in self.filter_entries.items():
-            if column in ['name', 'pep']:
+            if column == 'name':
                 self.filter_columns[column] = entry.get()
+            elif column == 'pep': 
+                self.filter_columns[column] = set(entry.get().split(','))
             else:  # For numerical fields
                 min_val = entry[0].get()
                 max_val = entry[1].get()
