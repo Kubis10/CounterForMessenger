@@ -206,6 +206,14 @@ class MainPage(tk.Frame):
             self.nav, text=self.module.TITLE_FILTER, padding=5, command=lambda: FilterPopup(self.controller, self.columns, self.column_titles, self.filter_columns, lambda : self.filter_treeview())
         ).pack(side='top', pady=10)
 
+        # clear selection button 
+        ttk.Button(
+            self.nav,
+            text="Clear Filters",
+            padding=5,
+            command=self.deselect
+        ).pack(side='top', pady=10)
+
         # show exit button
         ttk.Button(
             self.nav, image=self.controller.ICON_EXIT, text=self.module.TITLE_EXIT, compound='left', padding=5,
@@ -300,23 +308,24 @@ class MainPage(tk.Frame):
             row_content = self.treeview.item(child)['values']
             row_dict = {column_header: value for column_header, value in zip(column_headers, row_content)}
 
+            keepRow = True
             # Check if user wants to filter by name
-            if self.filter_columns['name'] == '' or row_dict['name'] == self.filter_columns['name']:
-                    filtered.append(child)
+            if self.filter_columns['name'] != '' and row_dict['name'] != self.filter_columns['name']:
+                keepRow = False
 
             # Check if user wants to filter by participants
-            if self.filter_columns['pep'] == {} or self.filter_columns['pep'] == ast.literal_eval(row_dict['pep']):
-                    filtered.append(child)
+            if self.filter_columns['pep'] != {''} and not self.filter_columns['pep'].issubset(ast.literal_eval(row_dict['pep'])):
+                keepRow = False
 
             for column_name in ['msg', 'call', 'photos', 'gifs', 'videos', 'files']:
                 # Check if user wants to filter by messages
-                if self.filter_columns[column_name] == -1:
-                    filtered.append(child)
-                else: 
+                if self.filter_columns[column_name] != (-1, -1):
                     min, max = self.filter_columns[column_name]
-                    if min <= row_dict[column_name] <= max:
-                        filtered.append(child)
-                        
+                    if (min != -1 and row_dict[column_name] < min) or (max != -1 and row_dict[column_name] > max):
+                        keepRow = False
+            if (keepRow): 
+                filtered.append(child)
+        # 
         # Set the selection to the filtered list
         self.treeview.selection_set(filtered)
 
@@ -863,7 +872,7 @@ class FilterPopup(tk.Toplevel):
         self.onFrameConfigure(None)                                                 #perform an initial stretch on render, otherwise the scroll region has a tiny border until the first resize
         for column in columns:
             label_width = len(self.column_titles[column]) + 2
-            if column in ['name', 'pep']:
+            if column in ['name', 'pep', 'type']:
                 label = ttk.Label(self.viewPort, text=self.column_titles[column], foreground='#000000', background='#ffffff', anchor="center", width = label_width)
                 label.pack(side='top', pady=5)  # Fill the label horizontally
                 entry = ttk.Entry(self.viewPort, width=30)
@@ -937,12 +946,14 @@ class FilterPopup(tk.Toplevel):
             if column == 'name':
                 self.filter_columns[column] = entry.get()
             elif column == 'pep': 
-                self.filter_columns[column] = set(entry.get().split(','))
+                participant_names = [participant.strip() for participant in entry.get().split(',')]
+                self.filter_columns[column] = set(participant_names)
             else:  # For numerical fields
                 min_val = entry[0].get()
                 max_val = entry[1].get()
                 self.filter_columns[column] = (int(min_val) if min_val else -1, int(max_val) if max_val else -1)
         self.apply_callback()
+        self.destroy()
         
 
  
