@@ -1,0 +1,3255 @@
+{
+  "participants": [
+    {
+      "name": "Selena Meng"
+    },
+    {
+      "name": "Lanyuntian Wei"
+    },
+    {
+      "name": "Cathy Xu"
+    },
+    {
+      "name": "Heesun Park"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676123587410,
+      "content": "Sure",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676123539074,
+      "content": "Let\u00e2\u0080\u0099s meet at 2701",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676120413400,
+      "content": "Heesun reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676120394113,
+      "content": "Directly across from Hamburg",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676120387084,
+      "content": "It\u00e2\u0080\u0099s Tepper first floor",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676120285595,
+      "content": "Ok k I\u00e2\u0080\u0099m almost there",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1676120280246,
+      "content": "Simmons auditorium",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1676120273153,
+      "content": "1",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676120267159,
+      "content": "What floor?!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1676120248413,
+      "content": "I am also here",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676120080049,
+      "content": "I\u00e2\u0080\u0099m here :)",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676119521800,
+      "content": "Laptop",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676119296113,
+      "content": "do we need to bring anything",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676095330145,
+      "content": "I\u00e2\u0080\u0099m at 1\u00e2\u0080\u009940 rn",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676073547560,
+      "content": "Only some judges r watching us right",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676070380566,
+      "content": "I left many comments and questions on your sections from an audience perspective. feel free also to leave feedback on mine",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676061447023,
+      "content": "The call ended.",
+      "call_duration": 1604,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1676060464957,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676059964100,
+      "content": "oki",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676059948197,
+      "content": "I have to go at 3:45pm",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676059922873,
+      "content": "should i go home",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676059896751,
+      "content": "im at uc",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676059894590,
+      "content": "wait",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1676059859835,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1676059844315,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1676059843408,
+      "content": "Heesun joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676059842002,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676059838723,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1676059203487,
+      "content": "sorry i\u00e2\u0080\u0099ll be late for 5 mins, my last meeting is running late",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675981755689,
+      "content": "in script doc",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675981750094,
+      "content": "Plz finish your script before noon tmw, and brainstorm at least 3 potential Q&A questions on other teammates\u00e2\u0080\u0099 sections, write those questions in red",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675981652369,
+      "content": "Then meet at 3pm via messenger?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675981532750,
+      "content": "Me too!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675981354988,
+      "content": "I am free from 12 to 5",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675981348162,
+      "content": "Or 11-12 noon",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675981328131,
+      "content": "I\u00e2\u0080\u0099m free after 3!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675981162177,
+      "content": "I\u00e2\u0080\u0099m free tmw before 1pm 2:30-4pm and after 8pm",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675981124757,
+      "content": "wait, since we haven\u00e2\u0080\u0099t finish all of scripts independently, should we meet tmw instead?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675979905196,
+      "content": "Does anyone have extra formal attire,,",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675978539253,
+      "content": "530 works then",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675978522956,
+      "content": "Ohh shit",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675978505032,
+      "content": "I have work 6pm - midnight",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675978481632,
+      "content": "Could we possibly start later",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675978337750,
+      "content": "Sure, but I have to leave at 5:55pm",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675978294351,
+      "content": "How about let\u00e2\u0080\u0099s meet at 5:30?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675976321395,
+      "content": "I\u00e2\u0080\u0099m working on my script, will finish before our meeting",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675976304344,
+      "content": "For our meeting, can we start at 5:10 pm instead? I need to walk to the library after class",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675976240692,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961990860,
+      "content": "nicee",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961986510,
+      "content": "oh",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675961976739,
+      "content": "There was an error in valuation summary and now it is fixed",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961959551,
+      "content": "okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675961953165,
+      "content": "I just submitted again",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961909933,
+      "content": "ummmmmm i just submitted again just in case",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961708740,
+      "content": "should i submit again or no ?!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961698574,
+      "content": "i just like cleaned up the reference page",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961284220,
+      "content": "like final",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675961277850,
+      "content": "omg did we submit",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675924756710,
+      "content": "just made safe submission",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675923165791,
+      "content": "I\u00e2\u0080\u0099m updated the valuation part and will finish the script tomorrow before our meeting time",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675920025572,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/330131265_735174938324725_3689626332463148138_n_735174934991392.png",
+          "creation_timestamp": 1675920024
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675920016218,
+      "content": "should we also include a graph like this, b/c rn its\u00e2\u0080\u0099 kinda empty",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675919994353,
+      "content": "for valuation summary page",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675919979637,
+      "content": "I am done with my slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675914475522,
+      "content": "The call ended.",
+      "call_duration": 971,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675914128300,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675914080818,
+      "content": "https://www.carnegiemellonsws.com/stock-pitch.html#:~:text=Prize%20Pool%3A%20%243%2C000%E2%80%8B&text=CMU%20SWS%20will%20be%20holding,with%20opportunities%20for%20cash%20prizes.",
+      "share": {
+        "link": "https://www.carnegiemellonsws.com/stock-pitch.html",
+        "share_text": "CMU SWS will be holding a virtual stock pitch competition open to all undergraduate women. This competition allows students the opportunity to showcase their investment skills and receive feedback..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675913667207,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/330031361_912733713505459_4464760041459843805_n_912733710172126.png",
+          "creation_timestamp": 1675913666
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675913511830,
+      "content": "Heesun joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675913510365,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675913503912,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675913502565,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675913499034,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675912063918,
+      "content": "ok!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675908796973,
+      "content": "btw the industry overview - data center slide is done~",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675908759912,
+      "content": "but plz be prepared to explain any of them during Q&A",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675908743027,
+      "content": "you don\u00e2\u0080\u0099t have to mention all of them during the presentation",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675897199332,
+      "content": "for this part, should i include all keywords in the script?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675897189958,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328967681_686170713302751_639519411571933864_n_686170703302752.png",
+          "creation_timestamp": 1675897187
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675897187597,
+      "content": "ok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675881642047,
+      "content": "Let\u00e2\u0080\u0099s meet at 10:30 pm?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675881381148,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675879557828,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675879549727,
+      "content": "O im waiting for Luna to update the target price so I can update this part but we will asap",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675879519870,
+      "content": "https://docs.google.com/document/d/1HtI-PKr-iVi--I9Dw5K5RjVHcu4LDolVWhRJcDx57wg/edit let\u00e2\u0080\u0099s all write script here",
+      "share": {
+        "link": "https://docs.google.com/document/d/1HtI-PKr-iVi--I9Dw5K5RjVHcu4LDolVWhRJcDx57wg/edit",
+        "share_text": "Selena Luna Cathy Heesun Intro + contents = 15s Company overview + industry overview(exclude competitors) = 2min Industry overview - competitors = 15s Investment thesis + investment points = 3 mins 15 s Valuation = 2 min 30s Risks and rebuttal = 1 mins Final recommendatio = 20s Introduction - F..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675879497312,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/330179299_692835849207254_2848816261915022126_n_692835842540588.png",
+          "creation_timestamp": 1675879495
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675879487674,
+      "content": "can u also update on slides? and also change the final answer on slide 18",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675876436922,
+      "content": "I added P/E ratio and I changed WACC so the prices should be closer after Luna updates",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675875005840,
+      "content": "yes! I\u00e2\u0080\u0099m so sorry for not participating yesterday.. \u00f0\u009f\u0098\u00ad\u00f0\u009f\u0098\u00ad",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675874396633,
+      "content": "@Heesun Park how do u feel today? Is it possible for u to write script for company and industry overview part(exclude competitors slides) by 8pm today?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675873726044,
+      "content": "Ahh okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675873658581,
+      "content": "\u00e4\u00bd\u00a0\u00e6\u008a\u008a\u00e7\u008e\u00b0\u00e5\u009c\u00a8\u00e7\u0089\u0088\u00e6\u009c\u00ac\u00e7\u009a\u0084PE Google sheet \u00e5\u008f\u0091\u00e7\u00bb\u0099mentor\u00e7\u009a\u0084\u00e6\u0097\u00b6\u00e5\u0080\u0099\u00e8\u00ae\u00b0\u00e5\u00be\u0097\u00e5\u008f\u0091\u00e9\u0082\u00ae\u00e4\u00bb\u00b6\u00e8\u00b7\u009f\u00e5\u00a5\u00b9\u00e8\u00af\u00b4\u00e4\u00bd\u00a0\u00e5\u008f\u0091\u00e4\u00ba\u0086",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675873611071,
+      "content": "I just confirmed with my dad, DCF is correct, but P/E needs to be higher @Cathy Xu \u00e5\u008f\u00af\u00e8\u0083\u00bd\u00e9\u009c\u0080\u00e8\u00a6\u0081\u00e6\u0083\u00b3\u00e5\u008a\u009e\u00e6\u00b3\u0095\u00e6\u0090\u009e\u00e9\u00ab\u0098\u00ef\u00bc\u008c\u00e6\u00af\u0094\u00e5\u00a6\u0082\u00e6\u008a\u008a\u00e7\u00be\u008e\u00e8\u0082\u00a1\u00e7\u009b\u0088\u00e5\u0088\u00a9\u00e5\u00a2\u009e\u00e5\u008a\u00a0\u00e4\u00b8\u0080\u00e5\u0080\u008d\u00ef\u00bc\u008c\u00e8\u00ae\u00a9DCF\u00e5\u0092\u008cPE\u00e5\u00b7\u00ae\u00e8\u00b7\u009d\u00e7\u00bc\u00a9\u00e5\u00b0\u008f",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675872216640,
+      "content": "btw final slides due tmw at noon",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675872155056,
+      "content": "I will free from 8:30",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675872119339,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871892359,
+      "content": "She gave lots of feedback, my dad also gave me really helpful feedback. When r u available tonight to discuss this for 10-15mins?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871804059,
+      "content": "She also wants us to write out script ASAP, doesn\u00e2\u0080\u0099t have to include everything we plan to say, but key points for each slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871761074,
+      "content": "P.S. on Sat, we will have 10 mins for presentation, then 15 mins for Q&A",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675871755522,
+      "content": "Yes yes we will do that",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675871752816,
+      "content": "Ohh okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871713997,
+      "content": "I have to change lots of other parts of slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871701739,
+      "content": "@Lanyuntian Wei @Cathy Xu Can u take care of the whole valuation part, I don\u00e2\u0080\u0099t want to take another look",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871674389,
+      "content": "She thinks our target price from DCF is way too high, but I just calculated this part based on what I did in finance class",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675871605667,
+      "content": "Ohh ok I\u00e2\u0080\u0099ll update",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871597971,
+      "content": "your google sheet",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675871594110,
+      "content": "Like the formulas used?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675871579854,
+      "content": "Wait pe calculation?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871549737,
+      "content": "YES I had no choice\u00f0\u009f\u00a5\u00b2",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0098\u00a2",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675871518944,
+      "content": "Hahaha you doing the entire presentation?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871518497,
+      "content": "@Cathy Xu she also wants u to send P/E calculation to her ASAP",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675871491232,
+      "content": "The mentor forced me to do a mock presentation during our meeting\u00f0\u009f\u0099\u0083",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675861161633,
+      "content": "But Luna has successfully opened them before",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675861142068,
+      "content": "I didn\u00e2\u0080\u0099t have time to look at them",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675861123698,
+      "content": "My friends helped find this data from Bloomberg terminal at sorrells library",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675844807982,
+      "content": "Like my computer went black and won\u00e2\u0080\u0099t open",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675844800149,
+      "content": "Wait @Selena Meng did u get the Bloomberg files from like the official site cuz my computers kinda.. not functioning\u00e2\u0080\u00a6 after opening them",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675834526106,
+      "content": "Yesyes",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675834433650,
+      "content": "Oo okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675834407607,
+      "content": "I\u00e2\u0080\u0099ve finished everything besides comparables + P/E on slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675834357893,
+      "content": "GUYS Can u at least do it before 8am tmw, so that I can share the updated slides with mentor before meeting???",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675832511931,
+      "content": "https://docs.google.com/spreadsheets/d/1QB1zHrwlET6BrFhMqjMOgnCKKlT1KNHx/edit?usp=sharing&ouid=105459382182212867293&rtpof=true&sd=true valuation google sheet, I put all the calculation in tab \u00e2\u0080\u009cassumptions\u00e2\u0080\u009d \u00e2\u0080\u009cvaluation - selena\u00e2\u0080\u009d \u00e2\u0080\u009cvaluation - selena summary\"",
+      "share": {
+        "link": "https://docs.google.com/spreadsheets/d/1QB1zHrwlET6BrFhMqjMOgnCKKlT1KNHx/edit?usp=embed_facebook&ouid=105459382182212867293&rtpof=true&sd=true",
+        "share_text": "Project Instructions Project Instructions Goal: The objective of this project is to familiarize you with a widely used valuation method -- discounted cash flow (DCF) analysis. The project is composed of two parts. In the first part, you will prepare financial statements for your company and it..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675831487823,
+      "content": "done*",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675831473137,
+      "content": "also the P/E methods, better create table in slides directly, instead of using screen shot",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675831432969,
+      "content": "when r u going to update comparables? @Cathy Xu @Lanyuntian Wei",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675831413232,
+      "content": "I\u00e2\u0080\u0099m basically down with valuation",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675830370844,
+      "content": "@Cathy Xu For financial statements, is the unit in million $?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675829139957,
+      "content": "The call ended.",
+      "call_duration": 742,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675829071355,
+      "content": "Friday 10 pm meeting for rehearsal",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675829013262,
+      "content": "Friday 1pm meet for script",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675828918549,
+      "content": "Thursday 5-6pm meeting for slides revision and script",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675828401939,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675828395471,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675828393402,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675828390161,
+      "content": "Lanyuntian started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675828255248,
+      "content": "are we meeting tonight?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675747487056,
+      "content": "sure, then let\u00e2\u0080\u0099s start at 10:45pm?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675747467258,
+      "content": "she still didn\u00e2\u0080\u0099t reply my email, so probably no",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675746415887,
+      "content": "Are we meeting with mentor tomorrow afternoon?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675746327782,
+      "content": "We will add the comparisons with competitors tomorrow",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675746298187,
+      "content": "I have another meeting tmr that goes till 10:30 but I can meet after that",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675746248622,
+      "content": "will u revise ur parts before our meeting tmw?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675746122908,
+      "content": "even if mentor don\u00e2\u0080\u0099t have time, should we still meet at 10pm tmw online?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675746107839,
+      "content": "right now this is only our rough draft",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675745723467,
+      "content": "Okkkk",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675745717402,
+      "content": "then can u submit",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675745707057,
+      "content": "We r done",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675744801128,
+      "files": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/files/ValuationDCF_748521353102497.xlsx",
+          "creation_timestamp": 1675744799
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675744403034,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675744395083,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675743691992,
+      "content": "we only have less than 20 mins left",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675743682774,
+      "content": "@Cathy Xu @Lanyuntian Wei can u start valuation parts on slides?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675743663518,
+      "content": "I\u00e2\u0080\u0099m 80% down with my parts",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675743534144,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675738804807,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675738793133,
+      "content": "Idk if lunas finished but we can do that after valuations done",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675738770615,
+      "content": "@Lanyuntian Wei @Cathy Xu  when r u planning on adding valuation on slides?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675738729614,
+      "content": "I\u00e2\u0080\u0099m half way through my parrts",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675668291820,
+      "content": "Or like the ebit method idk",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675668282805,
+      "content": "I\u00e2\u0080\u0099m done w the free cash flow for nvidia! I\u00e2\u0080\u0099ve sent it to Luna alr and I\u00e2\u0080\u0099ll try to start on competitors fcf tmr",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675660809556,
+      "content": "I will finish all the parts in green by 11:00pm",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675660766141,
+      "content": "https://docs.google.com/document/d/1Zd1LOrS0G99H92SL4DKT3LR1M6fQLK3wi9JjdNiwQ0U/edit?usp=sharing slides structure",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "share": {
+        "link": "https://docs.google.com/document/d/1Zd1LOrS0G99H92SL4DKT3LR1M6fQLK3wi9JjdNiwQ0U/edit?usp=embed_facebook",
+        "share_text": "Cover Table of contents Investment thesis Company Overview: products + revenue breakdown Company overview: stock price (mark catalyst on the picture) Industry Overview - pie chart Industry overview - Competitors: Nvidia, AMD, Intel \u00e5\u00af\u00b9\u00e6\u00af\u0094 product wise (GPU + CPU) Industry overview - Competitors: Nv...."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675654357926,
+      "content": "For the first submission we will try but no guarantee",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675654340650,
+      "content": "Yes we will definitely need to do it for final submission",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675654269192,
+      "content": "if we don\u00e2\u0080\u0099t have time to do this for initial slides, can we do it for final slides?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675654240989,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329104359_662367788912222_161215596669883548_n_662367785578889.png",
+          "creation_timestamp": 1675654239
+        }
+      ],
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675654217465,
+      "content": "@Cathy Xu @Lanyuntian Wei past winners also did valuation of competitors",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675650868711,
+      "content": "The call ended.",
+      "call_duration": 1747,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675650433815,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329538220_1357755678309821_4273712869628708934_n_1357755671643155.png",
+          "creation_timestamp": 1675650432
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675650349283,
+      "content": "https://www.wallstreetprep.com/knowledge/nvidia-nvda-dcf/",
+      "share": {
+        "link": "https://www.wallstreetprep.com/knowledge/nvidia-nvda-dcf/",
+        "share_text": "In the following post, we\u00e2\u0080\u0099ll build a DCF valuation model for NVIDIA (NASDAQ: NVDA) to determine its intrinsic value and implied share price."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675650027022,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329481186_864275661311823_8251135203191177094_n_864275651311824.png",
+          "creation_timestamp": 1675650024
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329583391_502088185431260_7717180588574751271_n_502088178764594.png",
+          "creation_timestamp": 1675650024
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329622769_3329210700728278_4657168339234339775_n_3329210694061612.png",
+          "creation_timestamp": 1675650025
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649871504,
+      "content": "https://www.carnegiemellonsws.com/stock-pitch.html SWS stock pitch",
+      "share": {
+        "link": "https://www.carnegiemellonsws.com/stock-pitch.html",
+        "share_text": "CMU SWS will be holding a virtual stock pitch competition open to all undergraduate women. This competition allows students the opportunity to showcase their investment skills and receive feedback..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675649613003,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649545580,
+      "content": "I\u00e2\u0080\u0099m working on NVIDIA\u00e2\u0080\u0099s Market Position and Comparative Advantages section. This part needs to be completely changed, I\u00e2\u0080\u0099ll finish it tonight",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649478489,
+      "content": "also add market analysis for self-driving + gaming/metaverse industry",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649451931,
+      "content": "I kept the growth of AI, ML market, and add a bunch of data to support",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649409222,
+      "content": "For industry overview part, I delete the parts u talked about the growth of tech industry as a whole, b/c this is already a common sense.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649298197,
+      "content": "no worries we\u00e2\u0080\u0099ll keep u posted",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675649264431,
+      "content": "omg I\u00e2\u0080\u0099m so sorry but I\u00e2\u0080\u0099m on an airplane back to pitts rn, I\u00e2\u0080\u0099m taking off soon\u00f0\u009f\u0098\u00ad if u guys lmk what parts I should work on, I\u00e2\u0080\u0099ll finish by tmrw I\u00e2\u0080\u0099m so sorry I forgot\u00f0\u009f\u0098\u00ad",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675649122125,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675649120665,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649116709,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675649113798,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675648895307,
+      "content": "are we meeting tonight?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675528509125,
+      "content": "ok!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675528264674,
+      "content": "sounds good",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675528032889,
+      "content": "I\u00e2\u0080\u0099m thinking about:\n\nLet\u00e2\u0080\u0099s all read Nvidia\u00e2\u0080\u0099s Investor Day before Sunday 6 pm and do the valuation on a shared google sheet. @Luna would u mind leading this part of the work?\n\nAt the same time, I\u00e2\u0080\u0099ll revise the industry overview + investment thesis section here https://docs.google.com/document/d/11Z3h6aEMJ9A6nNh9ALjZJ1AnORvtqJFMFGCYVEznJi4/edit?usp=sharing\n\nWe can meet Sunday 9 pm to finalize our valuation and work on the slides (which will be due Monday midnight)\n\nMeet again Monday night 10pm to finalize slides\n\nMeet with mentor 1-2 between Tuesday and Thursday\n\nLmk what u think~",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "share": {
+        "link": "https://docs.google.com/document/d/11Z3h6aEMJ9A6nNh9ALjZJ1AnORvtqJFMFGCYVEznJi4/edit?usp=embed_facebook",
+        "share_text": "NVIDIA Team League of Legends Company Overview NVIDIA Corporation is a technological business that creates and produces central processing units (CPUs), graphics processing units (GPUs designed to accelerate the rendering of 3D graphics), and other specialized processors for various uses. The co..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675527660505,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675527659940,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675527637599,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328953714_1618700985252282_5162434366987596055_n_1618700981918949.jpg",
+          "creation_timestamp": 1675527635
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329329469_6124503117580006_1258645491442445191_n_6124503114246673.jpg",
+          "creation_timestamp": 1675527635
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328484880_1392266561312237_566383651826044663_n_1392266554645571.jpg",
+          "creation_timestamp": 1675527635
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329352460_954229672176696_6248922049666439573_n_954229668843363.jpg",
+          "creation_timestamp": 1675527635
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329260868_577176237320380_8052710868246084117_n_577176227320381.jpg",
+          "creation_timestamp": 1675527635
+        },
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328967396_926134158409797_2811132307677632839_n_926134155076464.jpg",
+          "creation_timestamp": 1675527635
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675527624570,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675527602995,
+      "content": "Btw I also found some",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675527176986,
+      "content": "also plz \u00e2\u009d\u00a4\u00ef\u00b8\u008f the picture of the slide template you prefer ~",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675526938731,
+      "content": "\u00e2\u009d\u00a4\u00ef\u00b8\u008f this message when ur down, so we can reserve mentor's meeting time",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675526456095,
+      "content": "https://investor.nvidia.com/events-and-presentations/events-and-presentations/event-details/2022/NVIDIA-Annual-Investor-Day/default.aspx",
+      "share": {
+        "link": "https://investor.nvidia.com/events-and-presentations/events-and-presentations/event-details/2022/NVIDIA-Annual-Investor-Day/default.aspx",
+        "share_text": "To receive notifications via email, enter your email address and select at least one subscription below. After submitting your information, you will receive an email. You must click the link in the email to activate your subscription. You can sign up for additional subscriptions at any time."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675526452636,
+      "content": "NVidia investor day",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675526431428,
+      "content": "https://www.when2meet.com/?18490083-PGj7j plz fill this out!!!! @Cathy Xu @Heesun Park @Lanyuntian Wei  b/c we definitely need to meet next week",
+      "share": {
+        "link": "https://www.when2meet.com/?18490083-PGj7j"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675526120729,
+      "content": "https://docs.google.com/document/d/1ZSTG5QyWkcvn2B8BprppdjrUmEg9ord3kJrOYhsklks/edit?usp=sharing let\u00e2\u0080\u0099s take note here",
+      "share": {
+        "link": "https://docs.google.com/document/d/1ZSTG5QyWkcvn2B8BprppdjrUmEg9ord3kJrOYhsklks/edit?usp=embed_facebook",
+        "share_text": "Mentor Meeting 1: Be aware of your audience(they probably don\u00e2\u0080\u0099t know this area) \u00e2\u0080\u0093 slides shouldn\u00e2\u0080\u0099t include too many technical details. Valuation: The goal of analysis: why is our estimation higher than 10-K\u00e2\u0080\u0099s prediction? What is the Nvidia missing? Use the three statements of the financial m..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675524879899,
+      "content": "Join Zoom Meeting<https://attend.zoom.us/j/83550575034?pwd=V1RRVWdVbHpXNXBRbnNvR3FXcGF6dz09>",
+      "share": {
+        "link": "https://attend.zoom.us/j/83550575034?pwd=V1RRVWdVbHpXNXBRbnNvR3FXcGF6dz09",
+        "share_text": "Zoom is the leader in modern enterprise video communications, with an easy, reliable cloud platform for video and audio conferencing, chat, and webinars across mobile, desktop, and room systems. Zoom Rooms is the original software-based conference room solution used around the world in board, confer..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675524862495,
+      "content": "Can you send the link",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675524858019,
+      "content": "we all joined",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675524829544,
+      "content": "Wait I am in the meeting it says waiting for host to start",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675524805298,
+      "content": "@Lanyuntian Wei  we waiting for u",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675500662299,
+      "content": "sry sry I\u00e2\u0080\u0099ve been like half awake half asleep the entire night but I\u00e2\u0080\u0099ll try to make it :(",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675500621900,
+      "content": "My questions: for valuation using the PE ratio approach, should we discount the growth rate and is there a way for us to do that? Ifl assuming a constant PE growth rate might lead to overestimation. But on the other hand nvidia is a tech company and tech companies usually have significantly higher PE ratios so would you recommend another approach?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675500415940,
+      "content": "hi guys sorry for the late notice I somehow got sick and I have a fever rn and idk if I will be well enough tmr to make it to the meeting ;;;",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675460668748,
+      "content": "we\u00e2\u0080\u0099re meeting with her 10:30-11:30 tmw",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675458911359,
+      "content": "sure! i just replied her",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675458811454,
+      "content": "And also Sunday morning",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675458802222,
+      "content": "I am available Saturday morning too",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675458790158,
+      "content": "I updated my available in when2meet",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675458770800,
+      "content": "@Lanyuntian Wei",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675457866754,
+      "content": "ya I\u00e2\u0080\u0099m available tmrw morning",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675453148337,
+      "content": "we have initial slides due 11:59pm Monday, final slides due at noon on Thursday",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675453114096,
+      "content": "also update ur availability for next week too",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675453075842,
+      "content": "if anyone\u00e2\u0080\u0099s availability on Sat changes, plz update on w2m https://www.when2meet.com/?18490083-PGj7j by 4:30pm today",
+      "share": {
+        "link": "https://www.when2meet.com/?18490083-PGj7j"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675453057615,
+      "content": "I can do tmr morning",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675453015113,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329214770_565865832122637_5901793235921622884_n_565865825455971.png",
+          "creation_timestamp": 1675453014
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675453014126,
+      "content": "our mentor wants to reschedule meeting",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675384082787,
+      "content": "Very pretty \u00f0\u009f\u0098\u00bb",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675384077941,
+      "content": "Oo",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675383645355,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328094961_880664329809691_4250528385988713920_n_880664326476358.jpg",
+          "creation_timestamp": 1675383643
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675383402954,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675383055447,
+      "content": "it\u00e2\u0080\u0099s all up to u",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675383021899,
+      "content": "also I\u00e2\u0080\u0099m open to any new suggestions",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382939987,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382936992,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329092610_746568373724465_3575600106089067298_n_746568370391132.jpg",
+          "creation_timestamp": 1675382935
+        }
+      ],
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382933097,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382930302,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/329037493_853456915954818_713932868517071105_n_853456912621485.jpg",
+          "creation_timestamp": 1675382929
+        }
+      ],
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382173677,
+      "content": "let me share some photos",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675382170553,
+      "content": "ah oki",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382164288,
+      "content": "i\u00e2\u0080\u0099ve already found some",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675382107761,
+      "content": "should i find slide templates for slide deck",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675382102647,
+      "content": "Sounds good",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675382093043,
+      "content": "sure!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675382077012,
+      "content": "do we want to meet right after the meeting with mentor tmw just to divide up the work?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675315652689,
+      "content": "This file compiles everything we wrote https://docs.google.com/document/d/1PZsXjiWc4-cep0qxizbynIvddNjUKo8kVn2HkTd8PN8/edit?usp=sharing",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "share": {
+        "link": "https://docs.google.com/document/d/1PZsXjiWc4-cep0qxizbynIvddNjUKo8kVn2HkTd8PN8/edit?usp=embed_facebook",
+        "share_text": "NVIDIA Team League of Legends Company Overview NVIDIA Corporation is a technological business that creates and produces central processing units (CPUs), graphics processing units (GPUs designed to accelerate the rendering of 3D graphics), and other specialized processors for various uses. The co..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675314821989,
+      "content": "Selena reacted \u00f0\u009f\u0091\u008d to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675314802311,
+      "content": "Lanyuntian reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675314794678,
+      "content": "Are we supposed to use DCF for the final valuation? Or are there some other\nMore advanced models",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675314769204,
+      "content": "Ifl the numbers are still kinda overestimated and I\u00e2\u0080\u0099m gna ask abt that",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675314757293,
+      "content": "Yea yea",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675314755636,
+      "content": "Oh yes",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675314748183,
+      "content": "any questions for the valuation part?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675314478742,
+      "content": "1. Anything we could improve on?\n2. What are the e criteria for a good pitch?",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675314080906,
+      "content": "do we have any questions for her?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675314071461,
+      "content": "I am planning also to share our current report with mentor to give her enough time preparing our meeting",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675312267334,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/327363729_1591188624682976_4388373992302872536_n_1591188621349643.png",
+          "creation_timestamp": 1675312265
+        }
+      ],
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675311960146,
+      "content": "for the email, do i just put my email?",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675311897050,
+      "content": "o i\u00e2\u0080\u0099ll submit rn",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675311853581,
+      "content": "Has anyone submit? It\u00e2\u0080\u0099s almost midnight",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675310886042,
+      "content": "oki I added in the doc",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675310722971,
+      "content": "sry idrk where u commented but I j wrote up the process",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675310708032,
+      "content": "We decided to use the PE ratio method of valuation, where we used EPS data from NASDAQ for the fiscal years 2016-2022 and according share prices at the reporting date of each fiscal year's 10-K. We first calculated the EPS growth rate of each year starting from 2017, as the difference between the current year's EPS with the previous year, divided by the previous year. Then, we calculated the PE ratio of each year using share price divided by EPS. We then moved on to projections, with trailing PE from ZACKS of 51.82X and average EPS growth rate we took by averaging the EPS growth rates from 2017-2022. We calculated target price of fiscal year 2023 as trailing PE * estimated EPS * 0.9 to account for market corrections and be more conservative in our valuation. For fiscal years 2024 and 2025, we replaced the trailing PE in the target price formula with the previous year's target price. After calculations, we arrived at target prices of $301, $505, and $848 for fiscal years 2023, 2024, and 2025 respectively. We graphically represented our estimates through a line chart, showing projected steady growth for the forward looking fiscal years.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675310190150,
+      "content": "o sry where did u comment",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675310168728,
+      "content": "thx",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675310161965,
+      "content": "I have a homework that is due at 12 so i will have to work on that",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675310150259,
+      "content": "yea yea okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675310144262,
+      "content": "@Cathy Xu cathy can you finish the rest of the explanation? you can just add stuff to the place where i commented",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675310086394,
+      "files": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/files/NVDAvaluation_666613668481871.xlsx",
+          "creation_timestamp": 1675310085
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675310068021,
+      "content": "added graph",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675283550659,
+      "content": "Yea yea I\u00e2\u0080\u0099ll do it after I get home",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675283478903,
+      "content": "@Cathy Xu could u put the valuation in our shared doc and write some explanation?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675283068324,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675283063143,
+      "content": "okkek im done",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675283059651,
+      "files": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/files/NVDAvaluation_573946664593673.xlsx",
+          "creation_timestamp": 1675283057
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675281870246,
+      "content": "im done w numbers but ill try to format it nicely",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675281852632,
+      "files": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/files/NVDAtargetprice_654220186471817.xlsx",
+          "creation_timestamp": 1675281850
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675264787290,
+      "content": "lmk if any of u needs any help",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675264756980,
+      "content": "I\u00e2\u0080\u0099m basically down with my parts",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675264744692,
+      "content": "and wrote 2 risks and rebuttles",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675264737521,
+      "content": "I have updated the investment points section",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675222449791,
+      "content": "ok!! i\u00e2\u0080\u0099ll just get started then\u00f0\u009f\u0091\u008d",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675222413250,
+      "content": "I haven\u00e2\u0080\u0099t organized the info, I\u00e2\u0080\u0099ll probably do it tmw b/c I have another assignment due at midnight",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675222354588,
+      "content": "okok if u already found, could u paste in the doc so that i dont research the same risks",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675222314177,
+      "content": "Maybe u also do 1-2?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675222302382,
+      "content": "I can do 1-2",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675222290390,
+      "content": "around how many risks/rebuttals should i do?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675222245901,
+      "content": "The call ended.",
+      "call_duration": 1685,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675221658577,
+      "content": "https://docs.google.com/document/d/1eqGT5PDG_paOs0UEQKDvZwV39Ydv1V4un2U_V1TevTc/edit?usp=sharing",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Selena Meng"
+        }
+      ],
+      "share": {
+        "link": "https://docs.google.com/document/d/1eqGT5PDG_paOs0UEQKDvZwV39Ydv1V4un2U_V1TevTc/edit?usp=embed_facebook",
+        "share_text": "Investment Points Risks and Rebuttals Target Price based on valuation methods"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675221536817,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/327577183_3590849334534970_4844391238229816176_n_3590849327868304.png",
+          "creation_timestamp": 1675221535
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675221360218,
+      "content": "https://medium.datadriveninvestor.com/a-simple-way-to-calculate-the-target-price-of-a-stock-9fd4d2e93e27",
+      "share": {
+        "link": "https://medium.datadriveninvestor.com/a-simple-way-to-calculate-the-target-price-of-a-stock-9fd4d2e93e27",
+        "share_text": "Create a clearer prediction of a stock\u00e2\u0080\u0099s price"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675221062555,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/327158496_1240844259800613_5017053856190820767_n_1240844253133947.png",
+          "creation_timestamp": 1675221060
+        }
+      ],
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675220943862,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/photos/328706598_5863508730402160_6540345432314797106_n_5863508723735494.jpg",
+          "creation_timestamp": 1675220942
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675220684102,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675220598614,
+      "content": "@Cathy Xu CATHY",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675220574187,
+      "content": "Heesun joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675220558579,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675220548914,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675220544587,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675209361579,
+      "content": "their valuation handout https://docs.google.com/document/d/1lrIqaHsI6ew2eamrdydDzYVVonFHXu7scB_aWciqHhQ/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/document/d/1lrIqaHsI6ew2eamrdydDzYVVonFHXu7scB_aWciqHhQ/edit?usp=embed_facebook",
+        "share_text": "Valuation Understanding the Valuation (\u00c2\u00bd - 1 page) This is a brief analysis of the relevant financial metrics. In general, valuation gives a target price (price that you expect the stock to go to). For our purposes we will focus on understanding some of the metrics used, rather than the ta..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675209243166,
+      "content": "but some parts are still helpful",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675209215005,
+      "content": "this was made 2021",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675209213799,
+      "content": "hi friends I found a past SWS stock pitch document from their internal project report https://docs.google.com/document/d/13xfklg6a3C4Ibev4iscUJdR5r7xGoPiRif3ldlUlWC0/edit",
+      "share": {
+        "link": "https://docs.google.com/document/d/13xfklg6a3C4Ibev4iscUJdR5r7xGoPiRif3ldlUlWC0/edit",
+        "share_text": "NVIDIA Corporation (NVDA) Industry Overview NVIDIA Corporation is a part of the technology industry and specifically specializes in semiconductors and computer systems design. There definitely is competition in the industry with well-established and large companies such as Intel, Microsoft, A..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675198810660,
+      "content": "Lanyuntian reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675198796625,
+      "content": "Lanyuntian reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675198514777,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675198138761,
+      "content": "Cuz 456 idt it\u00e2\u0080\u0099s a lot",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675198128601,
+      "content": "For valuation.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675198123132,
+      "content": "We cud either divide 1-3 4-6 or 1&2 3-6",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675195000643,
+      "content": "Heesun reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194975497,
+      "content": "Free cash flow",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675194953823,
+      "content": "what\u00e2\u0080\u0099s fcf",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194842813,
+      "content": "Imma start on fcfs",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194610405,
+      "content": "@Lanyuntian Wei can we also split",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194600301,
+      "content": "Yes yes",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675194574993,
+      "content": "Ya do u wanna split w me ..",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194517769,
+      "content": "Ifl it\u00e2\u0080\u0099s similar to the finance project n we could divide into parts",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194442477,
+      "content": "It looks.. huge",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675194438048,
+      "content": "Who\u00e2\u0080\u0099s doing valuation",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675141254307,
+      "content": "valuation workshop slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675141247306,
+      "files": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/stockpitchcompetition_9080748428602677/files/2023SPCWorkshop2_1584564668622583.pdf",
+          "creation_timestamp": 1675141245
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675124798040,
+      "content": "I\u00e2\u0080\u0099ll try to finish my parts before tmw\u00e2\u0080\u0099s meeting b/c I won\u00e2\u0080\u0099t be available whole day on Wednesday",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1675122095041,
+      "content": "Ok!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675122056071,
+      "content": "sure :)",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675121253998,
+      "content": "https://www.when2meet.com/?18490083-PGj7j",
+      "share": {
+        "link": "https://www.when2meet.com/?18490083-PGj7j"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675121249958,
+      "content": "meeting 10-11pm tmw?",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675121239225,
+      "content": "based on the previous w2m",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675101055339,
+      "content": "For target price is it like a full on valuation?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675101044382,
+      "content": "Ahh ok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675095695426,
+      "content": "I probably prefer to do investment points + risks and rebuttal",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675054660151,
+      "content": "Yea yea",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675045505442,
+      "content": "meet 1-2 times before ddl which is Wednesday midnight",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Lanyuntian Wei"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675045472691,
+      "content": "should we divide up the work",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675045467262,
+      "content": "For our next submission, we need further research on investment points, risk and rebuttle, and target price based on valuation methods.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675008919386,
+      "content": "Cuz I have something that starts at 650",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1675008911160,
+      "content": "I can only go till like 640",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675002984212,
+      "content": "no it\u00e2\u0080\u0099s in person",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675002971531,
+      "content": "Do they have recording?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1675001975463,
+      "content": "Is any one going to DCF/valuation workshop tmw?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1675000132765,
+      "content": "Okkk",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674998743720,
+      "content": "Zoom will be better?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674971991654,
+      "content": "Plz let me know so that I can put that in the reply",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674971948451,
+      "content": "Are we doing a zoom or a call with the mentor?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674971932645,
+      "content": "I will reply to mentor",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674964013552,
+      "content": "also can someone reply mentor\u00e2\u0080\u0099s email",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674964004898,
+      "content": "If u have time, feel free to modify draft and submit again",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674963981095,
+      "content": "But when I submitted it, the form says we need competitor analysis instead of the investment thesis, which is inconsistent with their previous email",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674963878480,
+      "content": "just made a safe submission",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674963870844,
+      "content": "https://docs.google.com/document/d/1hnsPu4vRStEmEO8MU1nHaDzU6kJLSkGy2_j4Amz0TKQ/edit?usp=sharing latest pitch proposal version",
+      "share": {
+        "link": "https://docs.google.com/document/d/1hnsPu4vRStEmEO8MU1nHaDzU6kJLSkGy2_j4Amz0TKQ/edit?usp=embed_facebook",
+        "share_text": "NVIDIA Company Overview NVIDIA Corporation is a technological business that creates and produces central processing units (CPUs), graphics processing units (GPUs designed to accelerate the rendering of 3D graphics), and other specialized processors for various uses. The company's products are la..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674957272292,
+      "content": "ic",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674957268371,
+      "content": "Rn I think it\u00e2\u0080\u0099s j describing the general direction",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674957259822,
+      "content": "I think that\u00e2\u0080\u0099s more for the later parts",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674957246052,
+      "content": "But Ifl it\u00e2\u0080\u0099s more of an overview than describing reasons",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674957219217,
+      "content": "Ook I\u00e2\u0080\u0099ll add",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674957211894,
+      "content": "also, there are other factors besides gaming laptop sales affecting NVIDIA\u00e2\u0080\u0099s stock prices",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674957070423,
+      "content": "I feel like we might need a more detailed explanation of the product lines instead of just list 4 applications with four bullet points",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674956939363,
+      "content": "@Cathy Xu your last two paragraph is kinda repetitive right now",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674932876286,
+      "content": "I\u00e2\u0080\u0099m done :)",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674927757823,
+      "content": "The call ended.",
+      "call_duration": 5693,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674925906923,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674925425608,
+      "content": "https://www.scribbr.com/citation/generator/folders/4E6sYWpedKfOiLwc4DQZEy/lists/3SfYSf7KG9kXZYvxoIc0Q8/",
+      "share": {
+        "link": "https://www.scribbr.com/citation/generator/folders/4E6sYWpedKfOiLwc4DQZEy/lists/3SfYSf7KG9kXZYvxoIc0Q8/"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674925167068,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674924729694,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674922489758,
+      "content": "https://docs.google.com/presentation/d/1rgnYqC75oqZwINi5T-ar5n7wIoNIwm7TVfKpjlduDZ4/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/presentation/d/1rgnYqC75oqZwINi5T-ar5n7wIoNIwm7TVfKpjlduDZ4/edit?usp=embed_facebook",
+        "share_text": "Cap this in 40 min 1 SWS Stock Pitch Competition Workshop 1: How to pitch a stock? 01/23/2023"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674922282478,
+      "content": "https://docs.google.com/document/d/1Sz1fl6nz0rmiHws4SXbCOi32v-JbaSQxRzmEsSRSJrw/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/document/d/1Sz1fl6nz0rmiHws4SXbCOi32v-JbaSQxRzmEsSRSJrw/edit?usp=embed_facebook",
+        "share_text": "NVIDIA Company Overview A technological business called NVIDIA Corporation creates and produces graphics processing units (GPUs) and other specialized processors for various uses. The company's products are largely used in data centers, driverless vehicles, professional visualization, and gaming..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674922128323,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674922094981,
+      "content": "Heesun joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674922069923,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674922062894,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674922058532,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674922055060,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674922009435,
+      "content": "yeah right now",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674921801717,
+      "content": "Are we meeting today?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674838289711,
+      "content": "we r meeting with mentor 5-6pm next Friday, plz mark ur calender",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674780170264,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674773763040,
+      "content": "Hello, I\u00e2\u0080\u0099m Luna Wei, a junior studying Business Administration and Computer Science. Through this experience, I hope to learn more about valuation techniques and gain insights on the finance industry. I look forward to working with you!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674770132315,
+      "content": "Hello, I\u00e2\u0080\u0099m Cathy Xu, a sophomore studying Information Systems and Business Administration. Through this experience, I hope to learn more about valuation and financial analysis. I look forward to working with you!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674768210760,
+      "content": "Hello, I am Heesun Park, a sophomore majoring in Information Systems and Fine Arts. Through this experience, I hope to gain further knowledge about the real-time impact the industry trends has on stock value. I look forward to working with you!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674767099323,
+      "content": "Could u all plz sent me a brief intro of yourself, I\u00e2\u0080\u0099ll compile and send her",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674767062373,
+      "content": "mentor just replied email about meeting time",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674704847740,
+      "content": "remember to save all the sources of ur info",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674704831786,
+      "content": "pitch proposal first draft",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674704829009,
+      "content": "https://docs.google.com/document/d/1Sz1fl6nz0rmiHws4SXbCOi32v-JbaSQxRzmEsSRSJrw/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/document/d/1Sz1fl6nz0rmiHws4SXbCOi32v-JbaSQxRzmEsSRSJrw/edit?usp=embed_facebook"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674704342051,
+      "content": "The call ended.",
+      "call_duration": 1850,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674703833475,
+      "content": "https://docs.google.com/document/d/13Y4r1F4_T7WWR1EclJTzBURXWM-UzwqxV3p57440UAI/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/document/d/13Y4r1F4_T7WWR1EclJTzBURXWM-UzwqxV3p57440UAI/edit?usp=embed_facebook",
+        "share_text": "Traded on NASDAQ/NYSE Has been trading 5 years Market cap should be at least 2 billion what the company does + what are its greatest advantages Amazon Online marketplace, cloud computing, AI RxPass: just introduced a new service for Prime members Affordable access to 80+ common health conditions..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674703648738,
+      "content": "Nvidia \nTesla\nVolvo\nGeneral Motors\nSome airlines",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674703244348,
+      "content": "nextera",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674703216990,
+      "content": "halliburton",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702827871,
+      "content": "https://docs.google.com/document/d/1Rm4tC-XLPryfn85eS733cm49at8XEwktMmSo2r6aZro/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/document/d/1Rm4tC-XLPryfn85eS733cm49at8XEwktMmSo2r6aZro/edit?usp=embed_facebook",
+        "share_text": "Based on the w2m, how about we plan to meet on: Wednesday 10pm-11pm via zoom Tasks before meeting: Each member propose at least 2 stocks that satisfy competition requirement(go public for at least 5 years, market cap > $2 billion, publicly traded at NASDAQ/NYSE, more details plz see slides) Pre..."
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674702645749,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674702606329,
+      "content": "Lanyuntian joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702566168,
+      "content": "@Lanyuntian Wei waiting 4 u~",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674702506136,
+      "content": "Heesun joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702490897,
+      "content": "You joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702489835,
+      "content": "Selena joined the call.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702486500,
+      "content": "Selena started a call.",
+      "call_duration": 0,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674702473498,
+      "content": "Fine with both too",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702452763,
+      "content": "I\u00e2\u0080\u0099m fine both ways",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702449986,
+      "content": "Which one do u guys prefer",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702367741,
+      "content": "It\u00e2\u0080\u0099s the same lmao",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702364891,
+      "content": "Voice chat",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702358117,
+      "content": "Wait actually we can also j do messenger",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702352255,
+      "content": "Oh yea oki",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702346875,
+      "content": "can someone create a zoom room?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674702337690,
+      "content": "my laptop is kinda slow right now",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674702234212,
+      "content": "I\u00e2\u0080\u0099m home!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674702062157,
+      "content": "R we doing zoom?!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674701811399,
+      "content": "no worries let us know when u get home~",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674701759749,
+      "content": "Oh shit sry sry I might be late for like 2 3 minutes the bus isn\u00e2\u0080\u0099t coming\u00f0\u009f\u0098\u00ad\u00f0\u009f\u0098\u00ad",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674687071827,
+      "content": "plz use this link instead https://www.when2meet.com/?18490083-PGj7j",
+      "share": {
+        "link": "https://www.when2meet.com/?18490083-PGj7j"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674686427992,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674686411849,
+      "content": "We need to meet with mentor after first submission",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674686397984,
+      "content": "SWS just sent an update email",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674618164701,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674618151320,
+      "content": "Sounds good",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674613710359,
+      "content": "yepp",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674613434830,
+      "sticker": {
+        "uri": "your_activity_across_facebook/messages/stickers_used/39178562_1505197616293642_5411344281094848512_n_369239263222822.png",
+        "ai_stickers": [
+          
+        ]
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612123665,
+      "content": "Selena reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612069010,
+      "content": "what do y\u00e2\u0080\u0099all think",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612044289,
+      "content": "Saturday 5:30-6pm via zoom:\n\nTask before meeting:\n1. Revise slides based on teammates\u00e2\u0080\u0099 feedback\n\nGoals:\n1. Final check-in\n2. Submit slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612037038,
+      "content": "Saturday, 11am-1pm via zoom\n\nTasks before meeting:\n1. Finish all the research\n2. Finish assigned slides\n\nGoals:\n1. Finish slides and scripts\n2. Provide feedback to each other",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612029999,
+      "content": "Friday 5:30-6:30pm via zoom (Cathy might leave early)\n\nTask before meeting:\n1. Finish assign research task\n\nGoals:\n1. Check-in, share progress\n2. See if there\u00e2\u0080\u0099re sections need further research\n3. Divide up work on slides",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674612020296,
+      "content": "Wednesday 10pm-11pm via zoom\n\nTasks before meeting:\n1. Each member propose at least 2 stocks that satisfy competition requirement(go public for at least 5 years, market cap > $2 billion, publicly traded at NASDAQ/NYSE, more details plz see slides)\n2. Prepare to explain what the company does + what are its greatest advantages.\n\nMeeting goals:\u00c2\u00a0\n1. finalize the stock selection\n2. Divide up work on in-depth research",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674611977359,
+      "content": "Based on the w2m, how about we plan to meet on:",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674611859867,
+      "is_unsent": true,
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Lanyuntian Wei",
+      "timestamp_ms": 1674609203942,
+      "content": "Hiii I am Luna in busi+cs",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674609177067,
+      "content": "Selena Meng removed Georgia Wei from the group.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674609172499,
+      "content": "Selena Meng added Lanyuntian Wei to the group.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674600269898,
+      "content": "helloo I\u00e2\u0080\u0099m heesun in is+art",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Heesun Park",
+      "timestamp_ms": 1674600248958,
+      "content": "Heesun reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674600201902,
+      "content": "Hihi I\u00e2\u0080\u0099m cathy I\u00e2\u0080\u0099m a sophomore in is+ business",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Heesun Park"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Selena Meng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674599766661,
+      "content": "lol I\u00e2\u0080\u0099ll also do some research tonight",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674599739618,
+      "content": "btw I\u00e2\u0080\u0099m Selena, a sophomore majoring in Business, econ, and politics\u00e2\u0098\u00ba\u00ef\u00b8\u008f",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008b",
+          "actor": "Heesun Park"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674599700580,
+      "content": "https://drive.google.com/drive/folders/1NGVIjqvyXaNX63ThI6KTCrY-vv77Z4-y?usp=share_link This is a shared drive for us. I also linked the sample files and stock pitch workshop slides inside",
+      "share": {
+        "link": "https://drive.google.com/drive/folders/1NGVIjqvyXaNX63ThI6KTCrY-vv77Z4-y?usp=share_link"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674599344038,
+      "content": "Idk I j searched up growth stocks on google",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674599336337,
+      "content": "Rivian automotive?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674598959189,
+      "content": "oki oki",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674598695981,
+      "content": "Also, feel free to propose any stock for our presentation",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674598626292,
+      "content": "plz fill it out ASAP",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674598617848,
+      "content": "this is a w2m",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674598613970,
+      "content": "https://www.when2meet.com/?18468902-fLc5f",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Cathy Xu"
+        }
+      ],
+      "share": {
+        "link": "https://www.when2meet.com/?18468902-fLc5f"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674598594089,
+      "content": "hi friends, since the first submission is due this Saturday 11:59pm, we guess we need to meet at least twice before ddl either in-person or via zoom",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674598478207,
+      "content": "hi @Heesun Park",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1674598473552,
+      "content": "You added Heesun Park to the group.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674597729916,
+      "content": "@Cathy Xu \u00e4\u00bd\u00a0\u00e4\u00bb\u008b\u00e6\u0084\u008finvite\u00e4\u00b8\u008b\u00e4\u00bd\u00a0\u00e9\u0082\u00a3\u00e4\u00bd\u008d\u00e6\u009c\u008b\u00e5\u008f\u008b\u00e8\u00bf\u009bgroup chat\u00e5\u0090\u0097",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674597708313,
+      "content": "hi",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Selena Meng",
+      "timestamp_ms": 1674597702637,
+      "content": "Selena named the group Stock Pitch Competition.",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Stock Pitch Competition",
+  "is_still_participant": true,
+  "thread_path": "inbox/stockpitchcompetition_9080748428602677",
+  "magic_words": [
+    
+  ],
+  "joinable_mode": {
+    "mode": 1,
+    "link": ""
+  }
+}

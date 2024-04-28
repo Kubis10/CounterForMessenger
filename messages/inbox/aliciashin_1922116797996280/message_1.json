@@ -1,0 +1,41 @@
+{
+  "participants": [
+    {
+      "name": "Alicia Shin"
+    },
+    {
+      "name": "Cathy Xu"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Alicia Shin",
+      "timestamp_ms": 1649959224068,
+      "content": "You can now message and call each other and see info like Active Status and when you've read messages.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Alicia Shin",
+      "timestamp_ms": 1649959223960,
+      "content": "tyty~",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1649958372690,
+      "photos": [
+        {
+          "uri": "your_activity_across_facebook/messages/inbox/aliciashin_1922116797996280/photos/277615509_1500563227025828_511441615264053226_n_1098626227358439.jpg",
+          "creation_timestamp": 1649958371
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Alicia Shin",
+  "is_still_participant": true,
+  "thread_path": "inbox/aliciashin_1922116797996280",
+  "magic_words": [
+    
+  ]
+}

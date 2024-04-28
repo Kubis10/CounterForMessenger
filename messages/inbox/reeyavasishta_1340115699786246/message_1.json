@@ -1,0 +1,36 @@
+{
+  "participants": [
+    {
+      "name": "Reeya Vasishta"
+    },
+    {
+      "name": "Cathy Xu"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Reeya Vasishta",
+      "timestamp_ms": 1647280627057,
+      "content": "You can now message and call each other and see info like Active Status and when you've read messages.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Reeya Vasishta",
+      "timestamp_ms": 1647280626840,
+      "content": "hi",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1646246851630,
+      "content": "hi",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Reeya Vasishta",
+  "is_still_participant": true,
+  "thread_path": "inbox/reeyavasishta_1340115699786246",
+  "magic_words": [
+    
+  ]
+}

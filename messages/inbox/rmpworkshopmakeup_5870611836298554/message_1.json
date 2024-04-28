@@ -1,0 +1,454 @@
+{
+  "participants": [
+    {
+      "name": "Claire Sze"
+    },
+    {
+      "name": "Irene Yang"
+    },
+    {
+      "name": "Susan Cho"
+    },
+    {
+      "name": "Justina Yoo"
+    },
+    {
+      "name": "Songhee Lee"
+    },
+    {
+      "name": "Yoonbin Kim"
+    },
+    {
+      "name": "Michelle Ye"
+    },
+    {
+      "name": "Jamie Kim"
+    },
+    {
+      "name": "Ellen Kahng"
+    },
+    {
+      "name": "Breanna Yang"
+    },
+    {
+      "name": "Eleanor Xiao"
+    },
+    {
+      "name": "Grace Liu"
+    },
+    {
+      "name": "Cathy Xu"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651550228115,
+      "content": "Ahhh nice",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651550223697,
+      "content": "u j need to fill them out LOL",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651550216670,
+      "content": "LOOOL i dont grade them dw",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651550201593,
+      "content": "Is it completion score or accuracy\u00e2\u0080\u00a6",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651550190414,
+      "content": "yayay",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651550187144,
+      "content": "Jamie reacted \u00e2\u009d\u00a4 to your message ",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651550177376,
+      "content": "I also filled out ty ty",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651549222017,
+      "content": "ty!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Eleanor Xiao",
+      "timestamp_ms": 1651547884524,
+      "content": "Hi~~ I filled out ty jamie",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Songhee Lee",
+      "timestamp_ms": 1651530022988,
+      "content": "thank youuu",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651528993812,
+      "content": "please complete the quiz by tomorrow night",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0090\u0088",
+          "actor": "Songhee Lee"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651528974691,
+      "content": "https://forms.gle/vYcKtQpaTdWjnMS86",
+      "share": {
+        "link": "https://docs.google.com/forms/d/e/1FAIpQLSftacTdtz0vB3_QNnmDUvPIdF84vRNas_HSLy7hBD0_auO0Kw/viewform?usp=embed_facebook"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651528935504,
+      "content": "https://docs.google.com/presentation/d/1s_bZY8cdTzvnEHzkpnmn9vAzqmGDu1yp8N8LilGDOYk/edit?usp=sharing",
+      "share": {
+        "link": "https://docs.google.com/presentation/d/1s_bZY8cdTzvnEHzkpnmn9vAzqmGDu1yp8N8LilGDOYk/edit?usp=embed_facebook",
+        "share_text": "RMP 2022 Sexual Abuse Harassment CMU aKDPhi"
+      },
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651520078913,
+      "content": "Ok~ <3",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651520074731,
+      "content": "okok ill send out tn",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u008d\u0092",
+          "actor": "Eleanor Xiao"
+        },
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Ellen Kahng"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651520073700,
+      "content": "girl",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651520072173,
+      "content": "good",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651520070966,
+      "content": "uh huh~",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651520068440,
+      "content": "I wna focus on my finals LOL",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651520066385,
+      "content": "Yes",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Breanna Yang",
+      "timestamp_ms": 1651520063827,
+      "content": "yes LOL",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651520063527,
+      "content": "Yes",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651520056002,
+      "content": "Honestly is everyone ok w filling out the form if i send u workshop presentation",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651519881300,
+      "content": "so nice\u00e2\u0080\u00a6",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651506465955,
+      "content": "So pls react to dis message if u wna do after 5/6",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Irene Yang"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651506450204,
+      "content": "If u guys cannot do monday 7pm ill host another makeup session after 5/6",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Grace Liu",
+      "timestamp_ms": 1651489877669,
+      "content": "i have exam from 5:30-8:30 \u00f0\u009f\u0098\u0094\u00f0\u009f\u0098\u0094",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651478328668,
+      "content": "okok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Susan Cho",
+      "timestamp_ms": 1651478322812,
+      "content": "tmr morning",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Irene Yang"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Susan Cho",
+      "timestamp_ms": 1651478320786,
+      "content": "i think its 8am for us",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651478307374,
+      "content": "Im arriving home after 7\u00f0\u009f\u00a5\u00b9\u00f0\u009f\u00a5\u00b9\u00e2\u0080\u00a6",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Irene Yang",
+      "timestamp_ms": 1651478288582,
+      "content": "monday??",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Ellen Kahng",
+      "timestamp_ms": 1651465768939,
+      "content": "i think i can also do 7 pm tmrw",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Songhee Lee",
+      "timestamp_ms": 1651465746473,
+      "content": "yeshhh tyty\u00f0\u009f\u0098\u00ad",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651465493105,
+      "content": "Is tmr 7pm ok??",
+      "reactions": [
+        {
+          "reaction": "\u00e2\u009d\u00a4",
+          "actor": "Eleanor Xiao"
+        },
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Breanna Yang"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Songhee Lee",
+      "timestamp_ms": 1651459553111,
+      "content": "Yeah I can do tmr",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Songhee Lee",
+      "timestamp_ms": 1651459548757,
+      "content": "Omg I\u00e2\u0080\u0099m so sorry I fell asleep and just woke up",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Breanna Yang",
+      "timestamp_ms": 1651456176817,
+      "content": "i can do tmrw too",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Claire Sze",
+      "timestamp_ms": 1651448128883,
+      "content": "me too i can do tmrw night",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651448113521,
+      "content": "If ur available tmr night, please let me know by tn",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Michelle Ye",
+      "timestamp_ms": 1651447937093,
+      "content": "hi SORRY I can do tmr night too",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447925874,
+      "content": "Anyone else who\u00e2\u0080\u0099s free tmr night?",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Eleanor Xiao",
+      "timestamp_ms": 1651447885003,
+      "content": "i\u00e2\u0080\u0099m free tomorrow night",
+      "reactions": [
+        {
+          "reaction": "\u00f0\u009f\u0091\u008d",
+          "actor": "Jamie Kim"
+        }
+      ],
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651447738436,
+      "content": "Oh sorry sorry ok",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447735673,
+      "content": "so next time please be aware of announcements!!",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447710773,
+      "content": "Also if you didn\u00e2\u0080\u0099t tell me you are not coming tonight ur fined..\u00f0\u009f\u0098\u00ad",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Cathy Xu",
+      "timestamp_ms": 1651447656122,
+      "content": "I\u00e2\u0080\u0099m free after may 5th",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447640010,
+      "content": "Jamie named the group Rmp workshop makeup.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447622257,
+      "content": "lmk when yall r free so i can go over one more time",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Jamie Kim",
+      "timestamp_ms": 1651447612806,
+      "content": "Hello this is rmp workshop makeup gc",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Rmp workshop makeup",
+  "is_still_participant": true,
+  "thread_path": "inbox/rmpworkshopmakeup_5870611836298554",
+  "magic_words": [
+    
+  ],
+  "joinable_mode": {
+    "mode": 1,
+    "link": ""
+  }
+}

@@ -198,7 +198,6 @@ class MainPage(tk.Frame):
             # Assuming the conversation identifier is in the 11th column
             self.controller.current_conversation = conversation_data[10].replace('<@!PREFIX>', '')
             self.show_statistics()
-            print(f"Current conversation set to: {self.controller.current_conversation}")
 
     # invoked on <button 3>
     def deselect(self):
