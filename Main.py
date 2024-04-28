@@ -828,7 +828,7 @@ class StatisticsPopup(tk.Toplevel):
 
 class FilterPopup(tk.Toplevel):
     """
-    This class implements the sort-editor popup
+    This class implements the filter popup
     """
     def __init__(self, controller, columns, column_titles, filter_columns, apply_callback):
         tk.Toplevel.__init__(self)
