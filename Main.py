@@ -136,7 +136,10 @@ class MainPage(tk.Frame):
         for keyword, text in columns.items():
             self.treeview.heading(keyword, text=text, anchor='center')
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
-        self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
+        # I commented out the following line because it was raising errors with selecting a conversation:
+        # self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
+        # sets a conversation to current conversation on
+        self.treeview.bind('<<TreeviewSelect>>', self.set_current_conversation)
 
         # show frame title
         ttk.Label(
@@ -186,6 +189,15 @@ class MainPage(tk.Frame):
         scrollbar.config(command=self.treeview.yview)
         self.nav.pack(side='left', fill='y')
         self.main.pack(side='right', fill='both', expand=True)
+
+
+    def set_current_conversation(self, event):
+        selected = self.treeview.selection()
+        if selected:
+            conversation_data = self.treeview.item(selected[0], 'values')
+            # Assuming the conversation identifier is in the 11th column
+            self.controller.current_conversation = conversation_data[10].replace('<@!PREFIX>', '')
+            self.show_statistics()
 
     # invoked on <button 3>
     def deselect(self):
@@ -379,6 +391,8 @@ class MasterWindow(tk.Tk):
         # noinspection PyUnresolvedReferences
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration, total_messages, total_chars, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files = 0, 0, 0, 0, 0, 0, 0, 0, 0
+        # add field to store first five messages in a conversation
+        first_five_messages = []
 
         if isinstance(self.from_date_entry, tuple):
             self.from_date_entry = self.from_date_entry[0]
@@ -400,6 +414,15 @@ class MasterWindow(tk.Tk):
                 # update all relevant counters
                 # filter messages that are in the chosen time window
                 for message in data.get('messages', []):
+                    # get first five messages with sender and content
+                    if len(first_five_messages) < 5:
+                        try:
+                            sender_name = message['sender_name'].encode('iso-8859-1').decode('utf-8')
+                            content = message['content'].encode('iso-8859-1').decode('utf-8')  # assuming content needs similar decoding
+                            first_five_messages.append((sender_name, content))
+                        except KeyError:
+                            continue
+
                     if self.from_date_entry <= datetime.fromtimestamp(
                             int(message["timestamp_ms"]) / 1000).date() <= self.to_date_entry:
                         total_messages += 1
@@ -435,7 +458,12 @@ class MasterWindow(tk.Tk):
                     # noinspection PyUnresolvedReferences
                     chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
 
-        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files
+        return chat_title, participants, chat_type, total_messages, total_chars, call_duration, sent_messages, start_date, total_photos, total_gifs, total_videos, total_files, first_five_messages
+    
+    # method to retrieve message data for statistics popup
+    def get_statistics_data(self, conversation):
+        return self.extract_data(conversation)
+        
 
 
 class ProfilePopup(tk.Toplevel):
@@ -631,7 +659,7 @@ class LoadingPopup(tk.Toplevel):
             self.controller.total_chars = 0
             for conversation in listdir(self.directory):
                 try:
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files, first_five_messages = self.controller.extract_data(
                         conversation)
                     if len(people) == 0:
                         # if this occurs, the given path is of correct directory format but contains no useful info
@@ -674,7 +702,7 @@ class StatisticsPopup(tk.Toplevel):
         tk.Toplevel.__init__(self)
         self.controller = controller
         self.module = self.controller.lang_mdl
-        set_resolution(self, 800, 600)
+        set_resolution(self, 800, 1000) # enlarge to contain first five messages
 
         # statistics window customization
         self.title(self.module.TITLE_STATISTICS)
@@ -682,11 +710,11 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files, first_five_messages = self.controller.extract_data(
             selection)
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
-            set_resolution(self, 800, 650)
+            set_resolution(self, 800, 1200) # enlarge to contain first five messages
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -737,6 +765,29 @@ class StatisticsPopup(tk.Toplevel):
         listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
+
+        # box to contain first five messages:
+        ttk.Label(
+            self, text="First 5 Messages:"
+        ).pack(side='top', pady=5)
+
+        messages_frame = ttk.Frame(self)  # Frame to hold Listbox and Scrollbar for messages
+        messages_frame.pack(side='top', fill='both', expand=True)
+
+        messages_scrollbar = ttk.Scrollbar(messages_frame)
+        messages_scrollbar.pack(side='right', fill='y')
+
+        messages_listbox = tk.Listbox(messages_frame, width=50, height=1, yscrollcommand=messages_scrollbar.set)
+        messages_listbox.pack(side='left', fill='both', expand=True)
+        messages_scrollbar.config(command=messages_listbox.yview)
+
+        for sender_name, content in first_five_messages:
+            messages_listbox.insert('end', f"{sender_name}: {content}")
+
+        # add close button to close statistics popup
+        ttk.Button(self, text="Close", command=self.destroy).pack(side='bottom', pady=10)
+
+        
 
 
 if __name__ == '__main__':
