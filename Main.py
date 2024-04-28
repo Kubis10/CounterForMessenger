@@ -762,7 +762,7 @@ class StatisticsPopup(tk.Toplevel):
         tk.Toplevel.__init__(self)
         self.controller = controller
         self.module = self.controller.lang_mdl
-        set_resolution(self, 800, 600)
+        set_resolution(self, 800, 1000) # enlarge to contain first five messages
 
         # statistics window customization
         self.title(self.module.TITLE_STATISTICS)
@@ -770,11 +770,11 @@ class StatisticsPopup(tk.Toplevel):
         self.focus_set()
         self.grab_set()
 
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files, first_five_messages = self.controller.extract_data(
             selection)
         # resize the window to fit all data if the conversation is a group chat
         if room == self.module.TITLE_GROUP_CHAT:
-            set_resolution(self, 800, 650)
+            set_resolution(self, 800, 1200) # enlarge to contain first five messages
         # display popup title
         ttk.Label(self, text=f'{self.module.TITLE_MSG_STATS}:').pack(side='top', pady=16)
         # show conversation title and type
@@ -825,6 +825,27 @@ class StatisticsPopup(tk.Toplevel):
         listbox.insert('end', f'{self.module.TITLE_PER_WEEK} - {all_msgs / (sec_since_start / (7 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_MONTH} - {all_msgs / (sec_since_start / (30 * 86400)):.2f}')
         listbox.insert('end', f'{self.module.TITLE_PER_YEAR} - {all_msgs / (sec_since_start / (365 * 86400)):.2f}')
+
+        # box to contain first five messages:
+        ttk.Label(
+            self, text="First 5 Messages:"
+        ).pack(side='top', pady=5)
+
+        messages_frame = ttk.Frame(self)  # Frame to hold Listbox and Scrollbar for messages
+        messages_frame.pack(side='top', fill='both', expand=True)
+
+        messages_scrollbar = ttk.Scrollbar(messages_frame)
+        messages_scrollbar.pack(side='right', fill='y')
+
+        messages_listbox = tk.Listbox(messages_frame, width=50, height=1, yscrollcommand=messages_scrollbar.set)
+        messages_listbox.pack(side='left', fill='both', expand=True)
+        messages_scrollbar.config(command=messages_listbox.yview)
+
+        for sender_name, content in first_five_messages:
+            messages_listbox.insert('end', f"{sender_name}: {content}")
+
+        # add close button to close statistics popup
+        ttk.Button(self, text="Close", command=self.destroy).pack(side='bottom', pady=10)
 
 class FilterPopup(tk.Toplevel):
     """
