@@ -853,23 +853,34 @@ class FilterPopup(tk.Toplevel):
         ttk.Label(self, text="Filter by:", foreground='#000000', background='#ffffff', font=('Arial', 15)).pack(side='top', pady=10)
 
 
-        self.canvas = tk.Canvas(self, borderwidth=0)          #place canvas on self
-        self.viewPort = tk.Frame(self.canvas)                    #place a frame on the canvas, this frame will hold the child widgets 
-        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview) #place a scrollbar on self 
-        self.canvas.configure(yscrollcommand=self.vsb.set)                          #attach scrollbar action to scroll of canvas
-
-        self.vsb.pack(side="right", fill="y")                                       #pack scrollbar to right of self
-        self.canvas.pack(side="left", fill="both", expand=True)                     #pack canvas to left of self and expand to fil
-        self.canvas_window = self.canvas.create_window((4,4), window=self.viewPort, anchor="nw",            #add view port frame to canvas
+        self.canvas = tk.Canvas(self, borderwidth=0)
+        # place a frame on the canvas, this frame will hold the child widgets           
+        self.viewPort = tk.Frame(self.canvas)
+        # place a scrollbar on self                     
+        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview) 
+        # attach scrollbar action to scroll of canvas
+        self.canvas.configure(yscrollcommand=self.vsb.set)                          
+        
+        # pack scrollbar to right of self
+        self.vsb.pack(side="right", fill="y")
+        # pack canvas to left of self and expand to fil                                       
+        self.canvas.pack(side="left", fill="both", expand=True)
+        # add view port frame to canvas                     
+        self.canvas_window = self.canvas.create_window((4,4), window=self.viewPort, anchor="nw",            
                                   tags="self.viewPort")
+        
+        # bind an event whenever the size of the viewPort frame changes.
+        self.viewPort.bind("<Configure>", self.onFrameConfigure)
+        # bind an event whenever the size of the canvas frame changes.                       
+        self.canvas.bind("<Configure>", self.onCanvasConfigure)                       
+        # bind wheel events when the cursor enters the control  
+        self.viewPort.bind('<Enter>', self.onEnter)
+        # unbind wheel events when the cursorl leaves the control                                 
+        self.viewPort.bind('<Leave>', self.onLeave)                                 
 
-        self.viewPort.bind("<Configure>", self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
-        self.canvas.bind("<Configure>", self.onCanvasConfigure)                       #bind an event whenever the size of the canvas frame changes.
-            
-        self.viewPort.bind('<Enter>', self.onEnter)                                 # bind wheel events when the cursor enters the control
-        self.viewPort.bind('<Leave>', self.onLeave)                                 # unbind wheel events when the cursorl leaves the control
-
-        self.onFrameConfigure(None)                                                 #perform an initial stretch on render, otherwise the scroll region has a tiny border until the first resize
+        # perform an initial stretch on render, otherwise the scroll region 
+        # has a tiny border until the first resize
+        self.onFrameConfigure(None)                                                 
         for column in columns:
             label_width = len(self.column_titles[column]) + 2
             if column in ['name', 'pep', 'type']:
@@ -901,21 +912,22 @@ class FilterPopup(tk.Toplevel):
                 max_entry.grid(row=0, column=3, padx=(0, 5))
 
                 container_frame.grid_columnconfigure(0, weight=1)
-                self.filter_entries[column] = (min_entry, max_entry)
+                self.filter_entries[column] = (min_entry,max_entry)
         
         apply_button = ttk.Button(self.viewPort, text="Apply Filters", command=self.apply_filters)
         apply_button.pack(fill=tk.X, pady=10)  # Fill the button horizontally
 
     def onFrameConfigure(self, event):                                              
         '''Reset the scroll region to encompass the inner frame'''
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))                 #whenever the size of the frame changes, alter the scroll region respectively.
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))                 
 
     def onCanvasConfigure(self, event):
         '''Reset the canvas window to encompass inner frame when required'''
         canvas_width = event.width
-        self.canvas.itemconfig(self.canvas_window, width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.
+        self.canvas.itemconfig(self.canvas_window, width = canvas_width)            
 
-    def onMouseWheel(self, event):                                                  # cross platform scroll wheel event
+    def onMouseWheel(self, event):                                                  
+        # cross platform scroll wheel event
         if platform.system() == 'Windows':
             self.canvas.yview_scroll(int(-1* (event.delta/120)), "units")
         elif platform.system() == 'Darwin':
@@ -926,14 +938,16 @@ class FilterPopup(tk.Toplevel):
             elif event.num == 5:
                 self.canvas.yview_scroll( 1, "units" )
     
-    def onEnter(self, event):                                                       # bind wheel events when the cursor enters the control
+    def onEnter(self, event):                                                       
+        # bind wheel events when the cursor enters the control
         if platform.system() == 'Linux':
             self.canvas.bind_all("<Button-4>", self.onMouseWheel)
             self.canvas.bind_all("<Button-5>", self.onMouseWheel)
         else:
             self.canvas.bind_all("<MouseWheel>", self.onMouseWheel)
 
-    def onLeave(self, event):                                                       # unbind wheel events when the cursorl leaves the control
+    def onLeave(self, event):                                                       
+        # unbind wheel events when the cursorl leaves the control
         if platform.system() == 'Linux':
             self.canvas.unbind_all("<Button-4>")
             self.canvas.unbind_all("<Button-5>")
@@ -943,7 +957,7 @@ class FilterPopup(tk.Toplevel):
 
     def apply_filters(self):
         for column, entry in self.filter_entries.items():
-            if column == 'name':
+            if column in ['name', 'type']:
                 self.filter_columns[column] = entry.get()
             elif column == 'pep': 
                 participant_names = [participant.strip() for participant in entry.get().split(',')]
