@@ -14,6 +14,7 @@ You can check extensive and accurate statistics for each chat (group and private
 </p>
 
 You can also check the number of messages for specific time intervals, so if you want to do a "messenger wrapped" this is the perfect app for that.
+
 ### If you are interested in contributing to this repository, pull requests are much appreciated.
 
 ## How to use
@@ -44,7 +45,11 @@ Unzip the file and run the **CFM.exe** file.
 1. Go to the Available Files section.
 1. Click Download and enter your password.
 
+# Credits
+### Inspired by [Counter-For-Messenger](https://github.com/ALiangLiang/Counter-for-Messenger) by ALiangLiang
+
 # Licence
 
 **Counter For Messenger** is licenced under [Beerwere](https://github.com/Kubis10/CounterForMessenger/blob/master/LICENSE).
 Please see my [Portfolio](https://jakubprzybysz.netlify.app/) for more information.
+
