@@ -41,5 +41,5 @@ def existing_languages():
     return [lang.title().split('.')[0] for lang in listdir('langs') if lang != '__pycache__']
 
 
-# safeguard for the treeview automated string conversion problem
+# Safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'

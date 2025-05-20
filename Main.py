@@ -1,5 +1,5 @@
 """
-CounterForMessenger - aplikacja do analizy wiadomości z Messengera
+CounterForMessenger - application for analyzing Messenger messages
 """
 import json
 import tkinter as tk
@@ -11,25 +11,25 @@ from os.path import exists
 from os import listdir
 from PIL import ImageTk
 
-# Importy lokalnych modułów
+# Local module imports
 from utils import set_icon, set_resolution, existing_languages
 from gui.config_page import ConfigurationPage
 from gui.main_page import MainPage
 
 class MasterWindow(tk.Tk):
-    """Główne okno aplikacji CounterForMessenger"""
+    """Main window of the CounterForMessenger application"""
 
     def __init__(self, *args, **kwargs):
         """
-        Inicjalizacja aplikacji
+        Application initialization
 
         Args:
-            *args: Argumenty przekazywane do klasy bazowej
-            **kwargs: Argumenty nazwane przekazywane do klasy bazowej
+            *args: Arguments passed to the base class
+            **kwargs: Named arguments passed to the base class
         """
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # Ładowanie ikon
+        # Loading icons
         self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
         self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
         self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
@@ -37,7 +37,7 @@ class MasterWindow(tk.Tk):
         self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
         self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
 
-        # Dane użytkownika
+        # User data
         self.directory = ''
         self.username = ''
         self.language = 'English'
@@ -48,100 +48,100 @@ class MasterWindow(tk.Tk):
         self.total_messages = 0
         self.total_chars = 0
 
-        # Ładowanie danych użytkownika
+        # Loading user data
         self.load_data()
 
-        # Konfiguracja okna
+        # Window configuration
         self.title('Counter for Messenger')
         set_icon(self)
 
-        # Ustawienia kontenera ramek
+        # Frame container settings
         self.container = tk.Frame(self)
         self.container.pack(side='top', fill='both', expand=True)
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
 
-        # Deklaracja dostępnych ramek i ich wymiarów
+        # Declaration of available frames and their dimensions
         self.frames = {
             "ConfigurationPage": [800, 600, None],
             "MainPage": [1375, 700, None]
         }
 
-        # Inicjalizacja i ładowanie ramek do kontenera
+        # Initialization and loading of frames into the container
         self.refresh_frames()
 
-        # Wyświetlenie odpowiedniej strony startowej
+        # Displaying the appropriate start page
         self.show_frame(
             "MainPage" if exists('config.txt') else "ConfigurationPage"
         )
 
     def show_frame(self, page_name):
         """
-        Wyświetla wybraną ramkę
+        Displays the selected frame
 
         Args:
-            page_name: Nazwa strony do wyświetlenia
+            page_name: Name of the page to display
         """
         width, height, frame = self.frames.get(page_name)
         set_resolution(self, width, height)
-        # Pokazanie nowej ramki
+        # Show the new frame
         frame.tkraise()
 
     def get_username(self):
         """
-        Pobiera nazwę użytkownika
+        Gets the username
 
         Returns:
-            Nazwa użytkownika lub komunikat o braku nazwy
+            Username or a message indicating no name
         """
         return self.lang_mdl.TITLE_NOT_APPLICABLE if self.username == '' or self.username.isspace() else self.username
 
     def get_directory(self):
         """
-        Pobiera ścieżkę do katalogu z danymi
+        Gets the path to the data directory
 
         Returns:
-            Ścieżka do katalogu lub komunikat o braku wyboru
+            Path to the directory or a message indicating no selection
         """
         return self.lang_mdl.TITLE_NO_SELECTION if self.directory == '/' or self.directory.isspace() else self.directory
 
     def get_from_date_entry(self):
         """
-        Pobiera datę początkową
+        Gets the start date
 
         Returns:
-            Data początkowa lub komunikat o braku daty
+            Start date or a message indicating no date
         """
         return self.lang_mdl.TITLE_NOT_APPLICABLE if self.from_date_entry == '' else self.from_date_entry
 
     def get_to_date_entry(self):
         """
-        Pobiera datę końcową
+        Gets the end date
 
         Returns:
-            Data końcowa lub komunikat o braku daty
+            End date or a message indicating no date
         """
         return self.lang_mdl.TITLE_NOT_APPLICABLE if self.to_date_entry == '' else self.to_date_entry
 
     def get_language(self):
         """
-        Pobiera aktualny język
+        Gets the current language
 
         Returns:
-            Nazwa aktualnie wybranego języka
+            Name of the currently selected language
         """
-        # Sprawdzenie czy zmienna językowa zawiera prawidłowe przypisanie
+        # Check if the language variable contains a valid assignment
         if self.language not in existing_languages():
-            # Domyślny język to angielski
+            # Default language is English
             self.language = 'English'
             self.lang_mdl = importlib.import_module('langs.English')
         return self.language
 
     def refresh_frames(self):
-        """Inicjalizuje i układa wszystkie ramki aplikacji"""
-        # Inicjalizacja i ułożenie wszystkich ramek na sobie
-        # Przełączanie między ramkami pozwoli na nawigację w aplikacji
-        # bez zamykania jej
+        """Initializes and arranges all application frames"""
+        # Initialize and arrange all frames on top of each other
+        # Switching between frames will allow navigation in the application
+        # without closing it
         for page_class in (ConfigurationPage, MainPage):
             page_name = page_class.__name__
             width, height, old_frame = self.frames[page_name]
@@ -151,14 +151,14 @@ class MasterWindow(tk.Tk):
 
     def update_data(self, username, directory, language, from_date_entry, to_date_entry):
         """
-        Aktualizuje dane użytkownika
+        Updates user data
 
         Args:
-            username: Nazwa użytkownika
-            directory: Ścieżka do katalogu z danymi
-            language: Wybrany język
-            from_date_entry: Data początkowa
-            to_date_entry: Data końcowa
+            username: Username
+            directory: Path to the data directory
+            language: Selected language
+            from_date_entry: Start date
+            to_date_entry: End date
         """
         temp = self.language
         self.username = username
@@ -168,16 +168,16 @@ class MasterWindow(tk.Tk):
         self.to_date_entry = to_date_entry
         self.lang_mdl = importlib.import_module(f'langs.{language}')
 
-        # Zapisanie danych użytkownika w pliku config.txt
+        # Save user data in config.txt
         with open('config.txt', 'w', encoding='utf-8') as f:
             f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}')
 
-        # Odświeżenie interfejsu tylko jeśli zmienił się język
+        # Refresh the interface only if the language has changed
         if temp != language:
             self.refresh_frames()
 
     def load_data(self):
-        """Wczytuje dane użytkownika z pliku config.txt"""
+        """Loads user data from config.txt"""
         if exists('config.txt'):
             try:
                 with open('config.txt', 'r', encoding='utf-8') as f:
@@ -190,68 +190,68 @@ class MasterWindow(tk.Tk):
                         self.to_date_entry = lines[4]
                 self.lang_mdl = importlib.import_module(f'langs.{self.language}')
             except Exception as e:
-                print(f"Błąd wczytywania konfiguracji: {e}")
+                print(f"Error loading configuration: {e}")
 
     def extract_data(self, conversation):
         """
-        Wydobywa dane z plików JSON dla danej konwersacji
+        Extracts data from JSON files for a given conversation
 
         Args:
-            conversation: Folder konwersacji do przetworzenia
+            conversation: Conversation folder to process
 
         Returns:
-            Tuple zawierający różne statystyki konwersacji
+            Tuple containing various conversation statistics
         """
         participants = {}
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration = total_messages = total_chars = sent_messages = start_date = 0
         total_photos = total_gifs = total_videos = total_files = 0
 
-        # Przetwarzanie dat
+        # Processing dates
         self._normalize_dates()
 
-        # Przetwarzanie plików JSON w folderze konwersacji
+        # Processing JSON files in the conversation folder
         for file in glob.glob(f'{self.directory}{conversation}/*.json'):
             try:
                 with open(file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
 
-                    # Zbieranie uczestników czatu
+                    # Collecting chat participants
                     for participant in data.get('participants', []):
                         name = participant['name']
                         participants[name] = participants.get(name, 0)
 
-                    # Aktualizacja liczników
+                    # Updating counters
                     for message in data.get('messages', []):
                         message_date = datetime.fromtimestamp(int(message["timestamp_ms"]) / 1000).date()
 
-                        # Filtrowanie wiadomości w wybranym okresie
+                        # Filtering messages within the selected period
                         if self.from_date_entry <= message_date <= self.to_date_entry:
                             total_messages += 1
 
-                            # Zliczanie znaków
+                            # Counting characters
                             try:
                                 total_chars += len(message.get('content', ''))
                             except (KeyError, TypeError):
                                 pass
 
-                            # Zliczanie wiadomości nadawcy
+                            # Counting sender's messages
                             sender = message['sender_name']
                             if sender == self.get_username():
                                 sent_messages += 1
 
-                            # Śledzenie wiadomości uczestników
+                            # Tracking participant messages
                             participants[sender] = participants.get(sender, 0) + 1
 
-                            # Zapisywanie czasu połączeń
+                            # Recording call duration
                             call_duration += message.get('call_duration', 0)
 
-                            # Zapisz datę utworzenia konwersacji
+                            # Save conversation creation date
                             current_timestamp = message['timestamp_ms']
                             if start_date == 0 or current_timestamp < start_date:
                                 start_date = current_timestamp
 
-                            # Zliczanie multimediów
+                            # Counting multimedia
                             if 'photos' in message:
                                 total_photos += len(message['photos'])
                             if 'gifs' in message:
@@ -261,17 +261,17 @@ class MasterWindow(tk.Tk):
                             if 'files' in message:
                                 total_files += len(message['files'])
 
-                    # Pobierz nazwę i typ czatu
+                    # Get chat name and type
                     chat_title = data.get('title', '')
 
-                    # Sprawdź czy to czat prywatny
+                    # Check if it's a private chat
                     try:
-                        # Jeśli nie ma elementu 'joinable_mode', to czat jest prywatny
+                        # If there is no 'joinable_mode' element, the chat is private
                         _ = data['joinable_mode']
                     except KeyError:
                         chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
             except Exception as e:
-                print(f"Błąd przetwarzania pliku {file}: {e}")
+                print(f"Error processing file {file}: {e}")
 
         return (
             chat_title, participants, chat_type, total_messages, total_chars,
@@ -280,14 +280,14 @@ class MasterWindow(tk.Tk):
         )
 
     def _normalize_dates(self):
-        """Normalizuje format dat wejściowych i wyjściowych"""
-        # Konwersja krotek na wartość pojedynczą
+        """Normalizes the format of input and output dates"""
+        # Convert tuples to a single value
         if isinstance(self.from_date_entry, tuple) and len(self.from_date_entry) == 1:
             self.from_date_entry = self.from_date_entry[0]
         if isinstance(self.to_date_entry, tuple) and len(self.to_date_entry) == 1:
             self.to_date_entry = self.to_date_entry[0]
 
-        # Konwersja stringów na obiekty dat
+        # Convert strings to date objects
         if not isinstance(self.from_date_entry, date):
             try:
                 self.from_date_entry = datetime.strptime(str(self.from_date_entry), "%Y-%m-%d").date()
@@ -304,3 +304,4 @@ class MasterWindow(tk.Tk):
 if __name__ == "__main__":
     app = MasterWindow()
     app.mainloop()
+
