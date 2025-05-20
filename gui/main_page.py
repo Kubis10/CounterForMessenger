@@ -24,20 +24,106 @@ class MainPage(tk.Frame):
         """
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        self.controller.configure(background='#232323')
         self.module = self.controller.lang_mdl
 
-        # Frame style setup
-        self.style = ttk.Style()
-        self.style.configure('Nav.TFrame', background='#131313')
-        self.style.configure('Main.TFrame', background='#232323')
-        self.style.configure('Custom.Treeview', background='#232323', foreground='#ffffff')
-        self.nav = ttk.Frame(self, padding=20, style='Nav.TFrame')
-        self.main = ttk.Frame(self, style='Main.TFrame')
+        # Get theme colors
+        self.colors = self.controller.theme_manager.get_colors()
 
-        # Build treeview for message data projection
-        scrollbar = tk.Scrollbar(self.main)
-        self.treeview = ttk.Treeview(self.main, height=20, yscrollcommand=scrollbar.set, style='Custom.Treeview')
+        # Apply theme to the application
+        self.style = ttk.Style()
+        self.controller.theme_manager.apply_theme_to_styles(self.style)
+
+        # Configure the background color of the root frame
+        self.configure(background=self.colors["bg_primary"])
+
+        # Main layout setup - using more modern grid layout
+        self.grid_columnconfigure(0, weight=0)  # Left sidebar - fixed width
+        self.grid_columnconfigure(1, weight=1)  # Content area - expandable
+        self.grid_rowconfigure(0, weight=1)     # Main content - expandable
+
+        # Create sidebar panel
+        self.sidebar = ttk.Frame(self, padding=10, style='Nav.TFrame', width=200)
+        self.sidebar.grid(row=0, column=0, sticky='nsew')
+        self.sidebar.grid_propagate(False)  # Fixed width
+
+        # Create header and content frame
+        self.content_frame = ttk.Frame(self, style='Main.TFrame')
+        self.content_frame.grid(row=0, column=1, sticky='nsew')
+        self.content_frame.grid_columnconfigure(0, weight=1)
+        self.content_frame.grid_rowconfigure(0, weight=0)  # Header - fixed height
+        self.content_frame.grid_rowconfigure(1, weight=1)  # Content - expandable
+
+        # Header frame for title and theme toggle
+        self.header_frame = ttk.Frame(self.content_frame, style='Main.TFrame', padding=10)
+        self.header_frame.grid(row=0, column=0, sticky='ew')
+        self.header_frame.grid_columnconfigure(0, weight=1)  # Title - expandable
+        self.header_frame.grid_columnconfigure(1, weight=0)  # Theme toggle - fixed width
+
+        # Main application title
+        self.title_label = ttk.Label(
+            self.header_frame,
+            text=f'{self.module.TITLE_APP_NAME}',
+            font=('Arial', 24),
+            style='TLabel'
+        )
+        self.title_label.grid(row=0, column=0, sticky='w', pady=10)
+
+        # Theme toggle button
+        theme_text = "☀️ Jasny motyw" if self.controller.theme_manager.get_current_theme() == "dark" else "🌙 Ciemny motyw"
+        self.theme_button = ttk.Button(
+            self.header_frame,
+            text=theme_text,
+            style='ThemeToggle.TButton',
+            command=self.toggle_theme
+        )
+        self.theme_button.grid(row=0, column=1, sticky='e', padx=10)
+
+        # Main content area
+        self.main_content = ttk.Frame(self.content_frame, style='Main.TFrame', padding=10)
+        self.main_content.grid(row=1, column=0, sticky='nsew')
+
+        # Set up the treeview with scrollbars in the main content
+        self.setup_treeview()
+
+        # Setup sidebar with actions
+        self.setup_sidebar()
+
+        # Setup info panel beneath the treeview
+        self.setup_info_panel()
+
+    def setup_treeview(self):
+        """Set up the treeview component with scrollbars"""
+        # Create a frame to hold the treeview and scrollbars
+        treeview_frame = ttk.Frame(self.main_content, style='Main.TFrame')
+        treeview_frame.pack(side='top', fill='both', expand=True, padx=5, pady=5)
+
+        # Create scrollbars
+        y_scrollbar = ttk.Scrollbar(treeview_frame, orient="vertical")
+        x_scrollbar = ttk.Scrollbar(treeview_frame, orient="horizontal")
+
+        # Create treeview with both scrollbars
+        self.treeview = ttk.Treeview(
+            treeview_frame,
+            yscrollcommand=y_scrollbar.set,
+            xscrollcommand=x_scrollbar.set,
+            style='Custom.Treeview',
+            height=20
+        )
+
+        # Configure scrollbars
+        y_scrollbar.config(command=self.treeview.yview)
+        x_scrollbar.config(command=self.treeview.xview)
+
+        # Place components using grid
+        self.treeview.grid(row=0, column=0, sticky='nsew')
+        y_scrollbar.grid(row=0, column=1, sticky='ns')
+        x_scrollbar.grid(row=1, column=0, sticky='ew')
+
+        # Configure treeview frame grid
+        treeview_frame.grid_columnconfigure(0, weight=1)
+        treeview_frame.grid_rowconfigure(0, weight=1)
+
+        # Define columns
         columns = {
             'name': self.module.TITLE_NAME,
             'pep': self.module.TITLE_PARTICIPANTS,
@@ -49,25 +135,32 @@ class MainPage(tk.Frame):
             'videos': self.module.TITLE_NUMBER_OF_VIDEOS,
             'files': self.module.TITLE_NUMBER_OF_FILES,
         }
+
+        # Configure treeview
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
+
+        # Configure column widths more appropriately
+        self.treeview.column('name', width=200, minwidth=100)
+        self.treeview.column('pep', width=150, minwidth=80)
+        self.treeview.column('type', width=100, minwidth=80)
+        self.treeview.column('msg', width=100, minwidth=80)
+        self.treeview.column('call', width=100, minwidth=80)
+        self.treeview.column('photos', width=80, minwidth=50)
+        self.treeview.column('gifs', width=80, minwidth=50)
+        self.treeview.column('videos', width=80, minwidth=50)
+        self.treeview.column('files', width=80, minwidth=50)
+
+        # Add column headings
         for keyword, text in columns.items():
             self.treeview.heading(keyword, text=text, anchor='center')
+
+        # Bind events
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
         self.treeview.bind('<Double-1>', lambda event: self.show_statistics())
 
-        # Ordered list of columns (so we can display them in a fixed order)
-        self.columns = [
-            'name',
-            'pep',
-            'type',
-            'msg',
-            'call',
-            'photos',
-            'gifs',
-            'videos',
-            'files'
-        ]
+        # Ordered list of columns
+        self.columns = list(columns.keys())
         self.column_titles = columns
 
         # Ordered list of columns to sort by
@@ -89,78 +182,130 @@ class MainPage(tk.Frame):
         # Store whether each column is reversed (for multi-sort)
         self.columns_reversed = dict()
 
-        # Show frame title
+    def setup_sidebar(self):
+        """Set up the sidebar with menu options"""
+        # Add app logo/title at the top of sidebar
+        logo_frame = ttk.Frame(self.sidebar, style='Nav.TFrame')
+        logo_frame.pack(fill='x', pady=(0, 20))
+
         ttk.Label(
-            self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
-            font=('Arial', 15)
+            logo_frame,
+            text="CFM",
+            font=('Arial', 16, 'bold'),
+            foreground=self.colors["fg_secondary"],
+            background=self.colors["bg_secondary"],
         ).pack(side='top', pady=10)
 
-        # Show home button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_HOME, text=self.module.TITLE_HOME, compound='left', padding=5
-        ).pack(side='top', pady=10)
+        # Create main menu buttons
+        menu_buttons = [
+            ("home", self.module.TITLE_HOME, self.controller.ICON_HOME, None),
+            ("upload", self.module.TITLE_UPLOAD_MESSAGES, self.controller.ICON_STATUS_VISIBLE, self.upload_data),
+            ("search", self.module.TITLE_SEARCH, self.controller.ICON_SEARCH, self.show_search),
+            ("sort", self.module.TITLE_MULTI_SORT, None, self.show_multi_sort),
+            ("profile", self.module.TITLE_PROFILE, self.controller.ICON_PROFILE, self.show_profile),
+            ("settings", self.module.TITLE_SETTINGS, self.controller.ICON_SETTINGS, self.show_settings),
+            ("exit", self.module.TITLE_EXIT, self.controller.ICON_EXIT, self.controller.destroy)
+        ]
 
-        # Show upload button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_STATUS_VISIBLE, text=self.module.TITLE_UPLOAD_MESSAGES,
-            compound='left', padding=5, command=self.upload_data
-        ).pack(side='top', pady=10)
+        # Create a frame for search (initially hidden)
+        self.search_frame = ttk.Frame(self.sidebar, style='Nav.TFrame')
 
-        # Show search button
-        self.search_entry = ttk.Entry(self.nav, width=15)
-        self.search_entry.pack(side='top', pady=10)
+        # Create search entry and button
+        self.search_entry = ttk.Entry(self.search_frame, width=15)
+        self.search_entry.pack(side='left', padx=5)
+
         ttk.Button(
-            self.nav, image=self.controller.ICON_SEARCH, text=self.module.TITLE_SEARCH, compound='left',
+            self.search_frame,
+            text="🔍",
+            style='Menu.TButton',
+            width=3,
             command=self.search
-        ).pack(side='top', pady=10)
+        ).pack(side='right')
 
-        # Multi-sort button opens the sort-editor UI
-        ttk.Button(
-            self.nav, text=self.module.TITLE_MULTI_SORT, padding=5,
-            command = lambda :
-            MultiSortPopup(
-                self.controller,
-                self.columns[:],                   # Pass a copy
-                {**self.column_titles},            # Pass a copy
-                self.columns_reversed,
-                self.sort_columns,
-                lambda : self.apply_multi_sort()
+        # Add all menu buttons
+        for i, (name, text, icon, command) in enumerate(menu_buttons):
+            btn = ttk.Button(
+                self.sidebar,
+                text=text,
+                image=icon if icon else None,
+                compound='left' if icon else 'none',
+                style='Menu.TButton',
+                padding=10,
+                command=command
             )
-        ).pack(side='top', pady=10)
+            # Style exit button differently
+            if name == "exit":
+                btn.pack(side='bottom', fill='x', pady=5)
+            else:
+                btn.pack(fill='x', pady=5)
 
-        # Show exit button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_EXIT, text=self.module.TITLE_EXIT, compound='left', padding=5,
-            command=self.controller.destroy
-        ).pack(side='bottom')
+                # Save reference for search button to toggle search frame
+                if name == "search":
+                    self.search_button = btn
 
-        # Show settings button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_SETTINGS, text=self.module.TITLE_SETTINGS, compound='left',
-            padding=5, command=lambda: self._show_settings_popup()
-        ).pack(side='bottom', pady=15)
+    def setup_info_panel(self):
+        """Set up information panel beneath the treeview"""
+        info_frame = ttk.Frame(self.main_content, style='Main.TFrame', padding=5)
+        info_frame.pack(side='bottom', fill='x', pady=10)
 
-        # Show profile button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_PROFILE, text=self.module.TITLE_PROFILE, compound='left',
-            padding=5, command=lambda: self._show_profile_popup()
-        ).pack(side='bottom')
+        # Status information
+        status_text = f"{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages} | "
+        status_text += f"{self.module.TITLE_SENT_MESSAGES}: {self.controller.sent_messages}"
 
-        scrollbar.pack(side='right', fill='y')
-        self.treeview.pack(side='left', fill='both', expand=1)
-        scrollbar.config(command=self.treeview.yview)
-        self.nav.pack(side='left', fill='y')
-        self.main.pack(side='right', fill='both', expand=True)
+        self.status_label = ttk.Label(
+            info_frame,
+            text=status_text,
+            foreground=self.colors["fg_secondary"],
+            background=self.colors["bg_primary"]
+        )
+        self.status_label.pack(side='left')
 
-    def _show_settings_popup(self):
-        """Show the settings popup"""
-        from popups.settings_popup import SettingsPopup
-        SettingsPopup(self.controller)
+        # Instructions
+        help_text = f"• {self.module.TITLE_UPLOAD_MESSAGES} - zaimportuj dane | "
+        help_text += f"• Podwójne kliknięcie - pokaż statystyki | "
+        help_text += f"• Prawy przycisk - odznacz"
 
-    def _show_profile_popup(self):
+        help_label = ttk.Label(
+            info_frame,
+            text=help_text,
+            foreground=self.colors["fg_secondary"],
+            background=self.colors["bg_primary"]
+        )
+        help_label.pack(side='right')
+
+    def toggle_theme(self):
+        """Toggle between light and dark theme"""
+        self.controller.toggle_theme()
+
+    def show_search(self):
+        """Show or hide the search panel"""
+        if self.search_frame.winfo_ismapped():
+            self.search_frame.pack_forget()
+        else:
+            # Insert after the search button
+            self.search_frame.pack(fill='x', pady=5)
+            self.search_entry.focus_set()
+
+    def show_multi_sort(self):
+        """Show the multi-sort popup dialog"""
+        MultiSortPopup(
+            self.controller,
+            self.columns[:],  # Pass a copy
+            {**self.column_titles},  # Pass a copy
+            self.columns_reversed,
+            self.sort_columns,
+            lambda: self.apply_multi_sort()
+        )
+
+    def show_profile(self):
         """Show the profile popup"""
         from popups.profile_popup import ProfilePopup
         ProfilePopup(self.controller)
+
+    def show_settings(self):
+        """Show the settings popup"""
+        from popups.settings_popup import SettingsPopup
+        SettingsPopup(self.controller)
 
     def deselect(self):
         """
@@ -178,11 +323,17 @@ class MainPage(tk.Frame):
         selections = []
         for child in self.treeview.get_children():
             for value in self.treeview.item(child)['values']:
-                if str(value).find(query) != -1:
+                if str(value).lower().find(query.lower()) != -1:
                     # Selection accepted, save it and move on
                     selections.append(child)
                     break
         self.treeview.selection_set(selections)
+
+        # Update status label to show search results
+        if query:
+            self.status_label.config(
+                text=f"{self.module.TITLE_SEARCH}: '{query}' - {len(selections)} wyników"
+            )
 
     def upload_data(self):
         """
@@ -205,6 +356,12 @@ class MainPage(tk.Frame):
             self.treeview.heading('gifs', command=lambda col='gifs': self.click_column(col, False, 'numberwise'))
             self.treeview.heading('videos', command=lambda col='videos': self.click_column(col, False, 'numberwise'))
             self.treeview.heading('files', command=lambda col='files': self.click_column(col, False, 'numberwise'))
+
+            # Update status label with message counts
+            self.status_label.config(
+                text=f"{self.module.TITLE_TOTAL_MESSAGES}: {self.controller.total_messages} | "
+                     f"{self.module.TITLE_SENT_MESSAGES}: {self.controller.sent_messages}"
+            )
 
         except FileNotFoundError:
             print('>MainPage/upload_data THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
@@ -304,7 +461,7 @@ class MainPage(tk.Frame):
             for k in children
         ]
 
-        rows.sort(key = cmp_to_key(compare_wrapper))
+        rows.sort(key=cmp_to_key(compare_wrapper))
 
         for (idx, (k, _)) in enumerate(rows):
             self.treeview.move(k, '', idx)

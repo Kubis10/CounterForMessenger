@@ -12,7 +12,7 @@ from os import listdir
 from PIL import ImageTk
 
 # Importy lokalnych modułów
-from utils import set_icon, set_resolution, existing_languages
+from utils import set_icon, set_resolution, existing_languages, ThemeManager
 from gui.config_page import ConfigurationPage
 from gui.main_page import MainPage
 
@@ -29,13 +29,11 @@ class MasterWindow(tk.Tk):
         """
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # Ładowanie ikon
-        self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
-        self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
-        self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
-        self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
-        self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
-        self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
+        # Inicjalizacja menadżera motywów
+        self.theme_manager = ThemeManager()
+
+        # Ładowanie ikon odpowiednich dla aktualnego motywu
+        self._load_icons()
 
         # Dane użytkownika
         self.directory = ''
@@ -74,6 +72,32 @@ class MasterWindow(tk.Tk):
         self.show_frame(
             "MainPage" if exists('config.txt') else "ConfigurationPage"
         )
+
+    def _load_icons(self):
+        """Ładuje ikony odpowiednie dla aktualnego motywu"""
+        # Określ katalog ikon w zależności od motywu
+        if self.theme_manager.get_current_theme() == "dark":
+            icon_prefix = "light_"  # Jasne ikony dla ciemnego motywu
+        else:
+            icon_prefix = ""  # Domyślne (ciemne) ikony dla jasnego motywu
+
+        # Ładuj ikony z odpowiedniego katalogu
+        try:
+            self.ICON_HOME = tk.PhotoImage(file=f'assets/{icon_prefix}home.png')
+            self.ICON_SETTINGS = tk.PhotoImage(file=f'assets/{icon_prefix}settings.png')
+            self.ICON_EXIT = tk.PhotoImage(file=f'assets/{icon_prefix}exit.png')
+            self.ICON_STATUS_VISIBLE = tk.PhotoImage(file=f'assets/{icon_prefix}visible.png')
+            self.ICON_SEARCH = tk.PhotoImage(file=f'assets/{icon_prefix}search.png')
+            self.ICON_PROFILE = tk.PhotoImage(file=f'assets/{icon_prefix}person.png')
+        except tk.TclError:
+            # Jeśli nie ma ikon dla ciemnego motywu, użyj domyślnych
+            print(f"Nie znaleziono ikon dla {icon_prefix}. Używam domyślnych.")
+            self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
+            self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
+            self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
+            self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
+            self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
+            self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
 
     def show_frame(self, page_name):
         """
@@ -299,6 +323,12 @@ class MasterWindow(tk.Tk):
                 self.to_date_entry = datetime.strptime(str(self.to_date_entry), "%Y-%m-%d").date()
             except (ValueError, TypeError):
                 self.to_date_entry = datetime.now().date()
+
+    def toggle_theme(self):
+        """Przełącza między jasnym i ciemnym motywem"""
+        self.theme_manager.toggle_theme()
+        # Odśwież ramki, aby zastosować nowy motyw
+        self.refresh_frames()
 
 
 if __name__ == "__main__":

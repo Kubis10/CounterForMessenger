@@ -1,5 +1,5 @@
 """
-Utility functions for the CounterForMessenger application.
+General utility functions for the CounterForMessenger application.
 """
 import tkinter as tk
 from PIL import Image, ImageTk
