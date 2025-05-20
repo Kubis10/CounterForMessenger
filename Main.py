@@ -554,7 +554,9 @@ class MasterWindow(tk.Tk):
                         # save call durations, if any
                         call_duration += message.get('call_duration', 0)
                         # fetch conversation creation date
-                        start_date = message['timestamp_ms']  # BUG: doesn't work properly if there are 10 or more JSONs
+                        current_timestamp = message['timestamp_ms']
+                        if start_date == 0 or current_timestamp < start_date:
+                            start_date = current_timestamp
                         if 'photos' in message:
                             total_photos += len(message['photos'])
                         if 'gifs' in message:
