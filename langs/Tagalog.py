@@ -1,4 +1,4 @@
-TITLE_APP_NAME = 'Pambilang para sa Facebook'
+TITLE_APP_NAME = 'Pambilang para sa Messenger'
 TITLE_NOT_APPLICABLE = 'N/A'
 TITLE_INITIAL_CONFIG = 'Paunang pagsasaayos'
 TITLE_GIVE_INBOX = 'Bigyan ang inbox folder'
@@ -56,3 +56,5 @@ TITLE_MOVE_UP = 'Ilipat Pataas'
 TITLE_MOVE_DOWN = 'Ilipat Pababa'
 TITLE_CLEAR = 'Linisin'
 TITLE_APPLY = 'Ilapat'
+TITLE_CANCEL = 'Kanselahin'
+
