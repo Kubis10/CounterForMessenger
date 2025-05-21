@@ -19,7 +19,8 @@ You can also check the number of messages for specific time intervals, so if you
 
 ## How to use
 
-### Facebook has some issues now to download your messages, so have in mind that sometimes messages will not be downloaded‼️
+> [!IMPORTANT]
+> Facebook has some issues now to download your messages, so have in mind that sometimes messages will not be downloaded‼️
 
 To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
 <a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
