@@ -19,9 +19,6 @@ You can also check the number of messages for specific time intervals, so if you
 
 ## How to use
 
-> [!IMPORTANT]
-> Facebook has some issues now to download your messages, so have in mind that sometimes messages will not be downloaded‼️
-
 To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
 <a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 <p align="center">
@@ -36,6 +33,20 @@ Unzip the file and run the **CFM.exe** file.
 
 ## How to download messages
 
+> [!IMPORTANT]
+> Facebook has introduced E2EE (end-to-end encryption) to protect your conversations. End-to-end-encrypted conversation will have the e2ee part in the url, and default method will not be able to retrieve those conversations.
+
+You can download a copy of all your end-to-end encrypted messages at any time if you’ve turned on secure storage in Messenger by:
+1. On a computer, open facebook.com and then open Messenger tab and click &#x2022;&#x2022;&#x2022; next to the new chat icon
+2. Click Privacy & safety.
+3. Click End-to-end encrypted chats.
+4. Click Message storage.
+5. Below Manage secure storage, click Download secure storage data.
+6. Enter your PIN or use a one-time code to restore your chat history.
+7. Click Download file and enter your Facebook password when prompted.
+8. Click Download. It may take several minutes to prepare your download file (if you have many messages it can take up much longer).
+
+### If you want to download not encrypted chats and group chats
 1. Select Settings & Privacy in the top right of Facebook, then click Settings.
 1. In the left column, click Your Facebook Information.
 1. Click on Download Your Information.
