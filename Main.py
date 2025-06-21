@@ -216,57 +216,82 @@ class MasterWindow(tk.Tk):
         # Processing JSON files in the conversation folder
         path_to_browse = f'{self.directory}{conversation}'
 
+        # For e2e folder, we'll store conversation data separately for each person/file
+        e2e_conversations = {} if is_e2e else None
 
         for file in glob.glob(f'{path_to_browse}/*.json'):
             try:
-                # Debug info
-                print(f"Processing file: {file}")
-
                 with open(file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
 
                     if is_e2e:
-                        # E2E conversation processing
-                        print(f"E2E file structure: {list(data.keys())}")
-
+                        # E2E conversation processing - each file represents a different person
                         # Get thread name without number
                         thread_name = data.get('threadName', '')
+                        person_name = ''
                         if '_' in thread_name:
-                            chat_title = thread_name.split('_')[0]
+                            person_name = thread_name.split('_')[0]
                         else:
-                            chat_title = thread_name
+                            person_name = thread_name
 
-                        chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
+                        # Initialize conversation data for this person if not exists
+                        if person_name not in e2e_conversations:
+                            e2e_conversations[person_name] = {
+                                'participants': {},
+                                'chat_title': person_name,
+                                'chat_type': self.lang_mdl.TITLE_PRIVATE_CHAT,
+                                'call_duration': 0,
+                                'total_messages': 0,
+                                'total_chars': 0,
+                                'sent_messages': 0,
+                                'total_photos': 0,
+                                'total_gifs': 0,
+                                'total_videos': 0,
+                                'total_files': 0,
+                                'start_date': 0
+                            }
 
-                        # Process participants
+                        # Add participants
                         for participant_name in data.get('participants', []):
-                            participants[participant_name] = participants.get(participant_name, 0)
+                            e2e_conversations[person_name]['participants'][participant_name] = e2e_conversations[person_name]['participants'].get(participant_name, 0)
 
+                        # Process messages for this person
                         for message in data.get('messages', []):
-
                             # Convert timestamp to date (divide by 1000 to convert from milliseconds to seconds)
                             message_date = datetime.fromtimestamp(int(message.get("timestamp", 0)) / 1000).date()
 
                             if self.from_date_entry <= message_date <= self.to_date_entry:
-                                total_messages += 1
+                                e2e_conversations[person_name]['total_messages'] += 1
 
                                 try:
                                     message_text = message.get('text', '')
-                                    total_chars += len(message_text)
-                                    print(f"Added message: '{message_text}', chars: {len(message_text)}")
+                                    e2e_conversations[person_name]['total_chars'] += len(message_text)
                                 except (KeyError, TypeError) as e:
-                                    print(f"Error processing message text: {e}")
+                                    pass
 
                                 sender = message.get('senderName', '')
                                 if sender == self.get_username():
-                                    sent_messages += 1
-                                    print(f"Sender matches username: {sender}")
+                                    e2e_conversations[person_name]['sent_messages'] += 1
 
-                                participants[sender] = participants.get(sender, 0) + 1
+                                e2e_conversations[person_name]['participants'][sender] = e2e_conversations[person_name]['participants'].get(sender, 0) + 1
 
                                 current_timestamp = message.get('timestamp', 0)
-                                if start_date == 0 or current_timestamp < start_date:
-                                    start_date = current_timestamp
+                                if e2e_conversations[person_name]['start_date'] == 0 or current_timestamp < e2e_conversations[person_name]['start_date']:
+                                    e2e_conversations[person_name]['start_date'] = current_timestamp
+
+                        # Aggregate data for all e2e conversations
+                        for conv in e2e_conversations.values():
+                            participants.update(conv['participants'])
+                            total_messages += conv['total_messages']
+                            total_chars += conv['total_chars']
+                            sent_messages += conv['sent_messages']
+                            call_duration += conv['call_duration']
+                            total_photos += conv['total_photos']
+                            total_gifs += conv['total_gifs']
+                            total_videos += conv['total_videos']
+                            total_files += conv['total_files']
+                            if start_date == 0 or conv['start_date'] < start_date:
+                                start_date = conv['start_date']
 
                     else:
                         # Standard conversation processing
@@ -327,11 +352,6 @@ class MasterWindow(tk.Tk):
             except Exception as e:
                 print(f"Error processing file {file}: {e}")
 
-        # Debug summary
-        print(f"Total messages: {total_messages}")
-        print(f"Chat title: {chat_title}")
-        print(f"Participants: {participants}")
-
         return (
             chat_title, participants, chat_type, total_messages, total_chars,
             call_duration, sent_messages, start_date, total_photos, total_gifs,
@@ -363,4 +383,3 @@ class MasterWindow(tk.Tk):
 if __name__ == "__main__":
     app = MasterWindow()
     app.mainloop()
-
