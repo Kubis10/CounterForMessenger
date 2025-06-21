@@ -210,68 +210,127 @@ class MasterWindow(tk.Tk):
         # Processing dates
         self._normalize_dates()
 
+        # Check if we're processing an e2e conversation
+        is_e2e = conversation == 'e2e'
+
         # Processing JSON files in the conversation folder
-        for file in glob.glob(f'{self.directory}{conversation}/*.json'):
+        path_to_browse = f'{self.directory}{conversation}'
+
+
+        for file in glob.glob(f'{path_to_browse}/*.json'):
             try:
+                # Debug info
+                print(f"Processing file: {file}")
+
                 with open(file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
 
-                    # Collecting chat participants
-                    for participant in data.get('participants', []):
-                        name = participant['name']
-                        participants[name] = participants.get(name, 0)
+                    if is_e2e:
+                        # E2E conversation processing
+                        print(f"E2E file structure: {list(data.keys())}")
 
-                    # Updating counters
-                    for message in data.get('messages', []):
-                        message_date = datetime.fromtimestamp(int(message["timestamp_ms"]) / 1000).date()
+                        # Get thread name without number
+                        thread_name = data.get('threadName', '')
+                        if '_' in thread_name:
+                            chat_title = thread_name.split('_')[0]
+                        else:
+                            chat_title = thread_name
 
-                        # Filtering messages within the selected period
-                        if self.from_date_entry <= message_date <= self.to_date_entry:
-                            total_messages += 1
-
-                            # Counting characters
-                            try:
-                                total_chars += len(message.get('content', ''))
-                            except (KeyError, TypeError):
-                                pass
-
-                            # Counting sender's messages
-                            sender = message['sender_name']
-                            if sender == self.get_username():
-                                sent_messages += 1
-
-                            # Tracking participant messages
-                            participants[sender] = participants.get(sender, 0) + 1
-
-                            # Recording call duration
-                            call_duration += message.get('call_duration', 0)
-
-                            # Save conversation creation date
-                            current_timestamp = message['timestamp_ms']
-                            if start_date == 0 or current_timestamp < start_date:
-                                start_date = current_timestamp
-
-                            # Counting multimedia
-                            if 'photos' in message:
-                                total_photos += len(message['photos'])
-                            if 'gifs' in message:
-                                total_gifs += len(message['gifs'])
-                            if 'videos' in message:
-                                total_videos += len(message['videos'])
-                            if 'files' in message:
-                                total_files += len(message['files'])
-
-                    # Get chat name and type
-                    chat_title = data.get('title', '')
-
-                    # Check if it's a private chat
-                    try:
-                        # If there is no 'joinable_mode' element, the chat is private
-                        _ = data['joinable_mode']
-                    except KeyError:
                         chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
+
+                        # Process participants
+                        for participant_name in data.get('participants', []):
+                            participants[participant_name] = participants.get(participant_name, 0)
+
+                        for message in data.get('messages', []):
+
+                            # Convert timestamp to date (divide by 1000 to convert from milliseconds to seconds)
+                            message_date = datetime.fromtimestamp(int(message.get("timestamp", 0)) / 1000).date()
+
+                            if self.from_date_entry <= message_date <= self.to_date_entry:
+                                total_messages += 1
+
+                                try:
+                                    message_text = message.get('text', '')
+                                    total_chars += len(message_text)
+                                    print(f"Added message: '{message_text}', chars: {len(message_text)}")
+                                except (KeyError, TypeError) as e:
+                                    print(f"Error processing message text: {e}")
+
+                                sender = message.get('senderName', '')
+                                if sender == self.get_username():
+                                    sent_messages += 1
+                                    print(f"Sender matches username: {sender}")
+
+                                participants[sender] = participants.get(sender, 0) + 1
+
+                                current_timestamp = message.get('timestamp', 0)
+                                if start_date == 0 or current_timestamp < start_date:
+                                    start_date = current_timestamp
+
+                    else:
+                        # Standard conversation processing
+                        # Collecting chat participants
+                        for participant in data.get('participants', []):
+                            name = participant['name']
+                            participants[name] = participants.get(name, 0)
+
+                        # Updating counters
+                        for message in data.get('messages', []):
+                            message_date = datetime.fromtimestamp(int(message["timestamp_ms"]) / 1000).date()
+
+                            # Filtering messages within the selected period
+                            if self.from_date_entry <= message_date <= self.to_date_entry:
+                                total_messages += 1
+
+                                # Counting characters
+                                try:
+                                    total_chars += len(message.get('content', ''))
+                                except (KeyError, TypeError):
+                                    pass
+
+                                # Counting sender's messages
+                                sender = message['sender_name']
+                                if sender == self.get_username():
+                                    sent_messages += 1
+
+                                # Tracking participant messages
+                                participants[sender] = participants.get(sender, 0) + 1
+
+                                # Recording call duration
+                                call_duration += message.get('call_duration', 0)
+
+                                # Save conversation creation date
+                                current_timestamp = message['timestamp_ms']
+                                if start_date == 0 or current_timestamp < start_date:
+                                    start_date = current_timestamp
+
+                                # Counting multimedia
+                                if 'photos' in message:
+                                    total_photos += len(message['photos'])
+                                if 'gifs' in message:
+                                    total_gifs += len(message['gifs'])
+                                if 'videos' in message:
+                                    total_videos += len(message['videos'])
+                                if 'files' in message:
+                                    total_files += len(message['files'])
+
+                        # Get chat name and type
+                        chat_title = data.get('title', '')
+
+                        # Check if it's a private chat
+                        try:
+                            # If there is no 'joinable_mode' element, the chat is private
+                            _ = data['joinable_mode']
+                        except KeyError:
+                            chat_type = self.lang_mdl.TITLE_PRIVATE_CHAT
             except Exception as e:
                 print(f"Error processing file {file}: {e}")
+
+        # Debug summary
+        print(f"Total messages: {total_messages}")
+        print(f"Chat title: {chat_title}")
+        print(f"Participants: {participants}")
 
         return (
             chat_title, participants, chat_type, total_messages, total_chars,
