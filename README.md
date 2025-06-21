@@ -19,14 +19,15 @@ You can also check the number of messages for specific time intervals, so if you
 
 ## How to use
 
-### Facebook has some issues now to download your messages, so have in mind that sometimes messages will not be downloaded‼️
-
 To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
 <a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
 <p align="center">
 <img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
 </p>
 In messages folder you need to copy all folders from archived_threads, filtered_threads, e2ee_cutover and message_requests to inbox folder. Sometimes you will have 2 folders your_activity_across_facebook and your_facebook_activity so you need to copy from all places to one folder.
+
+> [!IMPORTANT]
+> If you downloaded from e2e messages inside the folder, which you indicate leter, create the "e2e" folder and paste the entire content of the "messages" directory
 
 ## Installation 
 
@@ -35,6 +36,20 @@ Unzip the file and run the **CFM.exe** file.
 
 ## How to download messages
 
+> [!IMPORTANT]
+> Facebook has introduced E2EE (end-to-end encryption) to protect your conversations. End-to-end-encrypted conversation will have the e2ee part in the url, and default method will not be able to retrieve those conversations.
+
+You can download a copy of all your end-to-end encrypted messages at any time if you’ve turned on secure storage in Messenger by:
+1. On a computer, open facebook.com and then open Messenger tab and click &#x2022;&#x2022;&#x2022; next to the new chat icon
+2. Click Privacy & safety.
+3. Click End-to-end encrypted chats.
+4. Click Message storage.
+5. Below Manage secure storage, click Download secure storage data.
+6. Enter your PIN or use a one-time code to restore your chat history.
+7. Click Download file and enter your Facebook password when prompted.
+8. Click Download. It may take several minutes to prepare your download file (if you have many messages it can take up much longer).
+
+### If you want to download not encrypted chats and group chats
 1. Select Settings & Privacy in the top right of Facebook, then click Settings.
 1. In the left column, click Your Facebook Information.
 1. Click on Download Your Information.
