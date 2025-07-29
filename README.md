@@ -27,7 +27,12 @@ To use this app you need to download all(recomended) your data directly from Fac
 In messages folder you need to copy all folders from archived_threads, filtered_threads, e2ee_cutover and message_requests to inbox folder. Sometimes you will have 2 folders your_activity_across_facebook and your_facebook_activity so you need to copy from all places to one folder.
 
 > [!IMPORTANT]
-> If you downloaded from e2e messages inside the folder, which you indicate leter, create the "e2e" folder and paste the entire content of the "messages" directory
+> If you downloaded from e2e messages inside the folder, which you indicate leter(inbox), create the "e2e" folder and paste the entire content of the "messages" directory there.
+
+You will have probably structure like this:
+
+<img alt="image" src="https://github.com/user-attachments/assets/694f2f56-359a-4bc8-8762-1513afd3450e" />
+
 
 ## Installation 
 
