@@ -6,6 +6,7 @@ from tkinter import ttk
 from os import listdir
 from functools import cmp_to_key
 
+from gui.theme import ThemeManager
 from popups.statistics_popup import StatisticsPopup
 from popups.multi_sort_popup import MultiSortPopup
 from popups.loading_popup import LoadingPopup
@@ -24,16 +25,14 @@ class MainPage(tk.Frame):
         """
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        self.controller.configure(background='#232323')
         self.module = self.controller.lang_mdl
 
         # Frame style setup
-        self.style = ttk.Style()
-        self.style.configure('Nav.TFrame', background='#131313')
-        self.style.configure('Main.TFrame', background='#232323')
-        self.style.configure('Custom.Treeview', background='#232323', foreground='#ffffff')
+        self.controller.change_theme("default")
         self.nav = ttk.Frame(self, padding=20, style='Nav.TFrame')
         self.main = ttk.Frame(self, style='Main.TFrame')
+        self.top_bar = ttk.Frame(self.main, style="Main.TFrame")
+        self.top_bar.pack(side="top", fill="x", padx=10, pady=(10, 5))
 
         # Build treeview for message data projection
         scrollbar = tk.Scrollbar(self.main)
@@ -51,6 +50,15 @@ class MainPage(tk.Frame):
         }
         self.treeview.column('#0', width=0, stretch=tk.NO)
         self.treeview['columns'] = tuple(columns.keys())
+        self.treeview.column('name', width=220, anchor='w')
+        self.treeview.column('pep', width=90, anchor='center')
+        self.treeview.column('type', width=100, anchor='center')
+        self.treeview.column('msg', width=120, anchor='e')
+        self.treeview.column('call', width=140, anchor='e')
+        self.treeview.column('photos', width=100, anchor='e')
+        self.treeview.column('gifs', width=90, anchor='e')
+        self.treeview.column('videos', width=90, anchor='e')
+        self.treeview.column('files', width=90, anchor='e')
         for keyword, text in columns.items():
             self.treeview.heading(keyword, text=text, anchor='center')
         self.treeview.bind('<Button-3>', lambda event: self.deselect())
@@ -90,33 +98,46 @@ class MainPage(tk.Frame):
         self.columns_reversed = dict()
 
         # Show frame title
-        ttk.Label(
-            self.main, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: ', foreground='#ffffff', background='#232323',
-            font=('Arial', 15)
-        ).pack(side='top', pady=10)
+        self.title = ttk.Label(
+            self.top_bar, text=f'{self.module.TITLE_NUMBER_OF_MSGS} ', style="Custom.TLabel",
+        )
+        self.title.pack(side='top', pady=10)
 
         # Show home button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_HOME, text=self.module.TITLE_HOME, compound='left', padding=5
-        ).pack(side='top', pady=10)
+        self.home_button = ttk.Button(
+            self.nav, image=self.controller.theme_manager.get_icon("home"), text=self.module.TITLE_HOME, compound='left', style="TButton"
+        )
+        self.home_button.pack(side='top', pady=10)
 
         # Show upload button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_STATUS_VISIBLE, text=self.module.TITLE_UPLOAD_MESSAGES,
-            compound='left', padding=5, command=self.upload_data
-        ).pack(side='top', pady=10)
+        self.upload_button = ttk.Button(
+            self.nav, image=self.controller.theme_manager.get_icon("upload"), text=self.module.TITLE_UPLOAD_MESSAGES,
+            compound='left', style="TButton", command=self.upload_data
+        )
+        self.upload_button.pack(side='top', pady=10)
 
         # Show search button
-        self.search_entry = ttk.Entry(self.nav, width=15)
-        self.search_entry.pack(side='top', pady=10)
-        ttk.Button(
-            self.nav, image=self.controller.ICON_SEARCH, text=self.module.TITLE_SEARCH, compound='left',
+        self.search_entry = ttk.Entry(self.top_bar, width=25)
+        self.search_entry.pack(side="right", padx=(5, 0))
+
+        # Optional placeholder
+        self.search_entry.insert(0, "Search...")
+        self.search_entry.bind(
+            "<FocusIn>",
+            lambda e: self.search_entry.delete(0, "end")
+        )
+
+        # Search button with icon
+        self.search_button = ttk.Button(
+            self.top_bar,
+            image=self.controller.theme_manager.get_icon("search"),
             command=self.search
-        ).pack(side='top', pady=10)
+        )
+        self.search_button.pack(side="right", pady = 0)
 
         # Multi-sort button opens the sort-editor UI
         ttk.Button(
-            self.nav, text=self.module.TITLE_MULTI_SORT, padding=5,
+            self.nav, text=self.module.TITLE_MULTI_SORT,style="TButton",
             command = lambda :
             MultiSortPopup(
                 self.controller,
@@ -129,22 +150,24 @@ class MainPage(tk.Frame):
         ).pack(side='top', pady=10)
 
         # Show exit button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_EXIT, text=self.module.TITLE_EXIT, compound='left', padding=5,
+        self.exit_button = ttk.Button(
+            self.nav, image=self.controller.theme_manager.get_icon("exit"), text=self.module.TITLE_EXIT, compound='left',style="TButton",
             command=self.controller.destroy
-        ).pack(side='bottom')
+        )
+        self.exit_button.pack(side='bottom')
 
         # Show settings button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_SETTINGS, text=self.module.TITLE_SETTINGS, compound='left',
-            padding=5, command=lambda: self._show_settings_popup()
-        ).pack(side='bottom', pady=15)
+        self.settings_button = ttk.Button(
+            self.nav, image=self.controller.theme_manager.get_icon("settings"), text=self.module.TITLE_SETTINGS, style="TButton", command=lambda: self._show_settings_popup()
+        )
+        self.settings_button.pack(side='bottom', pady=15)
 
         # Show profile button
-        ttk.Button(
-            self.nav, image=self.controller.ICON_PROFILE, text=self.module.TITLE_PROFILE, compound='left',
-            padding=5, command=lambda: self._show_profile_popup()
-        ).pack(side='bottom')
+        self.profile_button = ttk.Button(
+            self.nav, image=self.controller.theme_manager.get_icon("profile"), text=self.module.TITLE_PROFILE, compound='left',
+            padding=7, command=lambda: self._show_profile_popup()
+        )
+        self.profile_button.pack(side='bottom')
 
         scrollbar.pack(side='right', fill='y')
         self.treeview.pack(side='left', fill='both', expand=1)
@@ -155,7 +178,7 @@ class MainPage(tk.Frame):
     def _show_settings_popup(self):
         """Show the settings popup"""
         from popups.settings_popup import SettingsPopup
-        SettingsPopup(self.controller)
+        SettingsPopup(self.controller,self)
 
     def _show_profile_popup(self):
         """Show the profile popup"""
@@ -206,8 +229,39 @@ class MainPage(tk.Frame):
             self.treeview.heading('videos', command=lambda col='videos': self.click_column(col, False, 'numberwise'))
             self.treeview.heading('files', command=lambda col='files': self.click_column(col, False, 'numberwise'))
 
+            self.set_treeview_theme()
+
         except FileNotFoundError:
             print('>MainPage/upload_data THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
+
+    def set_icons(self):
+        """
+        Setting up the icons of the page based on the theme via theme manager
+        """
+        manager = self.controller.theme_manager
+        self.home_button.configure(image= manager.get_icon("home"))
+        self.search_button.configure(image= manager.get_icon("search"))
+        self.upload_button.configure(image=manager.get_icon("upload"))
+        self.exit_button.configure(image=manager.get_icon("exit"))
+        self.settings_button.configure(image=manager.get_icon("settings"))
+        self.profile_button.configure(image=manager.get_icon("profile"))
+
+    def set_treeview_theme(self):
+        """
+        Sets up the background of each item for a specific theme
+
+        NOTE: this happens here because the theme class doesn't khow how
+        we want to display the children of the treeview
+        """
+        for i, item in enumerate(self.treeview.get_children()):
+            tag = "even" if i % 2 == 0 else "odd"
+            self.treeview.item(item, tags=(tag,))
+        if self.controller.get_theme() == "dark":
+            self.treeview.tag_configure("even", background="#0d1117")
+            self.treeview.tag_configure("odd", background="#161b22")
+        elif self.controller.get_theme() == "default":
+            self.treeview.tag_configure("even", background="#ffffff")
+            self.treeview.tag_configure("odd", background="#c4c4c4")
 
     def click_column(self, col, order, bias):
         """

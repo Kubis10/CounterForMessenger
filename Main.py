@@ -11,6 +11,7 @@ from os.path import exists
 from os import listdir
 from PIL import ImageTk
 
+from gui.theme import ThemeManager, DefaultTheme, DarkTheme
 # Local module imports
 from utils import set_icon, set_resolution, existing_languages
 from gui.config_page import ConfigurationPage
@@ -28,14 +29,6 @@ class MasterWindow(tk.Tk):
             **kwargs: Named arguments passed to the base class
         """
         tk.Tk.__init__(self, *args, **kwargs)
-
-        # Loading icons
-        self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
-        self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
-        self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
-        self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
-        self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
-        self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
 
         # User data
         self.directory = ''
@@ -66,6 +59,11 @@ class MasterWindow(tk.Tk):
             "ConfigurationPage": [800, 600, None],
             "MainPage": [1375, 700, None]
         }
+
+        # Initialization of the ThemeManager and registration of Themes
+        self.theme_manager = ThemeManager()
+        self.theme_manager.register(DefaultTheme())
+        self.theme_manager.register(DarkTheme())
 
         # Initialization and loading of frames into the container
         self.refresh_frames()
@@ -378,6 +376,12 @@ class MasterWindow(tk.Tk):
                 self.to_date_entry = datetime.strptime(str(self.to_date_entry), "%Y-%m-%d").date()
             except (ValueError, TypeError):
                 self.to_date_entry = datetime.now().date()
+
+    def change_theme(self, name:str):
+        self.theme_manager.apply(name)
+
+    def get_theme(self):
+        return self.theme_manager.current_theme
 
 
 if __name__ == "__main__":
