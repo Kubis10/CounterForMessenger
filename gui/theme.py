@@ -1,4 +1,3 @@
-import importlib
 import tkinter as tk
 from tkinter import ttk
 
@@ -9,12 +8,15 @@ class Theme:
     """
     Theme interface that different theme implementations inherit.
     """
-    name : str
+    name: str
     def apply(self, style: ttk.Style):
         raise NotImplementedError
 
 class DefaultTheme(Theme):
     name = "default"
+    TREEVIEW_EVEN_ROW = "#ffffff"
+    TREEVIEW_ODD_ROW = "#c4c4c4"
+
     def apply(self, style: ttk.Style):
         style.theme_use("clam")
 
@@ -54,6 +56,9 @@ class DefaultTheme(Theme):
 
 class DarkTheme(Theme):
     name = "dark"
+    TREEVIEW_EVEN_ROW = "#0d1117"
+    TREEVIEW_ODD_ROW = "#161b22"
+
     def apply(self, style: ttk.Style):
         style.theme_use("clam")
 
@@ -69,7 +74,7 @@ class DarkTheme(Theme):
 
         style.map("Treeview.Heading", background=[("active", "#30363d")])
 
-        style.configure("TButton", background="#161b22", foreground="#c9d1d9", padding=(14, 10),  relief="flat", borderwidth=0)
+        style.configure("TButton", background="#161b22", foreground="#c9d1d9", padding=(14, 10), relief="flat", borderwidth=0)
 
         style.configure("Custom.TLabel", foreground='#ffffff', font=('Arial', 15))
 
@@ -88,7 +93,7 @@ class DarkTheme(Theme):
 class ThemeManager:
     """
     Stores information of the application gui (images, style, current theme, available themes)
-    and manages their state based of the preferred theme
+    and manages their state based on the preferred theme
     """
 
     def __init__(self):
@@ -102,10 +107,18 @@ class ThemeManager:
 
     def _load_images(self):
         self._images.clear()
-        for key, path in icons.ICON_PATHS[self.current_theme].items():
-            self._images[key] = tk.PhotoImage(file=path)
+        theme = self.current_theme
 
-    def apply(self, name:str):
+        if theme is None or theme not in icons.ICON_PATHS:
+            raise ValueError(f"No icon paths configured for theme '{theme}'")
+
+        for key, path in icons.ICON_PATHS[self.current_theme].items():
+            try:
+                self._images[key] = tk.PhotoImage(file=path)
+            except tk.TclError as e:
+                raise RuntimeError(f"Failed to load icon '{key}' from path '{path}': {e}") from e
+
+    def apply(self, name: str):
         if name not in self.themes:
             raise ValueError(f"Theme '{name}' is not registered")
         self.themes[name].apply(self.style)
@@ -113,4 +126,18 @@ class ThemeManager:
         self._load_images()
 
     def get_icon(self, name: str) -> tk.PhotoImage:
-        return self._images[name]
+        """
+                Retrieve an icon by name.
+                If the icon is not available (e.g. theme not applied yet or invalid name),
+                return a small placeholder image instead of raising KeyError.
+        """
+        try:
+            return self._images[name]
+        except KeyError:
+            # Lazily create and cache a placeholder image to avoid repeated allocations.
+            placeholder_key = "_placeholder"
+            placeholder = self._images.get(placeholder_key)
+            if placeholder is None:
+                placeholder = tk.PhotoImage(width=1, height=1)
+                self._images[placeholder_key] = placeholder
+            return placeholder

@@ -6,7 +6,6 @@ from tkinter import ttk
 from os import listdir
 from functools import cmp_to_key
 
-from gui.theme import ThemeManager
 from popups.statistics_popup import StatisticsPopup
 from popups.multi_sort_popup import MultiSortPopup
 from popups.loading_popup import LoadingPopup
@@ -121,10 +120,11 @@ class MainPage(tk.Frame):
         self.search_entry.pack(side="right", padx=(5, 0))
 
         # Optional placeholder
-        self.search_entry.insert(0, "Search...")
+        self.search_entry.insert(0, self.module.TITLE_SEARCH)
         self.search_entry.bind(
             "<FocusIn>",
-            lambda e: self.search_entry.delete(0, "end")
+            lambda e: self.search_entry.delete(0, "end") if self.search_entry.get() ==
+            self.module.TITLE_SEARCH else None
         )
 
         # Search button with icon
@@ -133,11 +133,11 @@ class MainPage(tk.Frame):
             image=self.controller.theme_manager.get_icon("search"),
             command=self.search
         )
-        self.search_button.pack(side="right", pady = 0)
+        self.search_button.pack(side="right", pady=0)
 
         # Multi-sort button opens the sort-editor UI
         ttk.Button(
-            self.nav, text=self.module.TITLE_MULTI_SORT,style="TButton",
+            self.nav, text=self.module.TITLE_MULTI_SORT, style="TButton",
             command = lambda :
             MultiSortPopup(
                 self.controller,
@@ -151,14 +151,14 @@ class MainPage(tk.Frame):
 
         # Show exit button
         self.exit_button = ttk.Button(
-            self.nav, image=self.controller.theme_manager.get_icon("exit"), text=self.module.TITLE_EXIT, compound='left',style="TButton",
+            self.nav, image=self.controller.theme_manager.get_icon("exit"), text=self.module.TITLE_EXIT, compound='left', style="TButton",
             command=self.controller.destroy
         )
         self.exit_button.pack(side='bottom')
 
         # Show settings button
         self.settings_button = ttk.Button(
-            self.nav, image=self.controller.theme_manager.get_icon("settings"), text=self.module.TITLE_SETTINGS, style="TButton", command=lambda: self._show_settings_popup()
+            self.nav, image=self.controller.theme_manager.get_icon("settings"), text=self.module.TITLE_SETTINGS, compound='left', style="TButton", command=lambda: self._show_settings_popup()
         )
         self.settings_button.pack(side='bottom', pady=15)
 
@@ -178,7 +178,7 @@ class MainPage(tk.Frame):
     def _show_settings_popup(self):
         """Show the settings popup"""
         from popups.settings_popup import SettingsPopup
-        SettingsPopup(self.controller,self)
+        SettingsPopup(self.controller, self)
 
     def _show_profile_popup(self):
         """Show the profile popup"""
@@ -250,18 +250,19 @@ class MainPage(tk.Frame):
         """
         Sets up the background of each item for a specific theme
 
-        NOTE: this happens here because the theme class doesn't khow how
+        NOTE: this happens here because the theme class doesn't know how
         we want to display the children of the treeview
         """
+        theme = self.controller.get_theme()
         for i, item in enumerate(self.treeview.get_children()):
             tag = "even" if i % 2 == 0 else "odd"
             self.treeview.item(item, tags=(tag,))
-        if self.controller.get_theme() == "dark":
-            self.treeview.tag_configure("even", background="#0d1117")
-            self.treeview.tag_configure("odd", background="#161b22")
-        elif self.controller.get_theme() == "default":
-            self.treeview.tag_configure("even", background="#ffffff")
-            self.treeview.tag_configure("odd", background="#c4c4c4")
+        if self.controller.get_theme_name() == "dark":
+            self.treeview.tag_configure("even", background=theme.TREEVIEW_EVEN_ROW)
+            self.treeview.tag_configure("odd", background=theme.TREEVIEW_ODD_ROW)
+        elif self.controller.get_theme_name() == "default":
+            self.treeview.tag_configure("even", background=theme.TREEVIEW_EVEN_ROW)
+            self.treeview.tag_configure("odd", background=theme.TREEVIEW_ODD_ROW)
 
     def click_column(self, col, order, bias):
         """

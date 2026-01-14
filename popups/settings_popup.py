@@ -58,23 +58,32 @@ class SettingsPopup(tk.Toplevel):
             self, self.language_label, self.controller.get_language(), *existing_languages()
         ).pack(side='top', pady=10)
 
-        # Load save button
-        ttk.Button(
-            self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
-        ).pack(side='top', pady=40)
-
         # Create setting up for theme change
         tk.Label(self, text=f'{self.module.TITLE_THEME}').pack(side='top', pady=1)
         self.theme_var = tk.StringVar(
             value=controller.theme_manager.current_theme
         )
 
+        # Safely determine initial theme value, falling back if no theme is currently set
+        themes = controller.theme_manager.themes
+        current_theme = controller.theme_manager.current_theme
+        if current_theme is None:
+            # Use the first available theme if any exist, otherwise default to empty string
+            current_theme = next(iter(themes), "") if themes else ""
+        self.theme_var = tk.StringVar(value=current_theme)
+
         ttk.Combobox(
             self,
-            textvariable = self.theme_var,
+            textvariable=self.theme_var,
             values=list(controller.theme_manager.themes.keys()),
             state="readonly"
-        ).pack(side = 'top', pady=10)
+        ).pack(side='top', pady=10)
+
+        # Load save button
+        ttk.Button(
+            self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
+        ).pack(side='top', pady=40)
+
 
     def _create_date_entries(self):
         """Create the from and to date entries with proper initial values"""
@@ -149,6 +158,7 @@ class SettingsPopup(tk.Toplevel):
             self.language_label.get(),
             self.from_date_entry.get_date(),
             self.to_date_entry.get_date(),
+            self.theme_var.get(),
         )
         self.controller.change_theme(self.theme_var.get())
         self.parent.set_treeview_theme()

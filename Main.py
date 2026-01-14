@@ -36,6 +36,7 @@ class MasterWindow(tk.Tk):
         self.language = 'English'
         self.from_date_entry = ''
         self.to_date_entry = ''
+        self.theme = ""
         self.lang_mdl = importlib.import_module('langs.English')
         self.sent_messages = 0
         self.total_messages = 0
@@ -64,6 +65,7 @@ class MasterWindow(tk.Tk):
         self.theme_manager = ThemeManager()
         self.theme_manager.register(DefaultTheme())
         self.theme_manager.register(DarkTheme())
+        self.change_theme("default")
 
         # Initialization and loading of frames into the container
         self.refresh_frames()
@@ -147,7 +149,7 @@ class MasterWindow(tk.Tk):
             self.frames[page_name] = [width, height, new_frame]
             new_frame.grid(row=0, column=0, sticky='nsew')
 
-    def update_data(self, username, directory, language, from_date_entry, to_date_entry):
+    def update_data(self, username, directory, language, from_date_entry, to_date_entry, theme):
         """
         Updates user data
 
@@ -164,11 +166,12 @@ class MasterWindow(tk.Tk):
         self.language = language
         self.from_date_entry = from_date_entry
         self.to_date_entry = to_date_entry
+        self.theme = theme
         self.lang_mdl = importlib.import_module(f'langs.{language}')
 
         # Save user data in config.txt
         with open('config.txt', 'w', encoding='utf-8') as f:
-            f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}')
+            f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}\n{theme}')
 
         # Refresh the interface only if the language has changed
         if temp != language:
@@ -186,6 +189,7 @@ class MasterWindow(tk.Tk):
                         self.language = lines[2]
                         self.from_date_entry = lines[3]
                         self.to_date_entry = lines[4]
+                        self.theme = lines[5]
                 self.lang_mdl = importlib.import_module(f'langs.{self.language}')
             except Exception as e:
                 print(f"Error loading configuration: {e}")
@@ -377,11 +381,14 @@ class MasterWindow(tk.Tk):
             except (ValueError, TypeError):
                 self.to_date_entry = datetime.now().date()
 
-    def change_theme(self, name:str):
+    def change_theme(self, name: str):
         self.theme_manager.apply(name)
 
-    def get_theme(self):
+    def get_theme_name(self):
         return self.theme_manager.current_theme
+
+    def get_theme(self):
+        return self.theme_manager.themes[self.get_theme_name()]
 
 
 if __name__ == "__main__":
