@@ -11,6 +11,7 @@ from os.path import exists
 from os import listdir
 from PIL import ImageTk
 
+from gui.theme import ThemeManager, DefaultTheme, DarkTheme
 # Local module imports
 from utils import set_icon, set_resolution, existing_languages
 from gui.config_page import ConfigurationPage
@@ -29,20 +30,13 @@ class MasterWindow(tk.Tk):
         """
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # Loading icons
-        self.ICON_HOME = tk.PhotoImage(file='assets/home.png')
-        self.ICON_SETTINGS = tk.PhotoImage(file='assets/settings.png')
-        self.ICON_EXIT = tk.PhotoImage(file='assets/exit.png')
-        self.ICON_STATUS_VISIBLE = tk.PhotoImage(file='assets/visible.png')
-        self.ICON_SEARCH = tk.PhotoImage(file='assets/search.png')
-        self.ICON_PROFILE = tk.PhotoImage(file='assets/person.png')
-
         # User data
         self.directory = ''
         self.username = ''
         self.language = 'English'
         self.from_date_entry = ''
         self.to_date_entry = ''
+        self.theme = ""
         self.lang_mdl = importlib.import_module('langs.English')
         self.sent_messages = 0
         self.total_messages = 0
@@ -66,6 +60,12 @@ class MasterWindow(tk.Tk):
             "ConfigurationPage": [800, 600, None],
             "MainPage": [1375, 700, None]
         }
+
+        # Initialization of the ThemeManager and registration of Themes
+        self.theme_manager = ThemeManager()
+        self.theme_manager.register(DefaultTheme())
+        self.theme_manager.register(DarkTheme())
+        self.change_theme("default")
 
         # Initialization and loading of frames into the container
         self.refresh_frames()
@@ -149,7 +149,7 @@ class MasterWindow(tk.Tk):
             self.frames[page_name] = [width, height, new_frame]
             new_frame.grid(row=0, column=0, sticky='nsew')
 
-    def update_data(self, username, directory, language, from_date_entry, to_date_entry):
+    def update_data(self, username, directory, language, from_date_entry, to_date_entry, theme):
         """
         Updates user data
 
@@ -159,6 +159,7 @@ class MasterWindow(tk.Tk):
             language: Selected language
             from_date_entry: Start date
             to_date_entry: End date
+            theme: App's theme
         """
         temp = self.language
         self.username = username
@@ -166,11 +167,12 @@ class MasterWindow(tk.Tk):
         self.language = language
         self.from_date_entry = from_date_entry
         self.to_date_entry = to_date_entry
+        self.theme = theme
         self.lang_mdl = importlib.import_module(f'langs.{language}')
 
         # Save user data in config.txt
         with open('config.txt', 'w', encoding='utf-8') as f:
-            f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}')
+            f.write(f'{username}\n{directory}\n{language}\n{from_date_entry}\n{to_date_entry}\n{theme}')
 
         # Refresh the interface only if the language has changed
         if temp != language:
@@ -188,6 +190,7 @@ class MasterWindow(tk.Tk):
                         self.language = lines[2]
                         self.from_date_entry = lines[3]
                         self.to_date_entry = lines[4]
+                        self.theme = lines[5]
                 self.lang_mdl = importlib.import_module(f'langs.{self.language}')
             except Exception as e:
                 print(f"Error loading configuration: {e}")
@@ -378,6 +381,15 @@ class MasterWindow(tk.Tk):
                 self.to_date_entry = datetime.strptime(str(self.to_date_entry), "%Y-%m-%d").date()
             except (ValueError, TypeError):
                 self.to_date_entry = datetime.now().date()
+
+    def change_theme(self, name: str):
+        self.theme_manager.apply(name)
+
+    def get_theme_name(self):
+        return self.theme_manager.current_theme
+
+    def get_theme(self):
+        return self.theme_manager.themes[self.get_theme_name()]
 
 
 if __name__ == "__main__":
