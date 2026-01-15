@@ -239,8 +239,8 @@ class MainPage(tk.Frame):
         Setting up the icons of the page based on the theme via theme manager
         """
         manager = self.controller.theme_manager
-        self.home_button.configure(image= manager.get_icon("home"))
-        self.search_button.configure(image= manager.get_icon("search"))
+        self.home_button.configure(image=manager.get_icon("home"))
+        self.search_button.configure(image=manager.get_icon("search"))
         self.upload_button.configure(image=manager.get_icon("upload"))
         self.exit_button.configure(image=manager.get_icon("exit"))
         self.settings_button.configure(image=manager.get_icon("settings"))
@@ -257,12 +257,8 @@ class MainPage(tk.Frame):
         for i, item in enumerate(self.treeview.get_children()):
             tag = "even" if i % 2 == 0 else "odd"
             self.treeview.item(item, tags=(tag,))
-        if self.controller.get_theme_name() == "dark":
-            self.treeview.tag_configure("even", background=theme.TREEVIEW_EVEN_ROW)
-            self.treeview.tag_configure("odd", background=theme.TREEVIEW_ODD_ROW)
-        elif self.controller.get_theme_name() == "default":
-            self.treeview.tag_configure("even", background=theme.TREEVIEW_EVEN_ROW)
-            self.treeview.tag_configure("odd", background=theme.TREEVIEW_ODD_ROW)
+        self.treeview.tag_configure("even", background=theme.TREEVIEW_EVEN_ROW)
+        self.treeview.tag_configure("odd", background=theme.TREEVIEW_ODD_ROW)
 
     def click_column(self, col, order, bias):
         """

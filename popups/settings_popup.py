@@ -60,9 +60,6 @@ class SettingsPopup(tk.Toplevel):
 
         # Create setting up for theme change
         tk.Label(self, text=f'{self.module.TITLE_THEME}').pack(side='top', pady=1)
-        self.theme_var = tk.StringVar(
-            value=controller.theme_manager.current_theme
-        )
 
         # Safely determine initial theme value, falling back if no theme is currently set
         themes = controller.theme_manager.themes

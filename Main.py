@@ -159,6 +159,7 @@ class MasterWindow(tk.Tk):
             language: Selected language
             from_date_entry: Start date
             to_date_entry: End date
+            theme: App's theme
         """
         temp = self.language
         self.username = username

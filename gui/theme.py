@@ -24,7 +24,7 @@ class DefaultTheme(Theme):
         # light gray background
         # black text
         # white for entries
-        style.configure(".",background="#f0f0f0", foreground="#000000", fieldbackground="#ffffff")
+        style.configure(".", background="#f0f0f0", foreground="#000000", fieldbackground="#ffffff")
 
         # Navigation panel and main panel styles
         style.configure("Nav.TFrame", background="#e0e0e0")  # slightly darker gray
@@ -127,9 +127,9 @@ class ThemeManager:
 
     def get_icon(self, name: str) -> tk.PhotoImage:
         """
-                Retrieve an icon by name.
-                If the icon is not available (e.g. theme not applied yet or invalid name),
-                return a small placeholder image instead of raising KeyError.
+        Retrieve an icon by name.
+        If the icon is not available (e.g. theme not applied yet or invalid name),
+        return a small placeholder image instead of raising KeyError.
         """
         try:
             return self._images[name]
