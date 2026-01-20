@@ -2,7 +2,7 @@
 Configuration page module for CounterForMessenger
 """
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 from tkcalendar import DateEntry
 from utils import existing_languages
 
@@ -72,10 +72,18 @@ class ConfigurationPage(tk.Frame):
         Save configuration and navigate to main page
         Invoked by pressing the save button
         """
+        directory = self.directory_label.cget('text')
+        if not directory or directory == self.module.TITLE_NO_SELECTION:
+            messagebox.showwarning(
+                "Missing Information",
+                "Please select the folder containing your Facebook data."
+            )
+            return
+
         # Communicate provided data with the master window
         self.controller.update_data(
             self.username_label.get(),
-            self.directory_label.cget('text'),
+            directory,
             self.language_label.get(),
             self.from_date_entry.get_date(),
             self.to_date_entry.get_date()
