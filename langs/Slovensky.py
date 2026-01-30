@@ -57,4 +57,5 @@ TITLE_MOVE_DOWN = 'Posunúť dole'
 TITLE_CLEAR = 'Vymazať'
 TITLE_APPLY = 'Použiť'
 TITLE_CANCEL = 'Zrušiť'
+TITLE_THEME = 'Téma'
 

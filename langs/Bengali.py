@@ -56,4 +56,5 @@ TITLE_MOVE_DOWN = 'নিচে নামান'
 TITLE_CLEAR = 'মুছুন'
 TITLE_APPLY = 'নিশ্চিত করুন'
 TITLE_CANCEL = 'বাতিল করুন'
+TITLE_THEME = 'থিম'
 
