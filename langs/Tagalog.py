@@ -57,4 +57,5 @@ TITLE_MOVE_DOWN = 'Ilipat Pababa'
 TITLE_CLEAR = 'Linisin'
 TITLE_APPLY = 'Ilapat'
 TITLE_CANCEL = 'Kanselahin'
+TITLE_THEME = 'Tema'
 
