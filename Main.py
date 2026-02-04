@@ -213,12 +213,16 @@ class MasterWindow(tk.Tk):
         # Processing dates
         self._normalize_dates()
 
-        # Calculate timestamp boundaries for performance
+        # Optimization: Pre-calculate timestamps for range comparison
         start_ts = datetime.combine(self.from_date_entry, datetime.min.time()).timestamp() * 1000
+        # End timestamp: We want to include the entire end date.
+        # So we go to the next day at 00:00:00 and use strictly less than.
         end_ts = datetime.combine(self.to_date_entry + timedelta(days=1), datetime.min.time()).timestamp() * 1000
 
         # Check if we're processing an e2e conversation
         is_e2e = conversation == 'e2e'
+
+        current_username = self.get_username()
 
         # Processing JSON files in the conversation folder
         path_to_browse = f'{self.directory}{conversation}'
@@ -264,8 +268,8 @@ class MasterWindow(tk.Tk):
 
                         # Process messages for this person
                         for message in data.get('messages', []):
+                            # Filter messages by timestamp
                             timestamp = int(message.get("timestamp", 0))
-
                             if start_ts <= timestamp < end_ts:
                                 e2e_conversations[person_name]['total_messages'] += 1
 
@@ -276,7 +280,7 @@ class MasterWindow(tk.Tk):
                                     pass
 
                                 sender = message.get('senderName', '')
-                                if sender == self.get_username():
+                                if sender == cached_username:
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
                                 e2e_conversations[person_name]['participants'][sender] = e2e_conversations[person_name]['participants'].get(sender, 0) + 1
@@ -308,6 +312,7 @@ class MasterWindow(tk.Tk):
 
                         # Updating counters
                         for message in data.get('messages', []):
+                            # Filter messages by timestamp
                             timestamp = int(message["timestamp_ms"])
 
                             # Filtering messages within the selected period
@@ -322,7 +327,7 @@ class MasterWindow(tk.Tk):
 
                                 # Counting sender's messages
                                 sender = message['sender_name']
-                                if sender == self.get_username():
+                                if sender == cached_username:
                                     sent_messages += 1
 
                                 # Tracking participant messages
