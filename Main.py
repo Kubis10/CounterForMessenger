@@ -216,6 +216,9 @@ class MasterWindow(tk.Tk):
         # Check if we're processing an e2e conversation
         is_e2e = conversation == 'e2e'
 
+        # Optimization: Cache username to avoid repeated function calls in loop
+        current_username = self.get_username()
+
         # Processing JSON files in the conversation folder
         path_to_browse = f'{self.directory}{conversation}'
 
@@ -273,7 +276,7 @@ class MasterWindow(tk.Tk):
                                     pass
 
                                 sender = message.get('senderName', '')
-                                if sender == self.get_username():
+                                if sender == current_username:
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
                                 e2e_conversations[person_name]['participants'][sender] = e2e_conversations[person_name]['participants'].get(sender, 0) + 1
@@ -319,7 +322,7 @@ class MasterWindow(tk.Tk):
 
                                 # Counting sender's messages
                                 sender = message['sender_name']
-                                if sender == self.get_username():
+                                if sender == current_username:
                                     sent_messages += 1
 
                                 # Tracking participant messages
