@@ -29,7 +29,7 @@ class DummyScrollbar:
 
 class DummyTreeview:
     def __init__(self, *args, **kwargs):
-        self.mock = MagicMock()
+        pass
     def column(self, *args, **kwargs):
         pass
     def heading(self, *args, **kwargs):
