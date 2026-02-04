@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 import sys
 
 # Define dummy classes for tkinter
@@ -93,35 +93,45 @@ class DummyEntry:
     def delete(self, *args, **kwargs):
         pass
 
-# Setup mocks
-mock_tk = MagicMock()
-mock_tk.Frame = DummyFrame
-mock_tk.Scrollbar = DummyScrollbar
-mock_tk.NO = 'no'
-mock_tk.Scrollbar.set = MagicMock() # Needs to be callable
-
-mock_ttk = MagicMock()
-mock_ttk.Frame = DummyFrame
-mock_ttk.Treeview = DummyTreeview
-mock_ttk.Label = DummyLabel
-mock_ttk.Button = DummyButton
-mock_ttk.Entry = DummyEntry
-mock_ttk.Style = MagicMock
-
-# IMPORTANT: Link them
-mock_tk.ttk = mock_ttk
-
-sys.modules['tkinter'] = mock_tk
-sys.modules['tkinter.ttk'] = mock_ttk
-sys.modules['popups.statistics_popup'] = MagicMock()
-sys.modules['popups.multi_sort_popup'] = MagicMock()
-sys.modules['popups.loading_popup'] = MagicMock()
-sys.modules['utils'] = MagicMock()
-
-from gui.main_page import MainPage
-
 class TestMainPageSearch(unittest.TestCase):
     def setUp(self):
+        # Setup mocks
+        self.mock_tk = MagicMock()
+        self.mock_tk.Frame = DummyFrame
+        self.mock_tk.Scrollbar = DummyScrollbar
+        self.mock_tk.NO = 'no'
+        self.mock_tk.Scrollbar.set = MagicMock()
+
+        self.mock_ttk = MagicMock()
+        self.mock_ttk.Frame = DummyFrame
+        self.mock_ttk.Treeview = DummyTreeview
+        self.mock_ttk.Label = DummyLabel
+        self.mock_ttk.Button = DummyButton
+        self.mock_ttk.Entry = DummyEntry
+        self.mock_ttk.Style = MagicMock
+
+        # IMPORTANT: Link them
+        self.mock_tk.ttk = self.mock_ttk
+
+        # Create the patcher
+        self.modules_patcher = patch.dict(sys.modules, {
+            'tkinter': self.mock_tk,
+            'tkinter.ttk': self.mock_ttk,
+            'popups.statistics_popup': MagicMock(),
+            'popups.multi_sort_popup': MagicMock(),
+            'popups.loading_popup': MagicMock(),
+            'utils': MagicMock()
+        })
+        self.modules_patcher.start()
+
+        # Import module under test inside setUp to ensure it uses the mocks
+        # Remove from sys.modules if it's there to force reload
+        if 'gui.main_page' in sys.modules:
+            del sys.modules['gui.main_page']
+
+        import gui.main_page
+        self.main_page_module = gui.main_page
+
         self.controller = MagicMock()
         self.controller.lang_mdl = MagicMock()
         self.controller.lang_mdl.TITLE_NAME = "Name"
@@ -129,11 +139,14 @@ class TestMainPageSearch(unittest.TestCase):
         self.controller.theme_manager = MagicMock()
 
         # Instantiate MainPage
-        self.page = MainPage(MagicMock(), self.controller)
+        self.page = self.main_page_module.MainPage(MagicMock(), self.controller)
 
         # Mock the treeview attribute on the instance
         self.page.treeview = MagicMock()
         self.page.search_entry = MagicMock()
+
+    def tearDown(self):
+        self.modules_patcher.stop()
 
     def test_search_found(self):
         print("Running test_search_found")
