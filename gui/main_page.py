@@ -201,7 +201,7 @@ class MainPage(tk.Frame):
         selections = []
         for child in self.treeview.get_children():
             for value in self.treeview.item(child)['values']:
-                if str(value).find(query) != -1:
+                if query in str(value):
                     # Selection accepted, save it and move on
                     selections.append(child)
                     break
