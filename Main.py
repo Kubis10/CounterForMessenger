@@ -283,7 +283,11 @@ class MasterWindow(tk.Tk):
                                 if sender == cached_username:
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
-                                e2e_conversations[person_name]['participants'][sender] = e2e_conversations[person_name]['participants'].get(sender, 0) + 1
+                                # Optimization: try-except is faster than .get() for high-frequency keys
+                                try:
+                                    e2e_conversations[person_name]['participants'][sender] += 1
+                                except KeyError:
+                                    e2e_conversations[person_name]['participants'][sender] = 1
 
                                 current_timestamp = message.get('timestamp', 0)
                                 if e2e_conversations[person_name]['start_date'] == 0 or current_timestamp < e2e_conversations[person_name]['start_date']:
@@ -331,7 +335,11 @@ class MasterWindow(tk.Tk):
                                     sent_messages += 1
 
                                 # Tracking participant messages
-                                participants[sender] = participants.get(sender, 0) + 1
+                                # Optimization: try-except is faster than .get() for high-frequency keys
+                                try:
+                                    participants[sender] += 1
+                                except KeyError:
+                                    participants[sender] = 1
 
                                 # Recording call duration
                                 call_duration += message.get('call_duration', 0)
