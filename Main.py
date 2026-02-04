@@ -278,7 +278,7 @@ class MasterWindow(tk.Tk):
                                     pass
 
                                 sender = message.get('senderName', '')
-                                if sender == self.get_username():
+                                if sender == cached_username:
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
                                 e2e_conversations[person_name]['participants'][sender] = e2e_conversations[person_name]['participants'].get(sender, 0) + 1
@@ -325,7 +325,7 @@ class MasterWindow(tk.Tk):
 
                                 # Counting sender's messages
                                 sender = message['sender_name']
-                                if sender == self.get_username():
+                                if sender == cached_username:
                                     sent_messages += 1
 
                                 # Tracking participant messages
