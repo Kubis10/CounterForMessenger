@@ -222,6 +222,8 @@ class MasterWindow(tk.Tk):
         # Check if we're processing an e2e conversation
         is_e2e = conversation == 'e2e'
 
+        current_username = self.get_username()
+
         # Processing JSON files in the conversation folder
         path_to_browse = f'{self.directory}{conversation}'
 
