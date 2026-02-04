@@ -213,6 +213,12 @@ class MasterWindow(tk.Tk):
         # Processing dates
         self._normalize_dates()
 
+        # Optimization: Pre-calculate timestamps for range comparison
+        start_ts = datetime.combine(self.from_date_entry, datetime.min.time()).timestamp() * 1000
+        # End timestamp: We want to include the entire end date.
+        # So we go to the next day at 00:00:00 and use strictly less than.
+        end_ts = datetime.combine(self.to_date_entry + timedelta(days=1), datetime.min.time()).timestamp() * 1000
+
         # Check if we're processing an e2e conversation
         is_e2e = conversation == 'e2e'
 
@@ -260,10 +266,9 @@ class MasterWindow(tk.Tk):
 
                         # Process messages for this person
                         for message in data.get('messages', []):
-                            # Convert timestamp to date (divide by 1000 to convert from milliseconds to seconds)
-                            message_date = datetime.fromtimestamp(int(message.get("timestamp", 0)) / 1000).date()
-
-                            if self.from_date_entry <= message_date <= self.to_date_entry:
+                            # Filter messages by timestamp
+                            timestamp = int(message.get("timestamp", 0))
+                            if start_ts <= timestamp < end_ts:
                                 e2e_conversations[person_name]['total_messages'] += 1
 
                                 try:
@@ -305,10 +310,11 @@ class MasterWindow(tk.Tk):
 
                         # Updating counters
                         for message in data.get('messages', []):
-                            message_date = datetime.fromtimestamp(int(message["timestamp_ms"]) / 1000).date()
+                            # Filter messages by timestamp
+                            timestamp = int(message["timestamp_ms"])
 
                             # Filtering messages within the selected period
-                            if self.from_date_entry <= message_date <= self.to_date_entry:
+                            if start_ts <= timestamp < end_ts:
                                 total_messages += 1
 
                                 # Counting characters
