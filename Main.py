@@ -276,6 +276,7 @@ class MasterWindow(tk.Tk):
                                 if sender == self.get_username():
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
+                                # Optimization: try-except is faster than .get() for high-frequency keys
                                 try:
                                     e2e_conversations[person_name]['participants'][sender] += 1
                                 except KeyError:
@@ -326,6 +327,7 @@ class MasterWindow(tk.Tk):
                                     sent_messages += 1
 
                                 # Tracking participant messages
+                                # Optimization: try-except is faster than .get() for high-frequency keys
                                 try:
                                     participants[sender] += 1
                                 except KeyError:
