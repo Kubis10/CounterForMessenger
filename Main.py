@@ -9,6 +9,7 @@ from time import time
 from datetime import timedelta, datetime, date
 from os.path import exists
 from os import listdir
+from collections import defaultdict
 from PIL import ImageTk
 
 from gui.theme import ThemeManager, DefaultTheme, DarkTheme
@@ -205,7 +206,7 @@ class MasterWindow(tk.Tk):
         Returns:
             Tuple containing various conversation statistics
         """
-        participants = {}
+        participants = defaultdict(int)
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration = total_messages = total_chars = sent_messages = start_date = 0
         total_photos = total_gifs = total_videos = total_files = 0
@@ -248,7 +249,7 @@ class MasterWindow(tk.Tk):
                         # Initialize conversation data for this person if not exists
                         if person_name not in e2e_conversations:
                             e2e_conversations[person_name] = {
-                                'participants': {},
+                                'participants': defaultdict(int),
                                 'chat_title': person_name,
                                 'chat_type': self.lang_mdl.TITLE_PRIVATE_CHAT,
                                 'call_duration': 0,
@@ -283,11 +284,8 @@ class MasterWindow(tk.Tk):
                                 if sender == cached_username:
                                     e2e_conversations[person_name]['sent_messages'] += 1
 
-                                # Optimization: try-except is faster than .get() for high-frequency keys
-                                try:
-                                    e2e_conversations[person_name]['participants'][sender] += 1
-                                except KeyError:
-                                    e2e_conversations[person_name]['participants'][sender] = 1
+                                # Tracking participant messages
+                                e2e_conversations[person_name]['participants'][sender] += 1
 
                                 current_timestamp = message.get('timestamp', 0)
                                 if e2e_conversations[person_name]['start_date'] == 0 or current_timestamp < e2e_conversations[person_name]['start_date']:
@@ -335,11 +333,7 @@ class MasterWindow(tk.Tk):
                                     sent_messages += 1
 
                                 # Tracking participant messages
-                                # Optimization: try-except is faster than .get() for high-frequency keys
-                                try:
-                                    participants[sender] += 1
-                                except KeyError:
-                                    participants[sender] = 1
+                                participants[sender] += 1
 
                                 # Recording call duration
                                 call_duration += message.get('call_duration', 0)
