@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from tkcalendar import DateEntry
 from datetime import date, datetime
-from utils import set_icon, set_resolution, existing_languages
+from utils import set_icon, set_resolution, existing_languages, apply_theme
 
 class SettingsPopup(tk.Toplevel):
     """Settings popup window for adjusting application configuration"""
@@ -80,6 +80,9 @@ class SettingsPopup(tk.Toplevel):
         ttk.Button(
             self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
         ).pack(side='top', pady=40)
+
+        # Apply the active theme's colors to this window's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
 
 
     def _create_date_entries(self):

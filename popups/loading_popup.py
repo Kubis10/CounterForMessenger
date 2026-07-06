@@ -4,7 +4,7 @@ Loading popup dialog for CounterForMessenger
 import tkinter as tk
 from tkinter import ttk
 from os import listdir
-from utils import set_icon, set_resolution, PREFIX
+from utils import set_icon, set_resolution, PREFIX, apply_theme
 
 class LoadingPopup(tk.Toplevel):
     """Loading popup window showing progress of loading conversations"""
@@ -42,6 +42,9 @@ class LoadingPopup(tk.Toplevel):
         )
         self.progress_label.pack(side='top')
 
+        # Apply the active theme's colors to this window's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
+
         # Load all conversations to treeview for display
         self.load_conversations(treeview, chat_total)
 
@@ -61,36 +64,57 @@ class LoadingPopup(tk.Toplevel):
             self.controller.sent_messages = 0
             self.controller.total_messages = 0
             self.controller.total_chars = 0
+            self.controller.total_conversations = 0
 
             # Process each conversation
             for conversation in listdir(self.directory):
                 try:
-                    # Extract conversation data
-                    title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
-                        conversation)
+                    if conversation == 'e2e':
+                        # E2E folder contains one JSON file per contact; expand it into
+                        # one treeview row per person instead of a single aggregated row
+                        for row_index, (title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files) in enumerate(self.controller.extract_e2e_data()):
+                            if len(people) == 0:
+                                continue
 
-                    # Skip if no participants found (invalid conversation directory)
-                    if len(people) == 0:
-                        # If this occurs, the given path is of correct directory format but contains no useful info
-                        # (meaning it's not the expected inbox folder)
-                        break
+                            treeview.insert(
+                                parent='', index='end', values=(
+                                    title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos,
+                                    total_files, all_chars,
+                                    f'{PREFIX}{conversation}#{row_index}'
+                                ))
 
-                    # TREEVIEW AUTOMATED CONVERSION PROBLEM:
-                    # The ttk treeview will convert able strings to integers.
-                    # E.g. chats named '1337' will be attached to a folder named '1337_17623521673' yet be saved
-                    # internally as '133717623521673'. This is not explicitly preventable.
-                    # Easiest solution is to force the name to be a string by temporarily adding some garbage to it.
-                    treeview.insert(
-                        parent='', index='end', values=(
-                            title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos,
-                            total_files, all_chars,
-                            f'{PREFIX}{conversation}'
-                        ))
+                            self.controller.sent_messages += sent_msgs
+                            self.controller.total_messages += all_msgs
+                            self.controller.total_chars += all_chars
+                            self.controller.total_conversations += 1
+                    else:
+                        # Extract conversation data
+                        title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+                            conversation)
 
-                    # Update global message counters
-                    self.controller.sent_messages += sent_msgs
-                    self.controller.total_messages += all_msgs
-                    self.controller.total_chars += all_chars
+                        # Skip if no participants found (invalid conversation directory)
+                        if len(people) == 0:
+                            # If this occurs, the given path is of correct directory format but contains no useful info
+                            # (meaning it's not the expected inbox folder)
+                            continue
+
+                        # TREEVIEW AUTOMATED CONVERSION PROBLEM:
+                        # The ttk treeview will convert able strings to integers.
+                        # E.g. chats named '1337' will be attached to a folder named '1337_17623521673' yet be saved
+                        # internally as '133717623521673'. This is not explicitly preventable.
+                        # Easiest solution is to force the name to be a string by temporarily adding some garbage to it.
+                        treeview.insert(
+                            parent='', index='end', values=(
+                                title, set(people.keys()), room, all_msgs, calltime, total_photos, total_gifs, total_videos,
+                                total_files, all_chars,
+                                f'{PREFIX}{conversation}'
+                            ))
+
+                        # Update global message counters
+                        self.controller.sent_messages += sent_msgs
+                        self.controller.total_messages += all_msgs
+                        self.controller.total_chars += all_chars
+                        self.controller.total_conversations += 1
 
                     # Update progress bar
                     self.progress_bar['value'] += 1

@@ -4,7 +4,7 @@ Configuration page module for CounterForMessenger
 import tkinter as tk
 from tkinter import ttk, filedialog
 from tkcalendar import DateEntry
-from utils import existing_languages
+from utils import existing_languages, apply_theme
 
 class ConfigurationPage(tk.Frame):
     """Configuration panel for initial setup"""
@@ -67,6 +67,9 @@ class ConfigurationPage(tk.Frame):
             self, text=self.module.TITLE_SAVE, padding=7, command=self.setup
         ).pack(side='top', pady=40)
 
+        # Apply the active theme's colors to this page's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
+
     def setup(self):
         """
         Save configuration and navigate to main page
@@ -78,7 +81,8 @@ class ConfigurationPage(tk.Frame):
             self.directory_label.cget('text'),
             self.language_label.get(),
             self.from_date_entry.get_date(),
-            self.to_date_entry.get_date()
+            self.to_date_entry.get_date(),
+            self.controller.get_theme_name()
         )
         # Go to main page
         self.controller.show_frame("MainPage")

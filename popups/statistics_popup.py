@@ -3,7 +3,7 @@ Statistics popup dialog for CounterForMessenger
 """
 import tkinter as tk
 from tkinter import ttk
-from utils import set_icon, set_resolution
+from utils import set_icon, set_resolution, apply_theme
 from datetime import timedelta, datetime
 from time import time
 
@@ -24,7 +24,7 @@ class StatisticsPopup(tk.Toplevel):
         set_resolution(self, 800, 600)
 
         # Extract data for the selected conversation
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_conversation(
             selection)
 
         # Resize the window to fit all data if the conversation is a group chat
@@ -82,6 +82,9 @@ class StatisticsPopup(tk.Toplevel):
 
         # Show average messages per time period
         self._display_message_averages(all_msgs, start_date)
+
+        # Apply the active theme's colors to this window's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
 
     def _display_message_averages(self, all_msgs, start_date):
         """

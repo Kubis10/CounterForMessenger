@@ -41,5 +41,48 @@ def existing_languages():
     return [lang.title().split('.')[0] for lang in listdir('langs') if lang != '__pycache__']
 
 
+# Plain tk widget classes that don't automatically pick up ttk.Style changes
+_THEMED_TK_CLASSES = ("Toplevel", "Frame", "Label", "Listbox", "Button")
+
+
+def apply_theme(window, theme):
+    """
+    Applies the active theme's colors to plain tk widgets (Toplevel, Frame, Label,
+    Listbox, Button) within a window, including all of its children.
+
+    ttk widgets (ttk.Button, ttk.Label, ttk.Entry, etc.) are already themed globally
+    through ttk.Style whenever the theme changes, but plain `tk` widgets used in some
+    popups/pages are not - they must be colored manually or they always show the
+    system default (light) colors regardless of the active theme.
+
+    Args:
+        window: Root tk.Toplevel or tk.Frame to theme, including all its children
+        theme: Active Theme instance providing color constants (see gui.theme)
+    """
+    widget_class = window.winfo_class()
+    try:
+        if widget_class in ("Toplevel", "Frame"):
+            window.configure(bg=theme.BACKGROUND)
+        elif widget_class == "Label":
+            window.configure(bg=theme.BACKGROUND, fg=theme.FOREGROUND)
+        elif widget_class == "Listbox":
+            window.configure(
+                bg=theme.LISTBOX_BG, fg=theme.LISTBOX_FG,
+                selectbackground=theme.LISTBOX_SELECT_BG, selectforeground=theme.LISTBOX_SELECT_FG,
+                highlightthickness=0
+            )
+        elif widget_class == "Button":
+            window.configure(
+                bg=theme.BUTTON_BG, fg=theme.FOREGROUND,
+                activebackground=theme.BUTTON_ACTIVE_BG, activeforeground=theme.FOREGROUND
+            )
+    except tk.TclError:
+        # Some widgets (e.g. tkcalendar's internal frames) don't support all options
+        pass
+
+    for child in window.winfo_children():
+        apply_theme(child, theme)
+
+
 # Safeguard for the treeview automated string conversion problem
 PREFIX = '<@!PREFIX>'

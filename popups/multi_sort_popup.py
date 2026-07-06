@@ -2,7 +2,7 @@
 Multi-sort popup dialog for CounterForMessenger
 """
 import tkinter as tk
-from utils import set_icon, set_resolution
+from utils import set_icon, set_resolution, apply_theme
 
 class MultiSortPopup(tk.Toplevel):
     """Multi-sort popup window for configuring column sorting order"""
@@ -55,6 +55,9 @@ class MultiSortPopup(tk.Toplevel):
         # Create the UI components
         self._create_listbox_frame()
         self._create_action_buttons()
+
+        # Apply the active theme's colors to this window's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
 
     def _create_listbox_frame(self):
         """Create the frame containing listboxes for available columns and sort order"""

@@ -17,6 +17,17 @@ class DefaultTheme(Theme):
     TREEVIEW_EVEN_ROW = "#ffffff"
     TREEVIEW_ODD_ROW = "#c4c4c4"
 
+    # Colors for plain tk widgets (Toplevel/Frame/Label/Listbox/Button) used in
+    # popups and pages, which don't automatically pick up ttk.Style changes
+    BACKGROUND = "#f0f0f0"
+    FOREGROUND = "#000000"
+    LISTBOX_BG = "#ffffff"
+    LISTBOX_FG = "#000000"
+    LISTBOX_SELECT_BG = "#3399ff"
+    LISTBOX_SELECT_FG = "#ffffff"
+    BUTTON_BG = "#e0e0e0"
+    BUTTON_ACTIVE_BG = "#d0d0d0"
+
     def apply(self, style: ttk.Style):
         style.theme_use("clam")
 
@@ -58,6 +69,17 @@ class DarkTheme(Theme):
     name = "dark"
     TREEVIEW_EVEN_ROW = "#0d1117"
     TREEVIEW_ODD_ROW = "#161b22"
+
+    # Colors for plain tk widgets (Toplevel/Frame/Label/Listbox/Button) used in
+    # popups and pages, which don't automatically pick up ttk.Style changes
+    BACKGROUND = "#0d1117"
+    FOREGROUND = "#c9d1d9"
+    LISTBOX_BG = "#161b22"
+    LISTBOX_FG = "#c9d1d9"
+    LISTBOX_SELECT_BG = "#1f6feb"
+    LISTBOX_SELECT_FG = "#ffffff"
+    BUTTON_BG = "#161b22"
+    BUTTON_ACTIVE_BG = "#30363d"
 
     def apply(self, style: ttk.Style):
         style.theme_use("clam")

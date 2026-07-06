@@ -4,7 +4,7 @@ Popup dialogs for the CounterForMessenger application.
 
 import tkinter as tk
 from tkinter import ttk
-from utils import set_icon, set_resolution
+from utils import set_icon, set_resolution, apply_theme
 
 class ProfilePopup(tk.Toplevel):
     """Profile popup window showing user statistics"""
@@ -38,12 +38,9 @@ class ProfilePopup(tk.Toplevel):
         ).pack(side='top', pady=10)
 
         # Display total number of conversations
-        try:
-            from os import listdir
-            conversations = len(listdir(self.controller.get_directory()))
-        except FileNotFoundError:
-            conversations = 0
-            print('>ProfilePage/#CONVERSATIONS CALCULATION THROWS FileNotFoundError, NOTIFY OP IF UNEXPECTED')
+        # (matches the actual rows shown in the main list: e2e is expanded to one
+        # row per contact, and folders without valid message data are excluded)
+        conversations = self.controller.total_conversations
 
         ttk.Label(
             self, text=f'{self.module.TITLE_NUMBER_OF_CHATS}: {conversations}'
@@ -68,3 +65,6 @@ class ProfilePopup(tk.Toplevel):
         ttk.Button(
             self, text=self.module.TITLE_CLOSE_POPUP, padding=7, command=self.destroy
         ).pack(side='top', pady=40)
+
+        # Apply the active theme's colors to this window's plain tk widgets
+        apply_theme(self, self.controller.get_theme())
