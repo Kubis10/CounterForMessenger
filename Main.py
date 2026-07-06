@@ -274,6 +274,7 @@ class MasterWindow(tk.Tk):
             Tuple containing various conversation statistics
         """
         participants = defaultdict(int)
+        participant_chars = defaultdict(int)
         chat_title, chat_type = '', self.lang_mdl.TITLE_GROUP_CHAT
         call_duration = total_messages = total_chars = sent_messages = start_date = 0
         total_photos = total_gifs = total_videos = total_files = 0
@@ -312,13 +313,15 @@ class MasterWindow(tk.Tk):
                             total_messages += 1
 
                             # Counting characters
+                            sender = self._get_sender(message)
                             try:
-                                total_chars += len(self._get_message_text(message))
+                                msg_chars = len(self._get_message_text(message))
+                                total_chars += msg_chars
+                                participant_chars[sender] += msg_chars
                             except (KeyError, TypeError):
                                 pass
 
                             # Counting sender's messages
-                            sender = self._get_sender(message)
                             if sender == cached_username:
                                 sent_messages += 1
 
@@ -358,7 +361,7 @@ class MasterWindow(tk.Tk):
         return (
             chat_title, participants, chat_type, total_messages, total_chars,
             call_duration, sent_messages, start_date, total_photos, total_gifs,
-            total_videos, total_files
+            total_videos, total_files, participant_chars
         )
 
     def extract_e2e_data(self):
@@ -396,6 +399,7 @@ class MasterWindow(tk.Tk):
                     if person_name not in e2e_conversations:
                         e2e_conversations[person_name] = {
                             'participants': defaultdict(int),
+                            'participant_chars': defaultdict(int),
                             'chat_title': person_name,
                             'chat_type': self.lang_mdl.TITLE_PRIVATE_CHAT,
                             'call_duration': 0,
@@ -423,12 +427,14 @@ class MasterWindow(tk.Tk):
                         if start_ts <= timestamp < end_ts:
                             conv['total_messages'] += 1
 
+                            sender = self._get_sender(message)
                             try:
-                                conv['total_chars'] += len(self._get_message_text(message))
+                                msg_chars = len(self._get_message_text(message))
+                                conv['total_chars'] += msg_chars
+                                conv['participant_chars'][sender] += msg_chars
                             except (KeyError, TypeError):
                                 pass
 
-                            sender = self._get_sender(message)
                             if sender == cached_username:
                                 conv['sent_messages'] += 1
 
@@ -451,7 +457,8 @@ class MasterWindow(tk.Tk):
             (
                 conv['chat_title'], conv['participants'], conv['chat_type'], conv['total_messages'],
                 conv['total_chars'], conv['call_duration'], conv['sent_messages'], conv['start_date'],
-                conv['total_photos'], conv['total_gifs'], conv['total_videos'], conv['total_files']
+                conv['total_photos'], conv['total_gifs'], conv['total_videos'], conv['total_files'],
+                conv['participant_chars']
             )
             for conv in e2e_conversations.values()
         ]

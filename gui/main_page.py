@@ -298,6 +298,8 @@ class MainPage(tk.Frame):
         # Reinsert the items into the treeview in sorted order
         for index, (val, k) in enumerate(contents):
             self.treeview.move(k, '', index)
+        # Reassign alternating row-stripe tags to match the new order
+        self.set_treeview_theme()
         # Reverse the order for the next sort
         self.treeview.heading(column, command=lambda: self.sort_treeview(column, not order, bias))
 
@@ -359,6 +361,8 @@ class MainPage(tk.Frame):
 
         for (idx, (k, _)) in enumerate(rows):
             self.treeview.move(k, '', idx)
+        # Reassign alternating row-stripe tags to match the new order
+        self.set_treeview_theme()
 
     def show_statistics(self):
         """

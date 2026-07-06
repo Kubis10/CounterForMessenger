@@ -24,7 +24,7 @@ class StatisticsPopup(tk.Toplevel):
         set_resolution(self, 800, 600)
 
         # Extract data for the selected conversation
-        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files = self.controller.extract_conversation(
+        title, people, room, all_msgs, all_chars, calltime, sent_msgs, start_date, total_photos, total_gifs, total_videos, total_files, participant_chars = self.controller.extract_conversation(
             selection)
 
         # Resize the window to fit all data if the conversation is a group chat
@@ -65,6 +65,10 @@ class StatisticsPopup(tk.Toplevel):
         # Show message statistics
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_MSGS}: {all_msgs}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_TOTAL_CHARS}: {all_chars}').pack(side='top', pady=5)
+
+        # Show characters per person table
+        self._display_chars_per_person(participant_chars)
+
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_PHOTOS}: {total_photos}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_GIFS}: {total_gifs}').pack(side='top', pady=5)
         ttk.Label(self, text=f'{self.module.TITLE_NUMBER_OF_VIDEOS}: {total_videos}').pack(side='top', pady=5)
@@ -85,6 +89,23 @@ class StatisticsPopup(tk.Toplevel):
 
         # Apply the active theme's colors to this window's plain tk widgets
         apply_theme(self, self.controller.get_theme())
+
+    def _display_chars_per_person(self, participant_chars):
+        """
+        Display a listbox with the total character count sent by each
+        participant, sorted from most to least characters (mirrors the
+        style of the participants/messages listbox above).
+
+        Args:
+            participant_chars: Mapping of participant name -> character count
+        """
+        ttk.Label(self, text=f'{self.module.TITLE_CHARS_PER_PERSON}: ').pack(side='top', pady=5)
+
+        listbox = tk.Listbox(self, width=30, height=min(max(len(participant_chars), 1), 6))
+        listbox.pack(side='top', pady=5)
+
+        for participant, chars in sorted(participant_chars.items(), key=lambda item: item[1], reverse=True):
+            listbox.insert('end', f'{participant} - {chars}')
 
     def _display_message_averages(self, all_msgs, start_date):
         """

@@ -72,7 +72,7 @@ class LoadingPopup(tk.Toplevel):
                     if conversation == 'e2e':
                         # E2E folder contains one JSON file per contact; expand it into
                         # one treeview row per person instead of a single aggregated row
-                        for row_index, (title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files) in enumerate(self.controller.extract_e2e_data()):
+                        for row_index, (title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files, _) in enumerate(self.controller.extract_e2e_data()):
                             if len(people) == 0:
                                 continue
 
@@ -89,7 +89,7 @@ class LoadingPopup(tk.Toplevel):
                             self.controller.total_conversations += 1
                     else:
                         # Extract conversation data
-                        title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files = self.controller.extract_data(
+                        title, people, room, all_msgs, all_chars, calltime, sent_msgs, _, total_photos, total_gifs, total_videos, total_files, _ = self.controller.extract_data(
                             conversation)
 
                         # Skip if no participants found (invalid conversation directory)
