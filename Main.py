@@ -198,6 +198,34 @@ class MasterWindow(tk.Tk):
                 print(f"Error loading configuration: {e}")
 
     @staticmethod
+    def _fix_mojibake(text):
+        """
+        Fixes Facebook's well-known JSON export encoding bug: legacy (pre-2024)
+        exports store non-ASCII characters as raw UTF-8 bytes, but since the
+        export's declared encoding is effectively Latin-1, Python's json module
+        decodes them as individual Latin-1 codepoints instead of proper UTF-8
+        text (e.g. 'ś' turns into 'Å\x9b'). Round-tripping through
+        encode('latin1').decode('utf-8') reverses this corruption.
+
+        This is safe to attempt unconditionally: correctly-decoded UTF-8 text
+        (as used by the newer camelCase schema) contains codepoints above 255
+        (e.g. Polish 'ą' = U+0105), so encode('latin1') fails for it and the
+        original text is returned unchanged.
+
+        Args:
+            text: String to fix (or any other type, passed through unchanged)
+
+        Returns:
+            The corrected string, or the original value if it wasn't mojibake
+        """
+        if not isinstance(text, str):
+            return text
+        try:
+            return text.encode('latin1').decode('utf-8')
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            return text
+
+    @staticmethod
     def _get_participant_name(participant):
         """
         Extracts a participant's name, supporting both the legacy schema
@@ -209,18 +237,20 @@ class MasterWindow(tk.Tk):
         Returns:
             Participant's name as a string
         """
-        return participant['name'] if isinstance(participant, dict) else participant
+        name = participant['name'] if isinstance(participant, dict) else participant
+        return MasterWindow._fix_mojibake(name)
 
     @staticmethod
     def _get_sender(message):
         """Extracts the sender's name, supporting old (sender_name) and new (senderName) schemas"""
-        return message.get('sender_name') or message.get('senderName', '')
+        return MasterWindow._fix_mojibake(message.get('sender_name') or message.get('senderName', ''))
 
     @staticmethod
     def _get_message_text(message):
         """Extracts the message body, supporting old (content) and new (text) schemas"""
         content = message.get('content')
-        return content if content is not None else message.get('text', '')
+        content = content if content is not None else message.get('text', '')
+        return MasterWindow._fix_mojibake(content)
 
     @staticmethod
     def _get_timestamp(message):
@@ -233,7 +263,7 @@ class MasterWindow(tk.Tk):
     @staticmethod
     def _get_chat_title(data):
         """Extracts the chat title, supporting old (title) and new (threadName) schemas"""
-        return data.get('title') or data.get('threadName', '')
+        return MasterWindow._fix_mojibake(data.get('title') or data.get('threadName', ''))
 
     @staticmethod
     def _count_media(message):
@@ -467,9 +497,9 @@ class MasterWindow(tk.Tk):
         """
         Resolves a treeview selection identifier to its conversation statistics.
 
-        Normal conversations are stored as the folder name (e.g. 'johnalice_123').
-        E2E contacts are stored as 'e2e#<index>' since the e2e folder is expanded
-        into one row per person rather than a single folder-wide row.
+        All rows (regular folders and e2e contacts, already merged where
+        applicable) are stored as 'all#<index>', an index into the unified
+        list returned by extract_all_conversations().
 
         Args:
             selection: Conversation identifier, as stored in the treeview row
@@ -477,10 +507,107 @@ class MasterWindow(tk.Tk):
         Returns:
             Tuple containing various conversation statistics
         """
-        if selection.startswith('e2e#'):
+        if selection.startswith('all#'):
             index = int(selection.split('#', 1)[1])
-            return self.extract_e2e_data()[index]
+            return self.extract_all_conversations()[index]
         return self.extract_data(selection)
+
+    @staticmethod
+    def _normalize_name(name):
+        """Normalizes a display name for case/whitespace-insensitive matching across schemas"""
+        return name.strip().casefold() if isinstance(name, str) else name
+
+    @staticmethod
+    def _merge_conversation_tuples(a, b):
+        """
+        Merges two conversation stat tuples that refer to the same private-chat
+        contact (one from a regular export folder, one from the e2e folder)
+        into a single combined tuple, so the same person isn't shown as two
+        separate rows just because part of their history is a legacy export
+        and part is a newer E2EE export.
+
+        Args:
+            a: Conversation tuple as returned by extract_data()/extract_e2e_data()
+            b: Second conversation tuple for the same contact, same format as `a`
+
+        Returns:
+            A single merged conversation tuple in the same format
+        """
+        (title_a, participants_a, chat_type_a, total_messages_a, total_chars_a, call_duration_a,
+         sent_messages_a, start_date_a, total_photos_a, total_gifs_a, total_videos_a, total_files_a,
+         participant_chars_a) = a
+        (title_b, participants_b, _, total_messages_b, total_chars_b, call_duration_b,
+         sent_messages_b, start_date_b, total_photos_b, total_gifs_b, total_videos_b, total_files_b,
+         participant_chars_b) = b
+
+        participants = defaultdict(int, participants_a)
+        for name, count in participants_b.items():
+            participants[name] += count
+
+        participant_chars = defaultdict(int, participant_chars_a)
+        for name, chars in participant_chars_b.items():
+            participant_chars[name] += chars
+
+        start_dates = [d for d in (start_date_a, start_date_b) if d]
+        start_date = min(start_dates) if start_dates else 0
+
+        return (
+            title_a or title_b, participants, chat_type_a, total_messages_a + total_messages_b,
+            total_chars_a + total_chars_b, call_duration_a + call_duration_b,
+            sent_messages_a + sent_messages_b, start_date, total_photos_a + total_photos_b,
+            total_gifs_a + total_gifs_b, total_videos_a + total_videos_b, total_files_a + total_files_b,
+            participant_chars
+        )
+
+    def extract_all_conversations(self):
+        """
+        Extracts stats for every conversation in self.directory, merging any
+        e2e (E2EE) contact with their pre-existing regular private-chat folder
+        when both exist for the same person (matched by normalized display
+        name), so each real-life contact is represented as a single combined
+        row instead of being duplicated between an old export folder and the
+        newer e2e export.
+
+        Returns:
+            List of conversation tuples, same format as extract_data(), one
+            per unique conversation/contact.
+        """
+        results = []
+        folders = listdir(self.directory)
+
+        # Pre-extract e2e stats once, keyed by normalized display name, so
+        # regular folders for the same contact can be merged into them
+        e2e_by_name = {}
+        if 'e2e' in folders:
+            for e2e_conversation in self.extract_e2e_data():
+                if len(e2e_conversation[1]) == 0:
+                    continue
+                e2e_by_name[self._normalize_name(e2e_conversation[0])] = e2e_conversation
+
+        for conversation in folders:
+            if conversation == 'e2e':
+                continue
+            try:
+                data = self.extract_data(conversation)
+            except Exception as e:
+                print(f"Error loading conversation: {str(e)}")
+                continue
+
+            if len(data[1]) == 0:
+                # No valid participants found (not an inbox folder)
+                continue
+
+            key = self._normalize_name(data[0])
+            matching_e2e = e2e_by_name.pop(key, None)
+            if matching_e2e is not None and data[2] == self.lang_mdl.TITLE_PRIVATE_CHAT:
+                results.append(self._merge_conversation_tuples(data, matching_e2e))
+            else:
+                results.append(data)
+
+        # Any e2e contacts left unmatched (no corresponding regular folder) become their own rows
+        results.extend(e2e_by_name.values())
+
+        return results
 
     def _normalize_dates(self):
         """Normalizes the format of input and output dates"""
