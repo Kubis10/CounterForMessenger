@@ -19,15 +19,17 @@ You can also check the number of messages for specific time intervals, so if you
 
 ## How to use
 
-To use this app you need to download all(recomended) your data directly from Facebook (in JSON format) and unzip all files to one folder.
-<a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a>
+To use this app you need to download all(recomended) your data directly from Facebook (in JSON format), unzip all files and find one folder with all your messages. <a href="https://github.com/Kubis10/CounterForMessenger#how-to-download-messages">How to download my data?</a> 
+You need to search for folder that look like this (rest of folders would be empty and doesn't contain message.json files):
+
 <p align="center">
-<img src="https://user-images.githubusercontent.com/50967586/154366070-ea81176f-fd28-4572-bd21-1769451ab60b.png" alt="files">
+  <img src="https://github.com/user-attachments/assets/826f1f52-9507-4944-89ee-eb198f69a1fe" />
 </p>
-In messages folder you need to copy all folders from archived_threads, filtered_threads, e2ee_cutover and message_requests to inbox folder. Sometimes you will have 2 folders your_activity_across_facebook and your_facebook_activity so you need to copy from all places to one folder.
+
+In messages folder you need to copy all folders from archived_threads, filtered_threads, e2ee_cutover and message_requests to inbox folder.
 
 > [!IMPORTANT]
-> If you downloaded from e2e messages inside the folder, which you indicate leter(inbox), create the "e2e" folder and paste the entire content of the "messages" directory there.
+> If you downloaded from e2e messages inside the folder, which you indicate leter(inbox), create the "e2e" folder in inbox and paste the entire content of the "messages" directory there.
 
 You will have probably structure like this:
 
